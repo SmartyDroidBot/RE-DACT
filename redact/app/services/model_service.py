@@ -7,7 +7,7 @@ class TextRedactionService:
         # Define the chat outline
         self.chat_outline = {
             'message': '',
-        }    
+        }
 
         self.text_assistant, self.evaluation = TextRedactionAgents(degree).text_assistant, TextRedactionAgents(degree).evaluation
         self.user_proxy = user_proxy

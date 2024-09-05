@@ -1,246 +1,107 @@
-.Header{
-    padding-top: 10%;
-    padding-bottom: 100px;
-    font-size: 80px;
+
+
+body {
+    font-family: 'Epilogue', sans-serif;
+    background-color: #f0f8ff;
 }
 
-.Header-desc{
-    padding-bottom: 20%;
-}
-
-.nav-item{
-    padding: 20px;
-}
-
-.navbar{
-    background-color: white;
-}
-
-.file-row {
-    width: 100%;
+.container {
+    max-width: 800px;
     margin: 0 auto;
-    background: #F3F4F6FF;
-    padding: 20px; /* Optional: Add padding for better spacing */
-    text-align: center;
-    box-sizing: border-box; /* Ensure padding doesn't affect width calculation */
+    padding: 2rem;
 }
 
+.header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.header p {
+    font-size: 1.2rem;
+    color: #666;
+}
 
 .main-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-
+    background-color: white;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-.image-fluid {
-    max-width: 100%;
-    height: auto;
-}
-
 
 .droparea {
-    margin: 1rem auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 384px;
-    max-width: 100%;
-    height: 160px;
-    border: 4px dashed grey;
-    border-radius: 15px;
-  }
-  
-  .droparea i {
-    font-size: 3rem;
-    flex-grow: 1;
-    padding-top: 1rem;
-  }
-  
-  .green-border {
-    border-color: green;
-  }
-
-  .droparea {
     border: 2px dashed #ccc;
-    border-radius: 5px;
-    height: 300px; /* Increased height */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    overflow: hidden;
-}
-
-.droparea.drag-over {
-    border-color: #000; /* Optional highlight when dragging */
-}
-
-#folderIcon {
-    font-size: 50px; /* Larger folder icon */
-}
-
-.preview-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    width: 100%;
-    max-height: 250px; /* Ensure it doesn't grow too large */
-    overflow-y: auto; /* Scroll if too many files */
-    justify-content: center; /* Center the preview items */
-}
-
-.preview-item {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 5px;
-}
-
-.preview-item img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-}
-
-.preview-item button {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    background: red;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    padding: 2px 5px;
-    font-size: 12px;
-}
-
-.preview-item div {
+    border-radius: 10px;
+    padding: 2rem;
     text-align: center;
-    font-size: 12px;
-    margin-top: 5px;
-    word-wrap: break-word; /* Wrap long file names */
-    width: 100px;
+    margin-bottom: 1rem;
 }
 
-.icon-large {
-    font-size: 80px; /* Adjust the size to make it larger */
+.form-range {
+    width: 100%;
+}
+
+.btn-primary {
+    background-color: #00bcd4;
+    border-color: #00bcd4;
+}
+
+.btn-primary:hover {
+    background-color: #008ba3;
+    border-color: #008ba3;
+}
+
+.toggle-container {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
+    justify-content: space-between;
+    margin-top: 1rem;
 }
 
-.media{
-    color: #000;
-    font-size: 60px;
-    padding-top: 8%;
-    padding-bottom: 8%;
-    font-family: Epilogue;
-    font-weight: bolder;
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
 }
 
-#exampleFormControlTextarea1{
-    background: #DEE1E6FF;
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
 }
 
-/* General slider track and thumb styles for WebKit browsers (Chrome, Safari, Edge) */
-#customRange1 {
-    -webkit-appearance: none;
-    width: 100%;
-    height: 8px;
-    background: #ccc;
-    border-radius: 5px;
-    outline: none;
-    transition: background 0.15s ease-in-out;
-}
-
-#customRange1::-webkit-slider-runnable-track {
-    width: 100%;
-    height: 8px;
-    background: #ccc;
-    border-radius: 5px;
-}
-
-#customRange1::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    background-color: #00BDD6FF; /* Custom color for the slider thumb */
+.slider {
+    position: absolute;
     cursor: pointer;
-    border: 2px solid #fff; /* Add a border for better visibility */
-    margin-top: -9px; /* Centers the thumb vertically on the track */
-    transition: background-color 0.3s ease;
-}
-
-#customRange1::-webkit-slider-thumb:hover {
-    background-color: #0088A9; /* Change color when hovering */
-}
-
-#customRange1::-moz-range-thumb {
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    background-color: #00BDD6FF;
-    cursor: pointer;
-    border: 2px solid #fff;
-}
-
-#customRange1::-moz-range-track {
-    width: 100%;
-    height: 8px;
-    background: #ccc;
-    border-radius: 5px;
-}
-
-#customRange1::-moz-range-progress {
-    background-color: #00BDD6FF;
-}
-
-#customRange1::-ms-thumb {
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    background-color: #00BDD6FF;
-    cursor: pointer;
-    border: 2px solid #fff;
-}
-
-/* The background fill before the thumb */
-#customRange1::-webkit-slider-runnable-track {
-    background: linear-gradient(to right, #00BDD6FF 0%, #00BDD6FF var(--range-progress, 50%), #ccc var(--range-progress, 50%), #ccc 100%);
-}
-
-#customRange1:focus {
-    outline: none;
-}
-
-/* Firefox */
-#customRange1::-moz-range-track {
-    background: linear-gradient(to right, #00BDD6FF 0%, #00BDD6FF var(--range-progress, 50%), #ccc var(--range-progress, 50%), #ccc 100%);
-}
-
-#customRange1::-moz-range-progress {
-    background-color: #00BDD6FF;
-}
-
-/* Update the background fill dynamically based on the slider value */
-#customRange1 {
-    --range-progress: 50%;
-}
-
-#customRange1::-ms-fill-lower {
-    background-color: #00BDD6FF;
-}
-
-#customRange1::-ms-fill-upper {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #00bcd4;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
 }

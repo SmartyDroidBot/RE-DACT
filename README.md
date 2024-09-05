@@ -1,16 +1,57 @@
-## RE-DACT
-## Steps to Install and Run Ollama
+# Project Setup Guide
 
-1. **Download Ollama**:
-   - Go to the [Ollama website](https://ollama.com) and download the Windows installer.
+## 1. Create a Virtual Environment
 
-2. **Install Ollama**:
-   - Double-click the downloaded installer file.
-   - Follow the on-screen instructions to complete the installation.
+To avoid conflicts with other projects, it's recommended to create a virtual environment for this project.
 
-3. **Run Ollama**:
-   - Once installed, you can start Ollama from the Start menu or by double-clicking the desktop shortcut.
-  
-3. **Run Llama 3.1**:
-   - ```ollama pull llama3.1```
----
+### On Windows:
+```sh
+py -m venv venv
+```
+
+### On macOS/Linux:
+```sh
+python3 -m venv venv
+```
+
+## 2. Activate the Virtual Environment
+
+### On Windows:
+```sh
+.\venv\Scripts\activate
+```
+
+### On macOS/Linux:
+```sh
+source venv/bin/activate
+```
+
+You should now see the `(venv)` prefix in your terminal, indicating that the virtual environment is active.
+
+## 3. Install Dependencies
+
+With the virtual environment activated, install the required Python packages using `requirements.txt`:
+
+```sh
+pip install -r requirements.txt
+```
+
+## 4. Install and Run Ollama
+
+### Step 1: Install Ollama
+
+To install Ollama, use the following command:
+
+```sh
+pip install ollama
+```
+
+### Step 2: Run Ollama
+
+After installation, you can start Ollama by running:
+
+```sh
+ollama
+```
+
+For detailed setup instructions, visit the [Ollama website](https://www.ollama.com).

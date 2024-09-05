@@ -1,0 +1,183 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>REDACT</title>
+        <link rel="stylesheet" href="{% static 'index.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&display=swap');
+        </style>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+                <div class="container-fluid">
+                    <img class="navbar-brand" src="{% static 'images/re-dact.jpg' %}" style="width: 10%;"></img>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">About</a>
+                            </li>
+                        </ul>
+                        <form class="d-flex">
+                            <button class="btn btn-outline-primary">Contact Us</button>
+                        </form>
+                    </div>
+                </div>
+            </nav>
+            <main class="main-content" style="margin-top: 12%;">
+                <div class="row file-row">
+                    <form id="submissionForm" method="post" enctype="multipart/form-data" action="/">
+                        {% csrf_token %}
+                        <div class="row">
+                            <!-- Left column (File upload area) -->
+                            <div class="col-12 col-md-6 mb-3">
+                                <section class="droparea" id="dropArea">
+                                    <i class="fa-solid fa-folder-plus" id="folderIcon"></i>
+                                    <div class="preview-container" id="previewContainer"></div>
+                                    <input type="file" name="files" id="fileInput" multiple accept=".png, .jpg, .jpeg, .pdf, .txt" style="display: none;">
+                                    <label for="fileInput" class="btn btn-outline-primary" style="margin-bottom: 10px;">Choose files</label>
+                                </section>
+                            </div>
+                            <!-- Right column (Slider, Textarea, and Submit button) -->
+                            <div class="col-12 col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label for="customRange1" class="form-label">Redaction Gradient</label>
+                                    <input type="range" class="form-range" name="rangeInput" id="customRange1" min="0" max="1" value="0">
+                                </div>
+                                <div class="form-group mt-3">
+                                    <textarea class="form-control" name="wordsTextarea" id="exampleFormControlTextarea1" rows="3" placeholder="Words you'd like to keep:"></textarea>
+                                </div>
+                                <!-- Submit button -->
+                                <div class="form-group mt-4">
+                                    <button type="submit" class="btn btn-outline-primary">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="row mb-4">
+                    <h1 class="media">Supported Media</h1>
+                    <div class="col-12 col-md-4 mb-3">
+                        <i class="fa-solid fa-file-lines icon-large"></i>
+                        <h4 style="font-family: Epilogue;">Text</h4>
+                    </div>
+                    <div class="col-12 col-md-4 mb-3">
+                        <i class="fa-solid fa-file-image icon-large"></i>
+                        <h4 style="font-family: Epilogue;">Images</h4>
+                    </div>
+                    <div class="col-12 col-md-4 mb-3">
+                        <i class="fa-solid fa-file-video icon-large"></i>
+                        <h4 style="font-family: Epilogue;">Vidoes</h4>
+                    </div>
+                </div>
+            </main>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <script>
+const fileInput = document.getElementById('fileInput');
+const previewContainer = document.getElementById('previewContainer');
+const folderIcon = document.getElementById('folderIcon');
+let existingFiles = []; // Store existing files
+
+fileInput.addEventListener('change', handleFiles);
+
+document.querySelector('.droparea').addEventListener('dragover', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    document.querySelector('.droparea').classList.add('drag-over');
+});
+
+document.querySelector('.droparea').addEventListener('dragleave', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    document.querySelector('.droparea').classList.remove('drag-over');
+});
+
+document.querySelector('.droparea').addEventListener('drop', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    document.querySelector('.droparea').classList.remove('drag-over');
+    fileInput.files = event.dataTransfer.files;
+    handleFiles();
+});
+
+function handleFiles() {
+    const newFiles = Array.from(fileInput.files);
+
+    // Combine new files with existing ones and remove duplicates by name
+    const allFiles = [...existingFiles, ...newFiles];
+    const uniqueFiles = Array.from(new Set(allFiles.map(f => f.name))).map(name => {
+        return allFiles.find(f => f.name === name);
+    });
+
+    existingFiles = uniqueFiles; // Update the existingFiles array
+
+    if (existingFiles.length > 0) {
+        folderIcon.style.display = 'none'; // Hide the folder icon if files exist
+    } else {
+        folderIcon.style.display = 'block'; // Show the folder icon if no files
+    }
+
+    renderPreviews();
+}
+
+function renderPreviews() {
+    previewContainer.innerHTML = ''; // Clear the container to avoid duplicates
+
+    existingFiles.forEach(file => {
+        const reader = new FileReader();
+        const previewItem = document.createElement('div');
+        previewItem.classList.add('preview-item');
+
+        const cancelButton = document.createElement('button');
+        cancelButton.textContent = 'x';
+        cancelButton.addEventListener('click', () => removeFile(file, previewItem));
+
+        if (file.type.startsWith('image/')) {
+            reader.onload = function(event) {
+                const img = document.createElement('img');
+                img.src = event.target.result;
+                previewItem.appendChild(img);
+                previewItem.appendChild(cancelButton);
+                previewContainer.appendChild(previewItem);
+            };
+            reader.readAsDataURL(file);
+        } else if (file.type === 'application/pdf') {
+            const div = document.createElement('div');
+            div.textContent = `PDF: ${file.name}`;
+            previewItem.appendChild(div);
+            previewItem.appendChild(cancelButton);
+            previewContainer.appendChild(previewItem);
+        } else if (file.type === 'text/plain') {
+            const div = document.createElement('div');
+            div.textContent = `TXT: ${file.name}`;
+            previewItem.appendChild(div);
+            previewItem.appendChild(cancelButton);
+            previewContainer.appendChild(previewItem);
+        }
+    });
+}
+
+function removeFile(fileToRemove, previewItem) {
+    existingFiles = existingFiles.filter(file => file !== fileToRemove);
+    previewItem.remove();
+
+    // Show the folder icon if no files remain
+    if (existingFiles.length === 0) {
+        folderIcon.style.display = 'block';
+    }
+}
+        </script>
+    </body>
+</html>

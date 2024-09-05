@@ -13,12 +13,13 @@ def index(request):
         print("Form Data Received:")
         print(form_data)
 
-        # Initialize the TextRedactionService
-        service = TextRedactionService()
-
         # Check if there's text to process
         if form_data.get('wordsTextarea'):
             user_text = form_data['wordsTextarea']
+            degree = int(form_data.get('rangeInput'))
+
+            # Initialize the TextRedactionService
+            service = TextRedactionService(degree)
 
             # Call the redact_text method with the user_text
             redacted_text = service.redact_text(user_text)

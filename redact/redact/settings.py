@@ -125,18 +125,5 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-
-CONFIG_LIST = [
-    # Add your LLM configuration settings here
-]
-
-# Example custom configuration
-AUTOGEN_MODEL_SETTINGS = {
-    'model_name': 'your_model_name',
-    'other_setting': 'value',
-}
-
-
 Ollama_API_URL = 'http://localhost:11434/v1'
 Ollama_API_KEY = 'ollama'

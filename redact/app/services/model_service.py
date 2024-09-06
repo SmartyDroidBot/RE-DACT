@@ -4,6 +4,7 @@ from PIL import Image, ImageDraw
 from .agents import config_list
 from .agents import TextRedactionAgents, ImageRedactionAgents, user_proxy
 from .utils import azure_image_ocr
+from django.conf import settings
 
 class TextRedactionService:
     def __init__(self, degree=0):
@@ -56,8 +57,13 @@ class TextRedactionService:
             message=self.chat_outline['message']
         )
 
+        agent_speech = []
+        for i, chat in enumerate(speakers):
+            agent_speech.append('<h4>' + speakers[i] + '</h4>')
+            agent_speech.append('<p>' + text_redaction_chats.chat_history[i+1]['content'] + '</p>')
+
         # Return the result from the chat
-        return text_redaction_chats.chat_history[-1]['content']
+        return text_redaction_chats.chat_history[-1]['content'], agent_speech
 
 class ImageRedactionService:
     def __init__(self, degree=0):
@@ -143,8 +149,12 @@ class ImageRedactionService:
 
             draw.rectangle([x_min, y_min, x_max, y_max], fill='black')
 
-        output_path = r'C:/Users/shash/OneDrive/Desktop/College/SIH RE-DACT/Github_Repo/redact' + r'/media/uploads/modified_image.png'
+        output_path = os.path.join(settings.BASE_DIR, 'media', 'uploads','modified_image.jpg')
         image.save(output_path)
 
-        return output_path
+        agents_speech = ['']
+        agents_speech.append('<h4>' + speakers[0] + '</h4>')
+        agents_speech.append('<p>' + image_redaction_chats.chat_history[-1]['content'] + '</p>')
+
+        return output_path, agents_speech
 

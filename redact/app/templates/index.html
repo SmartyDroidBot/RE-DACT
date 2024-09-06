@@ -89,11 +89,25 @@
                             </div>
                             <div>
                                 <label class="toggle-switch">
-                                    <input type="checkbox" name="showProcess">
-                                    <span class="slider"></span>
+                                    <input type="checkbox" name="showProcess" id="toggleCard">
+                                    <span class="slider round"></span>
                                 </label>
                                 <br>
                                 <span>See how we did it!</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- New row for the card section -->
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div id="cardSection" class="card-section">
+                            <div class="card-header">Process Overview</div>
+                            <div class="card-content">
+                                {% for speech in agents_speech %}
+                                    {{ speech | safe }}
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
@@ -241,6 +255,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 textarea.disabled = true;       // Disable textarea if files are dropped
             }
         });
+    });
+    const toggle = document.getElementById("toggleCard");
+    const cardSection = document.getElementById("cardSection");
+
+    toggle.addEventListener("change", function() {
+        if (toggle.checked) {
+            cardSection.style.display = "block";
+        } else {
+            cardSection.style.display = "none";
+        }
     });
     </script>
 </body>  

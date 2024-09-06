@@ -19,7 +19,7 @@ def handle_uploaded_file(file):
 def save_image_file(file):
     file_name = default_storage.save(f'uploads/{file.name}', ContentFile(file.read()))
     file_url = default_storage.url(file_name)
-    return file_url
+    return file.name
 
 def text_file_to_string(txt_file):
     return txt_file.read().decode('utf-8')
@@ -68,20 +68,23 @@ def index(request):
                         content += file_text
                 
                 elif is_image_file(file.name):
-                    image_url = os.path.join(os.getcwd() + save_image_file(file))
+                    image_url = os.path.join(settings.BASE_DIR, 'media', 'uploads', save_image_file(file))
                     print(image_url)
 
                     service = ImageRedactionService(degree)
-                    redacted_image_url = service.redact_image(image_url)
+                    redacted_image_url, agents_speech = service.redact_image(image_url)
 
-                    return render(request, 'index.html', {'redacted_file_url': redacted_image_url})
+                    return render(request, 'index.html', {'redacted_file_url': redacted_image_url, 'agents_speech': agents_speech})
 
         elif form_data.get('wordsTextarea'):
             user_text = form_data['wordsTextarea']
             # Call the redact_text method with the user_text
             service = TextRedactionService(degree)
-            redacted_text = service.redact_text(user_text)
-            return render(request, 'index.html', {'redacted_text': redacted_text})
+            redacted_text, agents_speech = service.redact_text(user_text)
+
+            import re 
+            redacted_text = re.sub(r'\*(.*?)\*', lambda match: '█' * len(match.group(1)), redacted_text)
+            return render(request, 'index.html', {'redacted_text': redacted_text, 'agents_speech': agents_speech})
         else:
             return JsonResponse({'error': 'No text provided for redaction'}, status=400)
 

@@ -6,6 +6,7 @@
     padding: 2rem;
 }
 
+
 .header {
     text-align: center;
     margin-bottom: 2rem;
@@ -37,7 +38,8 @@ body {
     background-color: #f0f8ff;
 }
 .navbar-brand {
-    font-weight: bold;
+    font-weight: bolder;
+    font-size: 100px;
 }
 .main-content {
     background-color: white;
@@ -108,4 +110,96 @@ background-color: #f8f9fa;
 .disabled {
     pointer-events: none;
     opacity: 0.6;
+}
+
+/* Style for the drop area container */
+.droparea {
+    position: relative;
+    width: 100%;
+    height: 200px;    /* Set a fixed height */
+    border: 2px dashed #007bff;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* Hide overflow */
+    background-color: #f8f9fa;
+    padding: 10px;
+}
+
+/* Style for the folder icon */
+#folderIcon {
+    font-size: 48px;
+    color: #007bff;
+    display: block;
+}
+
+/* Style for the input label */
+label[for="fileInput"] {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
+/* Style for the file input */
+#fileInput {
+    display: none; /* Keep the input hidden */
+}
+
+/* Style for the preview container */
+.preview-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    max-width: 100%;
+    max-height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* Style for individual preview items */
+.preview-item {
+    position: relative;
+    margin: 5px;
+    width: 80px;
+    height: 80px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Image inside the preview container */
+.preview-item img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+/* Cancel button inside the preview item */
+.preview-item button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.redact-header{
+    font-size: 70px;
+}
+
+.header-desc{
+    
 }

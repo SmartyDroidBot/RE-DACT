@@ -1,10 +1,5 @@
 
 
-body {
-    font-family: 'Epilogue', sans-serif;
-    background-color: #f0f8ff;
-}
-
 .container {
     max-width: 800px;
     margin: 0 auto;
@@ -26,33 +21,8 @@ body {
     color: #666;
 }
 
-.main-content {
-    background-color: white;
-    border-radius: 10px;
-    padding: 2rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.droparea {
-    border: 2px dashed #ccc;
-    border-radius: 10px;
-    padding: 2rem;
-    text-align: center;
-    margin-bottom: 1rem;
-}
-
 .form-range {
     width: 100%;
-}
-
-.btn-primary {
-    background-color: #00bcd4;
-    border-color: #00bcd4;
-}
-
-.btn-primary:hover {
-    background-color: #008ba3;
-    border-color: #008ba3;
 }
 
 .toggle-container {
@@ -61,19 +31,46 @@ body {
     margin-top: 1rem;
 }
 
+
+body {
+    font-family: 'Epilogue', sans-serif;
+    background-color: #f0f8ff;
+}
+.navbar-brand {
+    font-weight: bold;
+}
+.main-content {
+    background-color: white;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 2rem;
+}
+.droparea {
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    padding: 2rem;
+    text-align: center;
+}
+.btn-primary {
+    background-color: #00bcd4;
+    border-color: #00bcd4;
+}
+.btn-primary:hover {
+    background-color: #008ba3;
+    border-color: #008ba3;
+}
 .toggle-switch {
     position: relative;
     display: inline-block;
     width: 60px;
     height: 34px;
 }
-
 .toggle-switch input {
     opacity: 0;
     width: 0;
     height: 0;
 }
-
 .slider {
     position: absolute;
     cursor: pointer;
@@ -85,7 +82,6 @@ body {
     transition: .4s;
     border-radius: 34px;
 }
-
 .slider:before {
     position: absolute;
     content: "";
@@ -97,11 +93,19 @@ body {
     transition: .4s;
     border-radius: 50%;
 }
-
 input:checked + .slider {
     background-color: #00bcd4;
 }
-
 input:checked + .slider:before {
     transform: translateX(26px);
+}
+.droparea.dragging {
+border: 2px dashed #007bff;
+background-color: #f8f9fa;
+}
+
+ /* Disabled style */
+.disabled {
+    pointer-events: none;
+    opacity: 0.6;
 }

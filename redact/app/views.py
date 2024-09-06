@@ -1,7 +1,7 @@
 import os
 from django.shortcuts import render
 from django.http import JsonResponse
-from .services.model_service import TextRedactionService
+from .services.model_service import TextRedactionService, ImageRedactionService
 from django.core.files.storage import default_storage
 from django.conf import settings
 from django.utils.text import slugify
@@ -57,7 +57,6 @@ def index(request):
         print(form_data)
         degree = int(form_data.get('rangeInput'))
         # Initialize the TextRedactionService
-        service = TextRedactionService(degree)
         content = ''
         redacted_text = ''
         # Check if there's text to process
@@ -69,23 +68,18 @@ def index(request):
                         content += file_text
                 
                 elif is_image_file(file.name):
-                    image_url = save_image_file(file)
-                    # Send the image URL to the model for processing
-                    content = image_url
+                    image_url = os.path.join(os.getcwd() + save_image_file(file))
+                    print(image_url)
 
-            # Call the redact_text method with the text_content
-            redacted_text = service.redact_text(content)
-            original_filename = file.name
+                    service = ImageRedactionService(degree)
+                    redacted_image_url = service.redact_image(image_url)
 
-            # Save the redacted content to a new file
-            redacted_filename = save_redacted_file(redacted_text, original_filename)
-            redacted_file_url = default_storage.url(redacted_filename)
-
-            return render(request, 'index.html', {'redacted_file_url': redacted_file_url,'redacted_text':redacted_text})
+                    return render(request, 'index.html', {'redacted_file_url': redacted_image_url})
 
         elif form_data.get('wordsTextarea'):
             user_text = form_data['wordsTextarea']
             # Call the redact_text method with the user_text
+            service = TextRedactionService(degree)
             redacted_text = service.redact_text(user_text)
             return render(request, 'index.html', {'redacted_text': redacted_text})
         else:

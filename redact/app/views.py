@@ -8,13 +8,9 @@ from django.utils.text import slugify
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 
-
 def handle_uploaded_file(file):
     if file.content_type == 'text/plain':
-        # Convert text file to string
         return text_file_to_string(file)
-    else:
-        return None
 
 def save_image_file(file):
     file_name = default_storage.save(f'uploads/{file.name}', ContentFile(file.read()))
@@ -33,17 +29,15 @@ def is_document_file(file_name):
     return any(file_name.lower().endswith(ext) for ext in document_extensions)
 
 def save_redacted_file(content, original_filename):
-    # Generate a redacted filename (same format as the original file)
     base_name, _ = os.path.splitext(original_filename)
-    # Generate a redacted filename with the .txt extension
     redacted_filename = f"{slugify(base_name)}.txt"
-    file_path = os.path.join(settings.MEDIA_ROOT, redacted_filename)
+    file_path = os.path.join(settings.MEDIA_ROOT, 'outputs', redacted_filename)
 
     # Save the redacted content to a file
     with open(file_path, 'w', encoding='utf-8') as redacted_file:
         redacted_file.write(content)
 
-    return redacted_filename
+    return file_path
 
 def index(request):
     if request.method == 'POST':
@@ -56,18 +50,23 @@ def index(request):
         print("Form Data Received:")
         print(form_data)
         degree = int(form_data.get('rangeInput'))
-        # Initialize the TextRedactionService
-        content = ''
-        redacted_text = ''
-        # Check if there's text to process
+
         if form_data.get('files'):
             for file in form_data['files']:
                 if is_document_file(file.name):
                     file_text = handle_uploaded_file(file)
-                    if file_text:
-                        content += file_text
+                    # Redacts text files
+                    content = file_text
+                    service = TextRedactionService(degree)
+                    redacted_text, agents_speech = service.redact_text(content)
+
+                    import re 
+                    redacted_text = re.sub(r'\*(.*?)\*', lambda match: '█' * len(match.group(1)), redacted_text)
+                    redacted_file_url = save_redacted_file(redacted_text, file.name)
+                    return render(request, 'index.html', {'redacted_text': redacted_text, 'redacted_file_url': redacted_file_url, 'agents_speech': agents_speech})
                 
                 elif is_image_file(file.name):
+                    # Redacts images
                     image_url = os.path.join(settings.BASE_DIR, 'media', 'uploads', save_image_file(file))
                     print(image_url)
 
@@ -77,8 +76,8 @@ def index(request):
                     return render(request, 'index.html', {'redacted_file_url': redacted_image_url, 'agents_speech': agents_speech})
 
         elif form_data.get('wordsTextarea'):
+            # Redacts text from textarea
             user_text = form_data['wordsTextarea']
-            # Call the redact_text method with the user_text
             service = TextRedactionService(degree)
             redacted_text, agents_speech = service.redact_text(user_text)
 
@@ -87,7 +86,5 @@ def index(request):
             return render(request, 'index.html', {'redacted_text': redacted_text, 'agents_speech': agents_speech})
         else:
             return JsonResponse({'error': 'No text provided for redaction'}, status=400)
-
-
 
     return render(request, 'index.html', {'redacted_text': None})

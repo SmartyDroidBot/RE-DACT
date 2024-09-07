@@ -3,7 +3,7 @@ import autogen
 from PIL import Image, ImageDraw
 from .agents import config_list
 from .agents import TextRedactionAgents, ImageRedactionAgents, user_proxy
-from .utils import azure_image_ocr
+from .utils import azure_image_ocr, export_redacted_image
 from django.conf import settings
 
 class TextRedactionService:
@@ -57,13 +57,14 @@ class TextRedactionService:
             message=self.chat_outline['message']
         )
 
+        # Return chat history
         agent_speech = []
         for i, chat in enumerate(speakers):
             agent_speech.append('<h4>' + speakers[i] + '</h4>')
             agent_speech.append('<p>' + text_redaction_chats.chat_history[i+1]['content'] + '</p>')
 
-        # Return the result from the chat
         return text_redaction_chats.chat_history[-1]['content'], agent_speech
+
 
 class ImageRedactionService:
     def __init__(self, degree=0):
@@ -118,6 +119,7 @@ class ImageRedactionService:
             message=self.chat_outline['message']
         )
 
+        # Extract redacted words and their coordinates
         redacted_text = image_redaction_chats.chat_history[-1]['content']
         redacted_text = ast.literal_eval(redacted_text)
         redacted_words = []
@@ -125,7 +127,6 @@ class ImageRedactionService:
             for word in str(text).split(' '):
                 if len(word) > 3:
                     redacted_words.append(word)
-        redacted_words
 
         redacted_cords = []
         for page in result.pages:
@@ -136,25 +137,15 @@ class ImageRedactionService:
                                 cords.append((polygon.x, polygon.y))
                             redacted_cords.append(cords)
 
-        # Load the original image
-        image = Image.open(image)
-        draw = ImageDraw.Draw(image)
+        # Export redacted image
+        output_path = export_redacted_image(image, redacted_cords)
 
-        # For each set of coordinates, draw the black boxes
-        for coord_set in redacted_cords:
-            x_coords = [point[0] for point in coord_set]
-            y_coords = [point[1] for point in coord_set]
-            x_min, x_max = min(x_coords), max(x_coords)
-            y_min, y_max = min(y_coords), max(y_coords)
-
-            draw.rectangle([x_min, y_min, x_max, y_max], fill='black')
-
-        output_path = os.path.join(settings.BASE_DIR, 'media', 'uploads','modified_image.jpg')
-        image.save(output_path)
-
+        # Return chat history
         agents_speech = ['']
+        agents_speech.append('<h4>' + 'input image' + '</h4>')
+        agents_speech.append('<p>' + os.path.basename(image) + '</p>')
         agents_speech.append('<h4>' + speakers[0] + '</h4>')
-        agents_speech.append('<p>' + image_redaction_chats.chat_history[-1]['content'] + '</p>')
+        agents_speech.append('<p>' + 'Words to be redacted: ' + image_redaction_chats.chat_history[-1]['content'] + '</p>')
 
         return output_path, agents_speech
 

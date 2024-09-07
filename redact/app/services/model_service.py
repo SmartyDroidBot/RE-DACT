@@ -3,17 +3,20 @@ import autogen
 from PIL import Image, ImageDraw
 from .agents import config_list
 from .agents import TextRedactionAgents, ImageRedactionAgents, user_proxy
+from .guardrails import guardrail_proper_nouns, guardrail_capitalized_words
 from .utils import azure_image_ocr, export_redacted_image
 from django.conf import settings
 
 class TextRedactionService:
     def __init__(self, degree=0):
+        self.degree = degree
+
         # Define the chat outline
         self.chat_outline = {
             'message': '',
         }
 
-        self.text_assistant, self.evaluation = TextRedactionAgents(degree).text_assistant, TextRedactionAgents(degree).evaluation
+        self.text_assistant, self.evaluation = TextRedactionAgents(self.degree).text_assistant, TextRedactionAgents(self.degree).evaluation
         self.user_proxy = user_proxy
 
     def redact_text(self, text):
@@ -57,13 +60,29 @@ class TextRedactionService:
             message=self.chat_outline['message']
         )
 
+        redacted_text_from_agent = text_redaction_chats.chat_history[-1]['content']
+
+        # Guardrails are called only for last degree
+        if self.degree == 2:        
+            redacted_text_no_proper_nouns = guardrail_proper_nouns(redacted_text_from_agent)
+            redacted_text_no_capitalized_words = guardrail_capitalized_words(redacted_text_no_proper_nouns)
+            redacted_text = redacted_text_no_capitalized_words
+        else:
+            redacted_text = redacted_text_from_agent
+
         # Return chat history
         agent_speech = []
         for i, chat in enumerate(speakers):
             agent_speech.append('<h4>' + speakers[i] + '</h4>')
             agent_speech.append('<p>' + text_redaction_chats.chat_history[i+1]['content'] + '</p>')
+        
+        if self.degree == 2:
+            agent_speech.append('<h4>' + 'guardrail: redacting proper nouns' + '</h4>')
+            agent_speech.append('<p>' + redacted_text_no_proper_nouns + '</p>')
+            agent_speech.append('<h4>' + 'guardrail: redacting capitalized words' + '</h4>')
+            agent_speech.append('<p>' + redacted_text_no_capitalized_words + '</p>')
 
-        return text_redaction_chats.chat_history[-1]['content'], agent_speech
+        return redacted_text, agent_speech
 
 
 class ImageRedactionService:

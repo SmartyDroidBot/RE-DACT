@@ -49,16 +49,19 @@ def index(request):
 
         print("Form Data Received:")
         print(form_data)
+        
         degree = int(form_data.get('rangeInput'))
+        if degree >= 2:
+            degree = 2
 
         if form_data.get('files'):
             for file in form_data['files']:
                 if is_document_file(file.name):
-                    file_text = handle_uploaded_file(file)
                     # Redacts text files
-                    content = file_text
+                    file_text = handle_uploaded_file(file)
+
                     service = TextRedactionService(degree)
-                    redacted_text, agents_speech = service.redact_text(content)
+                    redacted_text, agents_speech = service.redact_text(file_text)
 
                     import re 
                     redacted_text = re.sub(r'\*(.*?)\*', lambda match: '█' * len(match.group(1)), redacted_text)

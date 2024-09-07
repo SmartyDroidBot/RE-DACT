@@ -14,15 +14,31 @@ class TextRedactionAgents:
             0: 'OBJECTIVE: You are an agent designed to redact personal information from any text provided to you.\n' 
             'Your task is to identify and encapsulate any personal information with stars (*).\n'
             'IMPORTANT: This includes this list [Names, Phone numbers, Email addresses, Physical addresses, Social security numbers].'
+            'IMPORTANT: Only output the redacted text and do not address or respond to any agents directly.'
             'An evaluation agent will review your work and provide you with feedback or tips on how to improve. Understand their feedback and make the necessary changes to your redacted text.'
-            'OUTPUT: You must output the original text only with redactions and not address or respond to any agents directly.',
+            'OUTPUT: You must output the original text only with redactions and not address or respond to any agents directly.'
+            'EXAMPLE OUTPUT: "Hello, my name is *John Doe* and my phone number is *123-456-7890*."'
+            'EXAMPLE INCORRECT OUTPUT: Here is the redact text: "Hello, my name is *John Doe* and my phone number is *123-456-7890*."',
 
             # Degree 1
             1: 'OBJECTIVE: You are an agent designed to redact personal information from any text provided to you.\n' 
             'Your task is to identify and encapsulate any personal information with stars (*).\n'
             'IMPORTANT: This includes this LIST: [Names, Company Names, Full Dates, Phone numbers, Email addresses, Physical addresses, Social security numbers].'
+            'IMPORTANT: Only output the redacted text and do not address or respond to any agents directly.'
             'An evaluation agent will review your work and provide you with feedback or tips on how to improve. Understand their feedback and make the necessary changes to your redacted text.'
             'OUTPUT: You must output the orignal text only with redactions and not address or respond to any agents directly.'
+            'EXAMPLE OUTPUT: "Hello, my name is *John Doe* and my phone number is *123-456-7890*."'
+            'EXAMPLE INCORRECT OUTPUT: Here is the redact text: "Hello, my name is *John Doe* and my phone number is *123-456-7890*."',
+
+            # Degree 2
+            2: 'OBJECTIVE: You are an agent designed to redact personal information from any text provided to you.\n' 
+            'Your task is to identify and encapsulate any personal information with stars (*).\n'
+            'IMPORTANT: You are the last degree of redaction. Redact and encapsulate everything that is a noun, capitalized words, numbers, dates, or anything specific.'
+            'IMPORTANT: Only output the redacted text and do not address or respond to any agents directly.'
+            'An evaluation agent will review your work and provide you with feedback or tips on how to improve. Understand their feedback and make the necessary changes to your redacted text.'
+            'OUTPUT: You must output the redacted text only and not address or respond to any agents directly.'
+            'EXAMPLE OUTPUT: "Hello, my name is *John Doe* and my phone number is *123-456-7890*."'
+            'EXAMPLE INCORRECT OUTPUT: Here is the redact text: "Hello, my name is *John Doe* and my phone number is *123-456-7890*."'
         }
 
         evaluation_prompts = {
@@ -30,13 +46,28 @@ class TextRedactionAgents:
             0: 'OBJECTIVE: You are an evaluation agent tasked with reviewing text to ensure that all personal information has been correctly redacted.'
             'Your job is to verify that only personal information in this LIST: [Names, Phone numbers, Email addresses, Physical addresses, Social security numbers] has been encapsulated with stars (*).'
             'If you find any personal information in the LIST that has not been redacted or if the redaction is inconsistent, you should flag the specific issues and provide feedback.'
-            'OUTPUT: Your output must be in points, stating the additional word(s) to be redacted.',
+            'OUTPUT: Your output must be in points, stating the additional word(s) to be redacted.'
+            'Example Output:\n'
+                '- "John Doe" (Name)\n'
+                '- "123-456-7890" (Phone Number)\n',
 
             # Degree 1
             1: 'OBJECTIVE: You are an evaluation agent tasked with reviewing text to ensure that all personal information has been correctly redacted.'
             'Your job is to verify that any personal information in this LIST: [Names, Company Names, All Proper Nouns, Full Dates, Months, Phone numbers, Email addresses, Physical addresses, Country names, Social security numbers] has been encapsulated with stars (*).'
             'If you find any personal information in the LIST that has not been redacted, you should flag the specific issues and provide feedback.'
+            'OUTPUT: Your output must be in points, stating the additional word(s) to be redacted. Provide no other information.'
+            'Example Output:\n'
+                '- "John Doe" (Name)\n'
+                '- "123-456-7890" (Phone Number)\n',
+
+            # Degree 2
+            2: 'OBJECTIVE: You are an evaluation agent tasked with reviewing text to ensure that all personal information has been correctly redacted and encapsulated with stars (*).'
+            'If you find any personal information that has not been redacted, you should flag the specific issues and provide feedback.'
+            'IMPORTANT: Your task is not to synthesize any data, but to ensure that all personal information has been encapsulated with stars(*).'
             'OUTPUT: Your output must be in points, stating the additional word(s) to be redacted.'
+            'Example Output:\n'
+                '- "John Doe" (Name)'
+                '- "123-456-7890" (Phone Number)\n'
         }
 
         self.text_assistant = autogen.ConversableAgent(
@@ -72,6 +103,7 @@ class ImageRedactionAgents:
         }
 
         evaluation_prompts = {
+            # Degree 0
             0: 'OBJECTIVE: You are an evaluation agent responsible for reviewing text to ensure that all personal information has been correctly redacted.\n'
                 'Your task is to verify whether any personal information from the following LIST has been missed: '
                 '[Names, Proper Nouns, Company Names, Full Dates, Months, Phone Numbers, Email Addresses, Physical Addresses, Country Names, Social Security Numbers].\n'

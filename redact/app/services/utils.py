@@ -4,6 +4,7 @@ from azure.ai.formrecognizer import DocumentAnalysisClient
 from django.conf import settings
 from PIL import Image, ImageDraw
 
+# Azure OCR function for images
 def azure_image_ocr(image):
     endpoint = settings.AZURE_ENDPOINT
     key = settings.AZURE_KEY
@@ -20,6 +21,7 @@ def azure_image_ocr(image):
     
     return result
 
+# Export redacted image
 def export_redacted_image(image_path, redacted_cords):
     image = Image.open(image_path)
     draw = ImageDraw.Draw(image)

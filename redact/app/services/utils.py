@@ -35,7 +35,9 @@ def export_redacted_image(image_path, redacted_cords):
 
         draw.rectangle([x_min, y_min, x_max, y_max], fill='black')
 
-    output_path = os.path.join(settings.MEDIA_ROUTE, 'outputs', os.path.basename(image_path))
+    if not os.path.exists(os.path.join(settings.MEDIA_ROOT, 'outputs')):
+        os.makedirs(os.path.join(settings.MEDIA_ROOT, 'outputs'))
+    output_path = os.path.join(settings.MEDIA_ROOT, 'outputs', os.path.basename(image_path))
     image.save(output_path)
 
     return output_path

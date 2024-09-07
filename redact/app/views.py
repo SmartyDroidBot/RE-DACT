@@ -31,6 +31,8 @@ def is_document_file(file_name):
 def save_redacted_file(content, original_filename):
     base_name, _ = os.path.splitext(original_filename)
     redacted_filename = f"{slugify(base_name)}.txt"
+    if not os.path.exists(os.path.join(settings.MEDIA_ROOT, 'outputs')):
+        os.makedirs(os.path.join(settings.MEDIA_ROOT, 'outputs'))
     file_path = os.path.join(settings.MEDIA_ROOT, 'outputs', redacted_filename)
 
     # Save the redacted content to a file

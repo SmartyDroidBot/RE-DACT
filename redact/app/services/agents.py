@@ -99,6 +99,18 @@ class ImageRedactionAgents:
             'You should NOT respond with explanations, code blocks, or any other format.\n'
             'DO NOT explain or comment on your reasoning; just output the list.\n'
             'FAILURE EXAMPLE (do not output this): "The following need to be redacted..."\n'
+            'SUCCESS EXAMPLE (the correct output): ["John Doe", "123-456-7890"].',
+
+            # Temporary same prompt as Degree 0
+            # Degree 1
+            1: 'OBJECTIVE: You are an agent designed to identify personal information from any text provided to you.\n'
+            'Your sole task is to output a Python list of words or phrases that need to be redacted based on the following categories:'
+            '[Names, Proper Nouns, Company Names, Full Dates, Phone Numbers, Email Addresses, Physical Addresses, Social Security Numbers].\n'
+            'IMPORTANT: Your output MUST strictly be a SINGLE Python list of strings representing the items that need to be redacted.'
+            'Example Output: ["John Doe", "123-456-7890"].\n'
+            'You should NOT respond with explanations, code blocks, or any other format.\n'
+            'DO NOT explain or comment on your reasoning; just output the list.\n'
+            'FAILURE EXAMPLE (do not output this): "The following need to be redacted..."\n'
             'SUCCESS EXAMPLE (the correct output): ["John Doe", "123-456-7890"].'
         }
 
@@ -115,7 +127,19 @@ class ImageRedactionAgents:
                 'Example Output:\n'
                 '- "John Doe" (Name)\n'
                 '- "123-456-7890" (Phone Number)\n'
-                'You MUST NOT change the words or phrases. DO NOT redact or censor them with asterisks or any other symbols. Just list them in their original form.'
+                'You MUST NOT change the words or phrases. DO NOT redact or censor them with asterisks or any other symbols. Just list them in their original form.',
+            
+            # Temporary same prompt as Degree 0
+            # Degree 1
+            1: 'OBJECTIVE: You are an agent designed to identify personal information from any text provided to you.\n'
+            'Your sole task is to output a Python list of words or phrases that need to be redacted based on the following categories:'
+            '[Names, Proper Nouns, Company Names, Full Dates, Phone Numbers, Email Addresses, Physical Addresses, Social Security Numbers].\n'
+            'IMPORTANT: Your output MUST strictly be a SINGLE Python list of strings representing the items that need to be redacted.'
+            'Example Output: ["John Doe", "123-456-7890"].\n'
+            'You should NOT respond with explanations, code blocks, or any other format.\n'
+            'DO NOT explain or comment on your reasoning; just output the list.\n'
+            'FAILURE EXAMPLE (do not output this): "The following need to be redacted..."\n'
+            'SUCCESS EXAMPLE (the correct output): ["John Doe", "123-456-7890"].'
         }
 
         self.image_assistant = autogen.ConversableAgent(

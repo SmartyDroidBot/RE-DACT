@@ -3,7 +3,7 @@ import autogen
 from PIL import Image, ImageDraw
 from .agents import config_list
 from .agents import TextRedactionAgents, ImageRedactionAgents, user_proxy
-from .guardrails import guardrail_proper_nouns, guardrail_capitalized_words
+from .guardrails import guardrail_proper_nouns, guardrail_proper_nouns_list, guardrail_capitalized_words
 from .utils import azure_image_ocr, export_redacted_image
 from django.conf import settings
 
@@ -87,6 +87,8 @@ class TextRedactionService:
 
 class ImageRedactionService:
     def __init__(self, degree=0):
+        self.degree = degree
+
          # Define the chat outline
         self.chat_outline = {
             'message': '',
@@ -125,7 +127,7 @@ class ImageRedactionService:
             agents=[self.user_proxy, self.image_assistant, self.evaluation],
             speaker_selection_method=image_redact_selection_func,
             messages=[],
-            max_round=2
+            max_round=4 
         )
 
         image_redaction_manager = autogen.GroupChatManager(
@@ -146,15 +148,22 @@ class ImageRedactionService:
             for word in str(text).split(' '):
                 if len(word) > 3:
                     redacted_words.append(word)
+        
+        # Guardrails are called only for last degree
+        if self.degree == 1:
+            redacted_text_no_proper_nouns = guardrail_proper_nouns_list(image_redaction_chats.chat_history[-1]['content'])
+            redact_words = list(set(redacted_words + redacted_text_no_proper_nouns))
 
+        # Extract redacted words and their coordinates
         redacted_cords = []
         for page in result.pages:
                 for word in page.words:
-                        if word.content in redacted_words:
-                            cords = []
-                            for polygon in word.polygon:
-                                cords.append((polygon.x, polygon.y))
-                            redacted_cords.append(cords)
+                        for redacted_word in redact_words:
+                            if redacted_word in word.content:
+                                cords = []
+                                for polygon in word.polygon:
+                                    cords.append((polygon.x, polygon.y))
+                                redacted_cords.append(cords)
 
         # Export redacted image
         output_path = export_redacted_image(image, redacted_cords)
@@ -165,6 +174,10 @@ class ImageRedactionService:
         agents_speech.append('<p>' + os.path.basename(image) + '</p>')
         agents_speech.append('<h4>' + speakers[0] + '</h4>')
         agents_speech.append('<p>' + 'Words to be redacted: ' + image_redaction_chats.chat_history[-1]['content'] + '</p>')
+
+        if self.degree == 1:
+            agents_speech.append('<h4>' + 'guardrail: redacting proper nouns' + '</h4>')
+            agents_speech.append('<p>' + str(redacted_text_no_proper_nouns) + '</p>')
 
         return output_path, agents_speech
 

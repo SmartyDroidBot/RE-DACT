@@ -17,6 +17,19 @@ def guardrail_proper_nouns(text):
     
     return text
 
+# Guardrail that redacts proper nouns and returns a list
+def guardrail_proper_nouns_list(text):
+    from nltk.tag import pos_tag
+
+    redacted_words = []
+    for word in text.split(' '):
+        if '*' not in word:
+            tag = pos_tag([word])[0][1]
+            if tag == 'NNP':
+                redacted_words.append(word)
+    
+    return redacted_words
+
 # Guardrail that redacts capitalized words
 def guardrail_capitalized_words(text):
     def replace_match(match):

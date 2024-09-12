@@ -2,7 +2,6 @@ import os
 from django.shortcuts import render
 from django.http import JsonResponse
 from .services.model_service import TextRedactionService, ImageRedactionService
-from django.core.files.storage import default_storage
 from django.conf import settings
 from django.utils.text import slugify
 from django.core.files.storage import default_storage
@@ -75,6 +74,10 @@ def index(request):
                     image_url = os.path.join(settings.BASE_DIR, 'media', 'uploads', save_image_file(file))
                     print(image_url)
 
+                    # Temporary degree check
+                    if degree >=1:
+                        degree = 1
+
                     service = ImageRedactionService(degree)
                     redacted_image_url, agents_speech = service.redact_image(image_url)
 
@@ -89,6 +92,7 @@ def index(request):
             import re 
             redacted_text = re.sub(r'\*(.*?)\*', lambda match: '█' * len(match.group(1)), redacted_text)
             return render(request, 'index.html', {'redacted_text': redacted_text, 'agents_speech': agents_speech})
+        
         else:
             return JsonResponse({'error': 'No text provided for redaction'}, status=400)
 

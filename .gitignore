@@ -62,7 +62,6 @@ db.sqlite3
 db.sqlite3-journal
 redact/media/outputs/*
 redact/media/uploads/*
-redact/app/services/service_keys.json
 
 # Flask stuff:
 instance/
@@ -80,6 +79,8 @@ target/
 
 # Jupyter Notebook
 .ipynb_checkpoints
+Notebooks/test files/*
+Notebooks/test files
 
 # IPython
 profile_default/

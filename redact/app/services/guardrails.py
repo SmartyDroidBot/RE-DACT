@@ -14,7 +14,7 @@ def guardrail_proper_nouns(text):
             tag = pos_tag([word])[0][1]
             if tag == 'NNP':
                 text = text.replace(word, '*' + word + '*')
-    
+
     return text
 
 # Guardrail that redacts proper nouns and returns a list
@@ -27,7 +27,7 @@ def guardrail_proper_nouns_list(text):
             tag = pos_tag([word])[0][1]
             if tag == 'NNP':
                 redacted_words.append(word)
-    
+
     return redacted_words
 
 # Guardrail that redacts capitalized words

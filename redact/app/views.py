@@ -6,6 +6,7 @@ from django.conf import settings
 from django.utils.text import slugify
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
+import re
 
 def handle_uploaded_file(file):
     if file.content_type == 'text/plain':
@@ -50,7 +51,7 @@ def index(request):
 
         print("Form Data Received:")
         print(form_data)
-        
+
         degree = int(form_data.get('rangeInput'))
         if degree >= 2:
             degree = 2
@@ -64,11 +65,10 @@ def index(request):
                     service = TextRedactionService(degree)
                     redacted_text, agents_speech = service.redact_text(file_text)
 
-                    import re 
                     redacted_text = re.sub(r'\*(.*?)\*', lambda match: '█' * len(match.group(1)), redacted_text)
                     redacted_file_url = save_redacted_file(redacted_text, file.name)
                     return render(request, 'index.html', {'redacted_text': redacted_text, 'redacted_file_url': redacted_file_url, 'agents_speech': agents_speech})
-                
+
                 elif is_image_file(file.name):
                     # Redacts images
                     image_url = os.path.join(settings.BASE_DIR, 'media', 'uploads', save_image_file(file))
@@ -89,10 +89,9 @@ def index(request):
             service = TextRedactionService(degree)
             redacted_text, agents_speech = service.redact_text(user_text)
 
-            import re 
             redacted_text = re.sub(r'\*(.*?)\*', lambda match: '█' * len(match.group(1)), redacted_text)
             return render(request, 'index.html', {'redacted_text': redacted_text, 'agents_speech': agents_speech})
-        
+
         else:
             return JsonResponse({'error': 'No text provided for redaction'}, status=400)
 

@@ -53,8 +53,9 @@ def index(request):
 
         print("Form Data Received:")
         print(form_data)
+        #guardrail value return check
         print("check if guardrail returned")
-        print(form_data['guardrails'])
+        print(form_data['guardrails']) #acessing guardrail value
         degree = int(form_data.get('rangeInput'))
         if degree >= 2:
             degree = 2
@@ -68,6 +69,10 @@ def index(request):
                     service = TextRedactionService(degree)
                     redacted_text, agents_speech = service.redact_text(file_text)
 
+                    #guardrail for degree 3 and above
+                    if degree >= 3:
+                        guardrail = form_data['guardrails']
+
                     redacted_text = re.sub(r'\*(.*?)\*', lambda match: '█' * len(match.group(1)), redacted_text)
                     redacted_file_url = save_redacted_file(redacted_text, file.name)
                     return render(request, 'index.html', {'redacted_text': redacted_text, 'redacted_file_url': redacted_file_url, 'agents_speech': agents_speech})
@@ -76,10 +81,13 @@ def index(request):
                     # Redacts images
                     image_url = os.path.join(settings.BASE_DIR, 'media', 'uploads', save_image_file(file))
                     print(image_url)
-
                     # Temporary degree check
                     if degree >=1:
                         degree = 1
+
+                    # guardrail for degree 2 and above
+                    if degree >= 2:
+                        guardrail = form_data['guardrails']
 
                     service = ImageRedactionService(degree)
                     redacted_image_url, agents_speech = service.redact_image(image_url)
@@ -88,6 +96,9 @@ def index(request):
 
         elif form_data.get('wordsTextarea'):
             # Redacts text from textarea
+            #guardrail for degree 3 and above
+            if degree >= 3:
+                guardrail = form_data['guardrails']
             user_text = form_data['wordsTextarea']
             service = TextRedactionService(degree)
             redacted_text, agents_speech = service.redact_text(user_text)

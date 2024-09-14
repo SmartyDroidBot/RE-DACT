@@ -1,145 +1,158 @@
-
+/* General Styles */
 body {
     font-family: 'Epilogue', sans-serif;
-    background-color: #f5fbff;
+    background-color: #f0f8ff;
+    margin: 0;
+    padding: 0;
 }
-nav.navbar {
-    background-color: #00c3f9;
-    padding: 1rem;
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
 }
+
+/* Navbar */
 .navbar-brand {
-    color: white;
-    font-size: 1.5rem;
+    font-weight: bolder;
+    font-size: 2rem; /* Updated font size */
+    text-align: center;
+    width: 100%;
+}
+
+.navbar{
+    background-color: gray;
+}
+
+/* Header */
+
+
+header{
+    padding-top: 50px;
+    padding-bottom: 50px;
+    background-color: #DFFDFF;
+}
+
+header h1 {
+    font-size: 2.5rem;
     font-weight: bold;
 }
-.nav-link {
-    color: white;
+
+header p {
+    font-size: 1.2rem;
+    color: #666;
 }
-.header-desc {
-    color: #00a0c3;
-}
-.btn-outline-primary {
-    color: #00c3f9;
-    border-color: #00c3f9;
-}
-.btn-outline-primary:hover {
-    background-color: #00c3f9;
-    color: white;
-}
-.btn-primary {
-    background-color: #00c3f9;
-    border-color: #00c3f9;
-}
-.btn-primary:hover {
-    background-color: #007fbf;
-}
-.form-control {
-    border: 1px solid #00c3f9;
-    border-radius: 0.5rem;
-}
-.form-range {
-    accent-color: #00c3f9;
-}
-.preview-item img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 0.5rem;
-    margin-bottom: 0.5rem;
-}
-.preview-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 0.5rem;
-    background-color: #e7f7fd;
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-}
-.card-section {
-    display: none;
-    background-color: #e7f7fd;
-    padding: 1rem;
-    border-radius: 0.5rem;
-}
-.toggle-switch input[type="checkbox"] {
-    display: none;
-}
-.toggle-switch .slider {
-    position: relative;
-    width: 34px;
-    height: 20px;
-    background-color: #ccc;
-    border-radius: 34px;
-    cursor: pointer;
-    transition: 0.4s;
-}
-.toggle-switch input:checked + .slider {
-    background-color: #00c3f9;
-}
-.toggle-switch .slider:before {
-    position: absolute;
-    content: '';
-    height: 12px;
-    width: 12px;
-    left: 4px;
-    bottom: 4px;
+
+/* Main Content */
+.main-content {
     background-color: white;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 2rem;
+}
+
+/* Form Elements */
+.form-slider {
+    -webkit-appearance: none;
+    width: 100%;
+    max-width: 400px;
+    height: 40px; /* Increased height */
+    border-radius: 500px;
+    background-color: #ddd;
+    margin: 24px 0 16px;
+    outline: none;
+    position: relative;
+    transition: box-shadow 0.2s ease-in-out;
+    overflow: hidden;
+}
+
+.form-slider::-webkit-slider-runnable-track {
+    height: 40px;
+    -webkit-appearance: none;
+    background: #ddd;
+    border-radius: 500px;
+    transition: box-shadow 0.2s ease-in-out;
+}
+
+/* WebKit browsers (Chrome, Safari) thumb styling */
+.form-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 40px; /* Larger thumb */
+    height: 40px;
+    cursor: ew-resize;
+    background-color: #fff;
     border-radius: 50%;
-    transition: 0.4s;
+    box-shadow: -340px 0 0 320px #1597ff, inset 0 0 0 40px #1597ff;
+    transition: box-shadow 0.2s ease-in-out;
+    position: relative;
 }
-.toggle-switch input:checked + .slider:before {
-    transform: translateX(14px);
+
+.form-slider:active::-webkit-slider-thumb {
+    background-color: #fff;
+    box-shadow: -340px 0 0 320px #1597ff, inset 0 0 0 3px #1597ff;
 }
-.footer {
-    background-color: #333;
-    color: white;
-    padding: 1rem;
+
+/* Firefox slider thumb styling */
+.form-slider::-moz-range-thumb {
+    width: 40px;
+    height: 40px;
+    background-color: #fff;
+    cursor: ew-resize;
+    border-radius: 50%;
+    box-shadow: -340px 0 0 320px #1597ff, inset 0 0 0 40px #1597ff;
+}
+
+/* Active state for Firefox */
+.form-slider:active::-moz-range-thumb {
+    background-color: #fff;
+    box-shadow: -340px 0 0 320px #1597ff, inset 0 0 0 3px #1597ff;
+}
+
+/* Styling for label */
+.form-label {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    display: block;
+    margin-bottom: 10px;
     text-align: center;
 }
-.file-output a {
-    color: #00c3f9;
-    text-decoration: none;
-}
-input:checked + .slider {
-    background-color: #00bcd4;
-}
-input:checked + .slider:before {
-    transform: translateX(26px);
-}
-.droparea.dragging {
-border: 2px dashed #007bff;
-background-color: #f8f9fa;
+
+/* Container for the slider */
+.slider-container {
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
 }
 
- /* Disabled style */
-.disabled {
-    pointer-events: none;
-    opacity: 0.6;
-}
 
-/* Style for the drop area container */
+/* Drop Area */
 .droparea {
     position: relative;
     width: 100%;
-    height: 200px;    /* Set a fixed height */
-    border: 2px dashed #007bff;
+    height: 200px; /* Set a fixed height */
+    border: 2px dashed #ccc;
     border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden; /* Hide overflow */
     background-color: #f8f9fa;
     padding: 10px;
+    overflow: hidden;
 }
 
-/* Style for the folder icon */
+.droparea.dragging {
+    border-color: #007bff;
+    background-color: #f8f9fa;
+}
+
 #folderIcon {
     font-size: 48px;
     color: #007bff;
     display: block;
 }
 
-/* Style for the input label */
 label[for="fileInput"] {
     position: absolute;
     bottom: 10px;
@@ -148,12 +161,11 @@ label[for="fileInput"] {
     z-index: 10;
 }
 
-/* Style for the file input */
 #fileInput {
-    display: none; /* Keep the input hidden */
+    display: none;
 }
 
-/* Style for the preview container */
+/* File Preview */
 .preview-container {
     display: flex;
     flex-wrap: wrap;
@@ -162,10 +174,8 @@ label[for="fileInput"] {
     max-width: 100%;
     max-height: 100%;
     overflow-y: auto;
-    overflow-x: hidden;
 }
 
-/* Style for individual preview items */
 .preview-item {
     position: relative;
     margin: 5px;
@@ -179,14 +189,12 @@ label[for="fileInput"] {
     justify-content: center;
 }
 
-/* Image inside the preview container */
 .preview-item img {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
 }
 
-/* Cancel button inside the preview item */
 .preview-item button {
     position: absolute;
     top: 5px;
@@ -200,11 +208,70 @@ label[for="fileInput"] {
     font-size: 12px;
     cursor: pointer;
 }
-
-.redact-header{
-    font-size: 70px;
+/* Toggle Switch */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px; /* Updated width */
+    height: 30px; /* Updated height */
 }
 
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #ccc;
+    transition: .4s;
+    border-radius: 15px; /* Updated for new size */
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 24px; /* Updated for new size */
+    width: 24px; /* Updated for new size */
+    border-radius: 50%;
+    left: 3px; /* Adjusted for new size */
+    bottom: 3px; /* Adjusted for new size */
+    background: white;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background: #29ACC9;
+}
+
+input:checked + .slider:before {
+    transform: translateX(20px); /* Adjusted for new size */
+}
+
+/* Optional: Rounded slider */
+.slider.round {
+    border-radius: 30px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+
+/* Toggle Container */
+.toggle-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+
+/* Card Section */
 .card-section {
     display: none;
     margin-top: 20px;
@@ -223,4 +290,45 @@ label[for="fileInput"] {
 
 .card-content {
     font-size: 1rem;
+}
+
+/* Disabled State */
+.disabled {
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+/* Header Redact */
+.redact-header {
+    font-size: 2rem; /* Updated font size */
+}
+
+.header-desc {
+    font-size: 1rem; /* Smaller font size */
+}
+
+.info-icon {
+    font-size: 14px;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.info-popup {
+    display: none;
+    position: absolute;
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 1000;
+    max-width: 200px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.info-icon:hover + .info-popup {
+    display: block;
+}
+
+.modal-content {
+    padding: 20px;
 }

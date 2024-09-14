@@ -2,6 +2,7 @@ import os
 from django.shortcuts import render
 from django.http import JsonResponse
 from .services.model_service import TextRedactionService, ImageRedactionService
+from .services.guardrails import guardrail_capitalized_words,guardrail_proper_nouns,guardrail_proper_nouns_list
 from django.conf import settings
 from django.utils.text import slugify
 from django.core.files.storage import default_storage
@@ -47,11 +48,13 @@ def index(request):
             'files': request.FILES.getlist('files'),
             'rangeInput': request.POST.get('rangeInput'),
             'wordsTextarea': request.POST.get('wordsTextarea'),
+            'guardrails': request.POST.get('guardrails') #guardrail value,
         }
 
         print("Form Data Received:")
         print(form_data)
-
+        print("check if guardrail returned")
+        print(form_data['guardrails'])
         degree = int(form_data.get('rangeInput'))
         if degree >= 2:
             degree = 2

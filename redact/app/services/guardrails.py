@@ -114,8 +114,8 @@ def redact_personal_info(text):
     
     return redacted_text
 
-# Process redaction
-output_text = redact_personal_info(input_text)
+# # Process redaction
+# output_text = redact_personal_info(input_text)
 
-# Print the redacted text
-print(output_text)
+# # Print the redacted text
+# print(output_text)

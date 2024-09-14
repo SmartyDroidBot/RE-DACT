@@ -1,16 +1,10 @@
 /* General Styles */
 body {
     font-family: 'Epilogue', sans-serif;
-    background-color: #f0f8ff;
     margin: 0;
     padding: 0;
 }
 
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 2rem;
-}
 
 /* Navbar */
 .navbar-brand {
@@ -20,17 +14,14 @@ body {
     width: 100%;
 }
 
-.navbar{
-    background-color: gray;
-}
-
 /* Header */
 
 
 header{
     padding-top: 50px;
     padding-bottom: 50px;
-    background-color: #DFFDFF;
+    color: white;
+    background-color: rgba(33, 37, 41, 1);
 }
 
 header h1 {
@@ -40,8 +31,13 @@ header h1 {
 
 header p {
     font-size: 1.2rem;
-    color: #666;
+    color: white;
 }
+
+textarea::placeholder {
+    color: white;
+}
+
 
 /* Main Content */
 .main-content {
@@ -52,64 +48,6 @@ header p {
     margin-top: 2rem;
 }
 
-/* Form Elements */
-.form-slider {
-    -webkit-appearance: none;
-    width: 100%;
-    max-width: 400px;
-    height: 40px; /* Increased height */
-    border-radius: 500px;
-    background-color: #ddd;
-    margin: 24px 0 16px;
-    outline: none;
-    position: relative;
-    transition: box-shadow 0.2s ease-in-out;
-    overflow: hidden;
-}
-
-.form-slider::-webkit-slider-runnable-track {
-    height: 40px;
-    -webkit-appearance: none;
-    background: #ddd;
-    border-radius: 500px;
-    transition: box-shadow 0.2s ease-in-out;
-}
-
-/* WebKit browsers (Chrome, Safari) thumb styling */
-.form-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 40px; /* Larger thumb */
-    height: 40px;
-    cursor: ew-resize;
-    background-color: #fff;
-    border-radius: 50%;
-    box-shadow: -340px 0 0 320px #1597ff, inset 0 0 0 40px #1597ff;
-    transition: box-shadow 0.2s ease-in-out;
-    position: relative;
-}
-
-.form-slider:active::-webkit-slider-thumb {
-    background-color: #fff;
-    box-shadow: -340px 0 0 320px #1597ff, inset 0 0 0 3px #1597ff;
-}
-
-/* Firefox slider thumb styling */
-.form-slider::-moz-range-thumb {
-    width: 40px;
-    height: 40px;
-    background-color: #fff;
-    cursor: ew-resize;
-    border-radius: 50%;
-    box-shadow: -340px 0 0 320px #1597ff, inset 0 0 0 40px #1597ff;
-}
-
-/* Active state for Firefox */
-.form-slider:active::-moz-range-thumb {
-    background-color: #fff;
-    box-shadow: -340px 0 0 320px #1597ff, inset 0 0 0 3px #1597ff;
-}
-
-/* Styling for label */
 .form-label {
     font-size: 18px;
     font-weight: bold;
@@ -119,12 +57,80 @@ header p {
     text-align: center;
 }
 
+.range-slider {
+    position: relative;
+    margin-top: 30vh; /* Adjust as needed */
+    width: 600px; /* Ensure width matches slider width */
+    margin: 0 auto; /* Center the slider container */
+}
+
+.rs-range {
+    width: 100%;
+    -webkit-appearance: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.rs-range:focus {
+    outline: none;
+}
+
+.rs-range::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 2px; /* Adjust height as needed */
+    background: #ffffff;
+}
+
+.rs-range::-moz-range-track {
+    width: 100%;
+    height: 2px; /* Adjust height as needed */
+    background: #ffffff;
+}
+
+.rs-range::-webkit-slider-thumb {
+    box-shadow: none;
+    border: 0;
+    height: 42px;
+    width: 22px;
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 1);
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -20px;
+}
+
+.rs-range::-moz-range-thumb {
+    box-shadow: none;
+    border: 0;
+    height: 42px;
+    width: 22px;
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 1);
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -20px;
+}
+
+
 /* Container for the slider */
 .slider-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    width: 100%;
-    max-width: 400px;
 }
+
+.range-slider {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px; /* Adjust margin as needed */
+}
+
+.rs-range {
+    width: 80%; /* Adjust width as needed */
+}
+
 
 
 /* Drop Area */
@@ -272,6 +278,11 @@ input:checked + .slider:before {
 }
 
 /* Card Section */
+
+.card{
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
 .card-section {
     display: none;
     margin-top: 20px;

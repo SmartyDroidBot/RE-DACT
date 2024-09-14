@@ -63,7 +63,7 @@ class TextRedactionService:
         redacted_text_from_agent = text_redaction_chats.chat_history[-1]['content']
 
         # Guardrails are called only for last degree
-        if self.degree == 2:        
+        if self.degree == 2:
             redacted_text_no_proper_nouns = guardrail_proper_nouns(redacted_text_from_agent)
             redacted_text_no_capitalized_words = guardrail_capitalized_words(redacted_text_no_proper_nouns)
             redacted_text = redacted_text_no_capitalized_words

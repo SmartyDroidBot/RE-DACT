@@ -48,14 +48,13 @@ def index(request):
             'files': request.FILES.getlist('files'),
             'rangeInput': request.POST.get('rangeInput'),
             'wordsTextarea': request.POST.get('wordsTextarea'),
-            'guardrails': request.POST.get('guardrails') #guardrail value,
+            'guardrails': request.POST.get('guardrails')
         }
 
         print("Form Data Received:")
         print(form_data)
-        #guardrail value return check
-        print("check if guardrail returned")
-        print(form_data['guardrails']) #acessing guardrail value
+        
+        guardrail_toggle = int(form_data['guardrails'])
         degree = int(form_data.get('rangeInput'))
         if degree >= 2:
             degree = 2
@@ -66,12 +65,11 @@ def index(request):
                     # Redacts text files
                     file_text = handle_uploaded_file(file)
 
-                    service = TextRedactionService(degree)
-                    redacted_text, agents_speech = service.redact_text(file_text)
+                    if degree >= 2:
+                        degree = 2
 
-                    #guardrail for degree 3 and above
-                    if degree >= 3:
-                        guardrail = form_data['guardrails']
+                    service = TextRedactionService(degree, guardrail_toggle)
+                    redacted_text, agents_speech = service.redact_text(file_text)
 
                     redacted_text = re.sub(r'\*(.*?)\*', lambda match: '█' * len(match.group(1)), redacted_text)
                     redacted_file_url = save_redacted_file(redacted_text, file.name)
@@ -81,15 +79,12 @@ def index(request):
                     # Redacts images
                     image_url = os.path.join(settings.BASE_DIR, 'media', 'uploads', save_image_file(file))
                     print(image_url)
+
                     # Temporary degree check
-                    if degree >=1:
+                    if degree >= 1:
                         degree = 1
 
-                    # guardrail for degree 2 and above
-                    if degree >= 2:
-                        guardrail = form_data['guardrails']
-
-                    service = ImageRedactionService(degree)
+                    service = ImageRedactionService(degree, )
                     redacted_image_url, agents_speech = service.redact_image(image_url)
 
                     return render(request, 'index.html', {'redacted_file_url': redacted_image_url, 'agents_speech': agents_speech})

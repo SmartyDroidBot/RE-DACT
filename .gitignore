@@ -81,6 +81,8 @@ target/
 .ipynb_checkpoints
 Notebooks/test files/*
 Notebooks/test files
+Notebooks/video.ipynb
+Notebooks/*.mp4
 
 # IPython
 profile_default/

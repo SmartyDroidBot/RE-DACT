@@ -114,14 +114,6 @@ def redact_personal_info(text):
     
     return redacted_text
 
-# Example Usage
-input_text = """
-The meeting between Alice Johnson and Bob Williams took place on September 3, 2024. 
-They discussed the upcoming merger between TechCorp and Innovate Inc. Alice mentioned her email alice@example.com and Bob provided his phone number 123-456-7890. 
-Alice's SSN is 123-45-6789 and she lives at Elm Street.
-Confidential info: Alice's ethnicity is Caucasian. djffhoewjajsf  hgd eafihuesifuwneufh euiryrehcjvnoifdh 73478 ;,g./g'];d;
-"""
-
 # Process redaction
 output_text = redact_personal_info(input_text)
 

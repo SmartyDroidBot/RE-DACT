@@ -84,14 +84,13 @@ def index(request):
                     if degree >= 1:
                         degree = 1
 
-                    service = ImageRedactionService(degree, )
+                    service = ImageRedactionService(degree, guardrail_toggle)
                     redacted_image_url, agents_speech = service.redact_image(image_url)
 
                     return render(request, 'index.html', {'redacted_file_url': redacted_image_url, 'agents_speech': agents_speech})
 
         elif form_data.get('wordsTextarea'):
             # Redacts text from textarea
-            #guardrail for degree 3 and above
             if degree >= 3:
                 degree = 2
             user_text = form_data['wordsTextarea']

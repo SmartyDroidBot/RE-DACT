@@ -84,7 +84,7 @@ class TextRedactionService:
             agent_speech.append('<h4>' + 'guardrail: redacting phones, emails, and dates' + '</h4>')
             agent_speech.append('<p>' + redacted_text_no_phonesEmailsDates + '</p>')
         else:
-            redacted_text = redacted_text_from_agent            
+            redacted_text = redacted_text_from_agent     
 
         return redacted_text, agent_speech
 

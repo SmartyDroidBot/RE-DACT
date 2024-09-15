@@ -1,6 +1,17 @@
 # Project Setup Guide
 
-## 1. Run the install script with the following command
+## 1. Download and Install Ollama
+
+First, download and install Ollama from https://ollama.com/download.
+Once installed, open your command line and run the following command to pull the latest LLaMA model and start Ollama:
+
+```sh
+ollama pull llama3.1
+ollama run llama3.1
+```
+
+
+## 2. Run the Install Script
 
 To avoid conflicts with other projects, this script creates a virtual environment for this project.
 
@@ -14,32 +25,11 @@ To avoid conflicts with other projects, this script creates a virtual environmen
 ./install.sh
 ```
 
-
-## 2. Install and Run Ollama
-
-### Step 1: Install Ollama
-
-To install Ollama, use the following command:
-
-```sh
-pip install ollama
-```
-
-### Step 2: Run Ollama
-
-After installation, you can start Ollama by running:
-
-```sh
-ollama
-```
-
-For detailed setup instructions, visit the [Ollama website](https://www.ollama.com).
-
 ## 3. Run the app
 
 To run the server, use the following command:
 
 ```sh
-python manage.py runserver
+python manage.py runserver <port>
 ```
 

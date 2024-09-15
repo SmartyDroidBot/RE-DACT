@@ -36,3 +36,11 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 echo "Migrations created successfully."
+
+echo "--- Step 5: Installing Ollama ---"
+pip install ollama
+if [ $? -ne 0 ]; then
+    echo "Failed to install Ollama."
+    exit 1
+fi
+echo "Ollama installed successfully."

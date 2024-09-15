@@ -35,3 +35,11 @@ if %errorlevel% neq 0 (
     exit /b %errorlevel%
 )
 echo Migrations created successfully.
+
+echo --- Step 5: Installing Ollama ---
+pip install ollama
+if %errorlevel% neq 0 (
+    echo Failed to install Ollama.
+    exit /b %errorlevel%
+)
+echo Ollama installed successfully.

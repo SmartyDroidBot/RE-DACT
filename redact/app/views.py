@@ -93,9 +93,9 @@ def index(request):
             # Redacts text from textarea
             #guardrail for degree 3 and above
             if degree >= 3:
-                guardrail = form_data['guardrails']
+                degree = 2
             user_text = form_data['wordsTextarea']
-            service = TextRedactionService(degree)
+            service = TextRedactionService(degree, guardrail_toggle)
             redacted_text, agents_speech = service.redact_text(user_text)
 
             redacted_text = re.sub(r'\*(.*?)\*', lambda match: '█' * len(match.group(1)), redacted_text)

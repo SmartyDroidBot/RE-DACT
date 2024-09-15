@@ -48,7 +48,7 @@ class TextRedactionService:
             agents=[self.user_proxy, self.text_assistant, self.evaluation],
             speaker_selection_method=text_redact_selection_func,
             messages=[],
-            max_round=4
+            max_round=2
         )
 
         text_redaction_manager = autogen.GroupChatManager(

@@ -13,11 +13,14 @@
         @import url('https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&display=swap');
     </style>
 </head>
+{% load static %}
 <body style="background-color: rgb(18, 22, 24);">
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light" style="background-color: rgba(33, 37, 41, 1);">
         <div class="container-fluid">
-            <a class="navbar-brand text-center w-150" href="#" style="color: white;">Re-Dact</a>
+            <a class="navbar-brand text-start w-150" href="#" style="color: white; font-size: 24px;">  <img src="{% static 'images/arrow-up.png' %}" alt="Arrow Up" style="margin-right: 4px; margin-bottom: 6px;"> Re-Dact </a>
+            <a class="navbar-brand text-end w-150" href="#" style="color: white; font-size: 18px;"> Support </a>
+
         </div>
     </nav>
 
@@ -33,7 +36,7 @@
                     <form class="form-check form-switch" action="/" method="POST">
                         {% csrf_token %}
                         <input type="hidden" name="guardrails" value="0">
-                        <input class="form-check-input" type="checkbox" id="guardrailsSwitch" name="guardrails" value="1">
+                        <input class="form-check-input" type="checkbox" id="guardrailsSwitch" name="guardrails" value="1" checked>
                         <label class="form-check-label" for="guardrailsSwitch">Turn on guardrails</label>
                         <i class="info-icon" data-bs-toggle="tooltip" data-bs-placement="right" title="Applicable to 2nd degree of image and 3rd degree of text.">i</i>
                     </form>
@@ -58,15 +61,20 @@
                     {% csrf_token %}
                     <input type="hidden" name="guardrails" id="hiddenGuardrails" value="0">
                     <div class="row mb-4">
-                        <div class="col-md-4">
+                        <div class="col-md-5">
                             <div class="mb-3 text-center">
-                                <label for="textarea" style="font-weight: bold;">Enter Text Here</label>
+                                <label for="textarea" style="font-weight: bold;">Paste Text Here</label>
                                 <textarea class="form-control text-white" name="wordsTextarea" rows="6" style="background-color: #333; height: 400px;" id="textarea"></textarea>
                             </div>
                         </div>
-
-                        <div class="col-md-8">
-                            <div class="mb-3">
+                        
+                        <div class="col-md-2 d-flex align-items-center justify-content-center">
+                            <a class="navbar-brand text-center" style="color: white; font-size: 24px;">OR</a>
+                        </div>
+                        
+                        <div class="col-md-5">
+                            <div class="mb-3 text-center">
+                                <label for="droparea" style="font-weight: bold;">Drop File Here</label>
                                 <br>
                                 <div class="droparea" id="dropArea" style="background-color: #333; height: 400px;">
                                     <i class="fa-solid fa-folder-plus" id="folderIcon" style="font-size: 3rem; color: #fff;"></i>
@@ -85,6 +93,26 @@
                                 <br>
                                 <div class="range-slider">
                                     <input type="range" class="rs-range" name="rangeInput" id="rs-range-line" min="0" max="2" value="0">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex justify-content-between">
+                                <div style="padding-top: 10px;">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" name="syntheticData">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <br><br>
+                                    <span style="color: white; font-weight: bold;">Add synthetic data</span>
+                                </div>
+                                <div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" name="showProcess" id="toggleCard">
+                                        <span class="slider round"></span>
+                                    </label>
+                                    <br><br>
+                                    <span style="color: white; font-weight: bold;">See how we did it!</span>
                                 </div>
                             </div>
                         </div>
@@ -127,7 +155,7 @@
             </div>
 
             <!-- Toggle Switches -->
-            <div class="row mt-4">
+            <!-- <div class="row mt-4">
                 <div class="col-12">
                     <div class="d-flex justify-content-between">
                         <div style="padding-top: 10px;">
@@ -148,7 +176,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <!-- Card Section for Process Overview -->
             <div class="row mt-4">

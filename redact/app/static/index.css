@@ -190,7 +190,11 @@ textarea::placeholder {
 }
 
 
-/* Container for the slider */
+.parent-div {
+    display: flex;
+    justify-content: flex-start;
+}
+
 .slider-container {
     display: flex;
     flex-direction: column;

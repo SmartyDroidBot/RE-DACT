@@ -1,141 +1,184 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Re-Dact</title>
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="../static/Index.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/flat-ui/2.3.0/css/flat-ui.min.css" rel="stylesheet"/>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&display=swap');
-    </style>
-</head>
-{% load static %}
-<body style="background-color: rgb(18, 22, 24);">
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg" style="margin-bottom: 0px;">
-        <div class="container-fluid" style="padding-top: 12px;">
-            <a class="navbar-brand text-start w-150" href="#" style="color: white; font-size: 24px;">  <img src="{% static 'images/arrow-up.png' %}" alt="Arrow Up" style="margin-right: 4px; margin-bottom: 6px;"> Re-Dact </a>
-            <a class="navbar-brand text-end w-150" href="#" style="color: white; font-size: 24px;"> Support </a>
-        </div>
-    </nav>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Re-Dact</title>
+        <!-- Stylesheets -->
+        <link rel="stylesheet" href="../static/Index.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+            integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/flat-ui/2.3.0/css/flat-ui.min.css" rel="stylesheet" />
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+            crossorigin="anonymous"
+        />
+        <style>
+            @import url("https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&display=swap");
+        </style>
+    </head>
+    {% load static %}
+    <body style="background-color: rgb(18, 22, 24)">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg" style="margin-bottom: 0px">
+            <div class="container-fluid" style="padding-top: 12px">
+                <a class="navbar-brand text-start w-150" href="#" style="color: white; font-size: 24px">
+                    <img src="{% static 'images/arrow-up.png' %}" alt="Arrow Up" style="margin-right: 4px; margin-bottom: 6px" /> Re-Dact
+                </a>
+                <a class="navbar-brand text-end w-150" href="#" style="color: white; font-size: 24px"> Support </a>
+            </div>
+        </nav>
 
-    <!-- Modal -->
-    <div class="modal fade" id="advancedOptionsModal" tabindex="-1" aria-labelledby="advancedOptionsModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="advancedOptionsModalLabel">Advanced Options</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form class="form-check form-switch" action="/" method="POST">
-                        {% csrf_token %}
-                        <input type="hidden" name="guardrails" value="0">
-                        <input class="form-check-input" type="checkbox" id="guardrailsSwitch" name="guardrails" value="1" checked>
-                        <label class="form-check-label" for="guardrailsSwitch">Turn on guardrails</label>
-                        <i class="info-icon" data-bs-toggle="tooltip" data-bs-placement="right" title="Applicable to 2nd degree of image and 3rd degree of text.">i</i>
-                    </form>
+        <!-- Modal -->
+        <div class="modal fade" id="advancedOptionsModal" tabindex="-1" aria-labelledby="advancedOptionsModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="advancedOptionsModalLabel">Advanced Options</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-check form-switch" action="/" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="guardrails" value="0" />
+                            <input class="form-check-input" type="checkbox" id="guardrailsSwitch" name="guardrails" value="1" checked />
+                            <label class="form-check-label" for="guardrailsSwitch">Turn on guardrails</label>
+                            <i
+                                class="info-icon"
+                                data-bs-toggle="tooltip"
+                                data-bs-placement="right"
+                                title="Applicable to 2nd degree of image and 3rd degree of text."
+                                >i</i
+                            >
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="text-center">
-        <header>
-            <!-- Header -->
+        <div class="text-center">
+            <header>
+                <!-- Header -->
                 <h1>An AI-powered redaction tool that offers complete control with ease</h1>
                 <p>With customizable redaction levels and support for text, images, and videos, see how our tool can enhance your data security.</p>
-        </header>
-    </div>
+            </header>
+        </div>
 
-    <div class="main-container">
-        <div class="container">
-            <!-- Main Content -->
-                <div class="card dark-card text-white p-4 mx-auto" style="max-width: 1200px;">
+        <div class="main-container">
+            <div class="container">
+                <!-- Main Content -->
+                <div class="card dark-card text-white p-4 mx-auto" style="max-width: 1200px">
                     <form id="submissionForm" method="post" enctype="multipart/form-data" action="/">
                         {% csrf_token %}
-                        <input type="hidden" name="guardrails" id="hiddenGuardrails" value="0">
+                        <input type="hidden" name="guardrails" id="hiddenGuardrails" value="0" />
                         <div class="row mb-4">
                             <div class="col-md-5">
                                 <div class="mb-3 text-center">
-                                    <label for="textarea" style="font-weight: bold;">Paste Text Here</label>
-                                    <textarea class="form-control text-white darkgradient-1" name="wordsTextarea" rows="6" style="height: 400px;" id="textarea"></textarea>
+                                    <label for="textarea" style="font-weight: bold">Paste Text Here</label>
+                                    <textarea
+                                        class="form-control text-white darkgradient-1"
+                                        name="wordsTextarea"
+                                        rows="6"
+                                        style="height: 400px"
+                                        id="textarea"
+                                    ></textarea>
                                 </div>
                             </div>
-                            
+
                             <div class="col-md-2 d-flex align-items-center justify-content-center">
-                                <a class="navbar-brand text-center" style="color: white; font-size: 24px;">OR</a>
+                                <a class="navbar-brand text-center" style="color: white; font-size: 24px">OR</a>
                             </div>
-                            
+
                             <div class="col-md-5">
                                 <div class="mb-3 text-center">
-                                    <label for="droparea" style="font-weight: bold;">Drop File Here</label>
-                                    <br>
-                                    <div class="droparea darkgradient-2" id="dropArea" style="height: 400px;">
-                                        <i class="fa-solid fa-folder-plus" id="folderIcon" style="font-size: 3rem; color: #fff;"></i>
+                                    <label for="droparea" style="font-weight: bold">Drop File Here</label>
+                                    <br />
+                                    <div class="droparea darkgradient-2" id="dropArea" style="height: 400px">
+                                        <i class="fa-solid fa-folder-plus" id="folderIcon" style="font-size: 3rem; color: #fff"></i>
                                         <div class="preview-container" id="previewContainer"></div>
-                                        <input type="file" name="files" id="fileInput" multiple accept=".png, .jpg, .jpeg, .pdf, .txt" style="display: none;">
+                                        <input type="file" name="files" id="fileInput" multiple accept=".png, .jpg, .jpeg, .pdf, .txt" style="display: none" />
                                         <label for="fileInput" class="btn btn-outline-light">Select a file or drag and drop here</label>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
+                        
+                        <br />
+                        <br />
+                        
                         <div class="row">
-                            <div class="col-md-12 text-center mb-4">
+                            <!-- Row 1 -->
+                            <div class="col-md-4 mb-3 d-flex align-items-center">
+                                <!-- Slider on the left -->
                                 <div class="slider-container">
-                                    <label for="rs-range-line" class="form-label" style="color: white;">Choose level of redaction</label>
-                                    <br>
-                                    <div class="range-slider">
-                                        <input type="range" class="rs-range" name="rangeInput" id="rs-range-line" min="0" max="2" value="0">
+                                    <label for="rs-range-line" class="form-label" style="color: white">Choose level of redaction</label>
+                                    <div class="range-slider" style="width: 370px;">
+                                        <input type="range" class="rs-range" name="rangeInput" id="rs-range-line" min="0" max="2" value="0" />
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-12 d-flex justify-content-between align-items-center" style="padding-top: 10px;">
-                                <!-- Left Toggle: Add synthetic data -->
+
+                            
+
+                            <div class="col-md-5 mt-3 mb-4 d-flex justify-content-center align-items-center">
+                                <!-- Center Toggle: Add synthetic data -->
                                 <div class="d-flex align-items-center">
+                                    <span style="color: white; font-weight: bold; ">Synthetic Data Addition</span>
                                     <label class="toggle-switch me-2">
-                                        <input type="checkbox" name="syntheticData">
+                                        <input type="checkbox" name="syntheticData" />
                                         <span class="slider"></span>
                                     </label>
-                                    <span style="color: white; font-weight: bold; margin-left: 10px;">Add synthetic data</span>
                                 </div>
-                            
-                                <!-- Center Buttons: Submit File and Advanced Settings -->
-                                <div>
-                                    <button type="submit" class="btn btn-outline-light btn-lg me-3">SUBMIT FILE</button>
-                                    <button class="btn btn-outline-light btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#advancedOptionsModal">
-                                        Advanced Settings
-                                    </button>
-                                </div>
-                            
-                                <!-- Right Toggle: See how we did it! -->
-                                <div class="d-flex align-items-center">
-                                    <span style="color: white; font-weight: bold; margin-right: 10px;">See how we did it!</span>
+                                <div class="d-flex align-items-center" style="margin-left: 20px;">
+                                    <span style="color: white; font-weight: bold; margin-left: 20px">Processing Overview</span>
                                     <label class="toggle-switch ms-2">
-                                        <input type="checkbox" name="showProcess" id="toggleCard">
+                                        <input type="checkbox" name="showProcess" id="toggleCard" />
                                         <span class="slider round"></span>
                                     </label>
                                 </div>
                             </div>
-                            
+
+                            <div class="col-md-3 mt-3 mb-4 d-flex align-items-center justify-content-center">
+                                <!-- Right Buttons: Advanced Settings and Toggle -->
+                                <button class="btn btn-outline-light btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#advancedOptionsModal">
+                                    Advanced Options
+                                </button>
+                            </div>
+                        
+                        <!-- Row 2: Center Submit Button -->
+                        <div class="row mt-4">
+                            <div class="col-md-12 d-flex justify-content-center">
+                                <button type="submit" class="btn btn-secondary btn-lgg" style="font-size: 1.5rem; padding: 0.5rem 2rem;">REDACT</button>
+                            </div>
                         </div>
                     </form>
                 </div>
-            
+
                 <!-- Output Section -->
-                <br>
+                <br />
                 {% if redacted_text or redacted_file_url %}
-                <div class="card dark-card text-white p-4 mx-auto d-flex justify-content-center align-items-center" style="max-width: 1200px;">
-                    <div class="col-12 text-center" style="padding: 20px;">
+                <div class="card dark-card text-white p-4 mx-auto d-flex justify-content-center align-items-center" style="max-width: 1200px">
+                    <div class="col-12 text-center" style="padding: 20px">
                         <div class="mb-3">
                             <h1 class="redact-header">View the Output</h1>
-                            <br>
-                            <textarea class="form-control text-white darkgradient-3 w-100" rows="3" placeholder="Output text will appear here" readonly style="background-color: #333; height: 200px;" id="output">{{ redacted_text }}</textarea>
+                            <br />
+                            <textarea
+                                class="form-control text-white darkgradient-3 w-100"
+                                rows="3"
+                                placeholder="Output text will appear here"
+                                readonly
+                                style="background-color: #333; height: 200px"
+                                id="output"
+                            >
+{{ redacted_text }}</textarea
+                            >
                         </div>
                     </div>
                     {% if redacted_file_url %}
@@ -153,223 +196,230 @@
                     {% endif %}
                 </div>
                 {% endif %}
-        </div>
+            </div>
 
-        <!-- Card Section for Process Overview -->
-        <div class="row mt-4">
-            <div class="col-12">
-                <div id="cardSection" class="card-section" style="display: none;">
-                    <div class="card-header">See how we did it:</div>
-                    <div class="card-content">
-                        {% for speech in agents_speech %}
-                            {{ speech | safe }}
-                        {% endfor %}
+            <!-- Card Section for Process Overview -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div id="cardSection" class="card-section" style="display: none">
+                        <div class="card-header">See how we did it:</div>
+                        <div class="card-content">{% for speech in agents_speech %} {{ speech | safe }} {% endfor %}</div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="text-container">
-        <div class="oval-card">
-            <div class="header-row">
-                <h1 class="redact-header" style="letter-spacing: 1px;">Our commitment to Ethical AI</h1>
-                <i class="fa-solid fa-wand-magic-sparkles fa-2x" style="color: black;"></i>
+        <div class="text-container">
+            <div class="oval-card">
+                <div class="header-row">
+                    <h1 class="redact-header" style="letter-spacing: 1px">Our commitment to Ethical AI</h1>
+                    <i class="fa-solid fa-wand-magic-sparkles fa-2x" style="color: black"></i>
+                </div>
+                <p class="header-desc" style="max-width: 1200px; font-size: 1.1rem; line-height: 1.6">
+                    We proudly follow Microsoft's six major Responsible AI principles, ensuring that our redaction tool is built and operated with fairness,
+                    reliability, privacy, inclusiveness, transparency, and accountability at its core. These principles guide our development to provide a safe,
+                    ethical, and trustworthy experience for all users.
+                </p>
+                <p class="header-desc" style="max-width: 1200px; font-size: 1.1rem; line-height: 1.6">
+                    By integrating responsible AI practices into every aspect of development, we prioritize ethical decision-making at every stage. By using
+                    Ollama, Microsoft Autogen, and Azure AI, we ensure that our redaction tool not only delivers high accuracy and efficiency but also adheres
+                    to stringent data privacy and security standards. This commitment is backed by industry-leading AI frameworks, helping us minimize bias,
+                    maintain transparency, and ensure accountability in every redaction process.
+                </p>
             </div>
-            <p class="header-desc" style="max-width: 1200px; font-size: 1.1rem; line-height: 1.6;">
-                We proudly follow Microsoft's six major Responsible AI principles, ensuring that our redaction tool is built and operated with fairness, reliability, privacy, inclusiveness, transparency, and accountability at its core. These principles guide our development to provide a safe, ethical, and trustworthy experience for all users.
-            </p>
-            <p class="header-desc" style="max-width: 1200px; font-size: 1.1rem; line-height: 1.6;">
-                By integrating responsible AI practices into every aspect of development, we prioritize ethical decision-making at every stage. By using Ollama, Microsoft Autogen, and Azure AI, we ensure that our redaction tool not only delivers high accuracy and efficiency but also adheres to stringent data privacy and security standards. This commitment is backed by industry-leading AI frameworks, helping us minimize bias, maintain transparency, and ensure accountability in every redaction process.
-            </p>
+
+            <br /><br />
+
+            <div class="oval-card">
+                <div class="header-row">
+                    <h1 class="redact-header" style="letter-spacing: 1px">About Us</h1>
+                    <i class="fa-solid fa-pen-nib fa-2x" style="color: black"></i>
+                </div>
+                <p class="header-desc" style="max-width: 1200px; font-size: 1.1rem; line-height: 1.6">
+                    At Redact, we are dedicated to providing cutting-edge solutions for secure and seamless data redaction. Our mission is to simplify the
+                    process of safeguarding sensitive information, ensuring confidentiality while maintaining transparency where it matters. Whether you're
+                    handling personal data or confidential documents, our intuitive redaction tool, equipped with a gradation slider for precise control, allows
+                    users to customize the level of redaction for optimal results. With a focus on innovation and user experience, we strive to empower
+                    individuals and organizations to protect their data with confidence.
+                </p>
+            </div>
         </div>
 
-        <br><br>
+        <br /><br />
 
-        <div class="oval-card">
-            <div class="header-row">
-                <h1 class="redact-header" style="letter-spacing: 1px;">About Us</h1>
-                <i class="fa-solid fa-pen-nib fa-2x" style="color: black;"></i>
-            </div>
-            <p class="header-desc" style="max-width: 1200px; font-size: 1.1rem; line-height: 1.6;">
-                At Redact, we are dedicated to providing cutting-edge solutions for secure and seamless data redaction. Our mission is to simplify the process of safeguarding sensitive information, ensuring confidentiality while maintaining transparency where it matters. Whether you're handling personal data or confidential documents, our intuitive redaction tool, equipped with a gradation slider for precise control, allows users to customize the level of redaction for optimal results. With a focus on innovation and user experience, we strive to empower individuals and organizations to protect their data with confidence.
-            </p>
-        </div>
-    </div>
-         
+        <!-- Scripts -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"
+        ></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const fileInput = document.getElementById("fileInput");
+                const previewContainer = document.getElementById("previewContainer");
+                const folderIcon = document.getElementById("folderIcon");
+                let existingFiles = []; // Store existing files
 
-    <br><br>
+                fileInput.addEventListener("change", handleFiles);
 
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script>
-
-        document.addEventListener('DOMContentLoaded', function () {
-            const fileInput = document.getElementById('fileInput');
-            const previewContainer = document.getElementById('previewContainer');
-            const folderIcon = document.getElementById('folderIcon');
-            let existingFiles = []; // Store existing files
-
-            fileInput.addEventListener('change', handleFiles);
-
-            document.querySelector('.droparea').addEventListener('dragover', (event) => {
-                event.preventDefault();
-                event.stopPropagation();
-                document.querySelector('.droparea').classList.add('drag-over');
-            });
-
-            document.querySelector('.droparea').addEventListener('dragleave', (event) => {
-                event.preventDefault();
-                event.stopPropagation();
-                document.querySelector('.droparea').classList.remove('drag-over');
-            });
-
-            document.querySelector('.droparea').addEventListener('drop', (event) => {
-                event.preventDefault();
-                event.stopPropagation();
-                document.querySelector('.droparea').classList.remove('drag-over');
-                fileInput.files = event.dataTransfer.files;
-                handleFiles();
-            });
-
-            function handleFiles() {
-                const newFiles = Array.from(fileInput.files);
-
-                // Combine new files with existing ones and remove duplicates by name
-                const allFiles = [...existingFiles, ...newFiles];
-                const uniqueFiles = Array.from(new Set(allFiles.map(f => f.name))).map(name => {
-                    return allFiles.find(f => f.name === name);
+                document.querySelector(".droparea").addEventListener("dragover", (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    document.querySelector(".droparea").classList.add("drag-over");
                 });
 
-                existingFiles = uniqueFiles; // Update the existingFiles array
+                document.querySelector(".droparea").addEventListener("dragleave", (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    document.querySelector(".droparea").classList.remove("drag-over");
+                });
 
-                if (existingFiles.length > 0) {
-                    folderIcon.style.display = 'none'; // Hide the folder icon if files exist
-                } else {
-                    folderIcon.style.display = 'block'; // Show the folder icon if no files
+                document.querySelector(".droparea").addEventListener("drop", (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    document.querySelector(".droparea").classList.remove("drag-over");
+                    fileInput.files = event.dataTransfer.files;
+                    handleFiles();
+                });
+
+                function handleFiles() {
+                    const newFiles = Array.from(fileInput.files);
+
+                    // Combine new files with existing ones and remove duplicates by name
+                    const allFiles = [...existingFiles, ...newFiles];
+                    const uniqueFiles = Array.from(new Set(allFiles.map((f) => f.name))).map((name) => {
+                        return allFiles.find((f) => f.name === name);
+                    });
+
+                    existingFiles = uniqueFiles; // Update the existingFiles array
+
+                    if (existingFiles.length > 0) {
+                        folderIcon.style.display = "none"; // Hide the folder icon if files exist
+                    } else {
+                        folderIcon.style.display = "block"; // Show the folder icon if no files
+                    }
+
+                    renderPreviews();
                 }
 
-                renderPreviews();
-            }
+                function renderPreviews() {
+                    previewContainer.innerHTML = ""; // Clear the container to avoid duplicates
 
-            function renderPreviews() {
-                previewContainer.innerHTML = ''; // Clear the container to avoid duplicates
+                    existingFiles.forEach((file) => {
+                        const reader = new FileReader();
+                        const previewItem = document.createElement("div");
+                        previewItem.classList.add("preview-item");
 
-                existingFiles.forEach(file => {
-                    const reader = new FileReader();
-                    const previewItem = document.createElement('div');
-                    previewItem.classList.add('preview-item');
+                        const cancelButton = document.createElement("button");
+                        cancelButton.textContent = "x";
+                        cancelButton.addEventListener("click", () => removeFile(file, previewItem));
 
-                    const cancelButton = document.createElement('button');
-                    cancelButton.textContent = 'x';
-                    cancelButton.addEventListener('click', () => removeFile(file, previewItem));
-
-                    if (file.type.startsWith('image/')) {
-                        reader.onload = function(event) {
-                            const img = document.createElement('img');
-                            img.src = event.target.result;
-                            previewItem.appendChild(img);
+                        if (file.type.startsWith("image/")) {
+                            reader.onload = function (event) {
+                                const img = document.createElement("img");
+                                img.src = event.target.result;
+                                previewItem.appendChild(img);
+                                previewItem.appendChild(cancelButton);
+                                previewContainer.appendChild(previewItem);
+                            };
+                            reader.readAsDataURL(file);
+                        } else if (file.type === "application/pdf") {
+                            const div = document.createElement("div");
+                            div.textContent = `PDF: ${file.name}`;
+                            previewItem.appendChild(div);
                             previewItem.appendChild(cancelButton);
                             previewContainer.appendChild(previewItem);
-                        };
-                        reader.readAsDataURL(file);
-                    } else if (file.type === 'application/pdf') {
-                        const div = document.createElement('div');
-                        div.textContent = `PDF: ${file.name}`;
-                        previewItem.appendChild(div);
-                        previewItem.appendChild(cancelButton);
-                        previewContainer.appendChild(previewItem);
-                    } else if (file.type === 'text/plain') {
-                        const div = document.createElement('div');
-                        div.textContent = `TXT: ${file.name}`;
-                        previewItem.appendChild(div);
-                        previewItem.appendChild(cancelButton);
-                        previewContainer.appendChild(previewItem);
+                        } else if (file.type === "text/plain") {
+                            const div = document.createElement("div");
+                            div.textContent = `TXT: ${file.name}`;
+                            previewItem.appendChild(div);
+                            previewItem.appendChild(cancelButton);
+                            previewContainer.appendChild(previewItem);
+                        }
+                    });
+                }
+
+                function removeFile(fileToRemove, previewItem) {
+                    existingFiles = existingFiles.filter((file) => file !== fileToRemove);
+                    previewItem.remove();
+
+                    // Show the folder icon if no files remain
+                    if (existingFiles.length === 0) {
+                        folderIcon.style.display = "block";
+                    }
+                }
+
+                // Toggle Card Section Visibility
+                const toggle = document.getElementById("toggleCard");
+                const cardSection = document.getElementById("cardSection");
+
+                toggle.addEventListener("change", function () {
+                    if (toggle.checked) {
+                        cardSection.style.display = "block";
+                    } else {
+                        cardSection.style.display = "none";
                     }
                 });
-            }
 
-            function removeFile(fileToRemove, previewItem) {
-                existingFiles = existingFiles.filter(file => file !== fileToRemove);
-                previewItem.remove();
+                // Handle text and file input interaction
+                const textarea = document.getElementById("exampleFormControlTextarea1");
 
-                // Show the folder icon if no files remain
-                if (existingFiles.length === 0) {
-                    folderIcon.style.display = 'block';
-                }
-            }
+                textarea.addEventListener("input", function () {
+                    if (textarea.value.trim().length > 0) {
+                        fileInput.disabled = true;
+                        fileInput.parentElement.classList.add("disabled");
+                    } else {
+                        fileInput.disabled = false;
+                        fileInput.parentElement.classList.remove("disabled");
+                    }
+                });
 
-            // Toggle Card Section Visibility
-            const toggle = document.getElementById("toggleCard");
-            const cardSection = document.getElementById("cardSection");
+                fileInput.addEventListener("change", function () {
+                    if (fileInput.files.length > 0) {
+                        textarea.disabled = true;
+                    } else {
+                        textarea.disabled = false;
+                    }
+                });
 
-            toggle.addEventListener("change", function() {
-                if (toggle.checked) {
-                    cardSection.style.display = "block";
-                } else {
-                    cardSection.style.display = "none";
-                }
+                // Handle file drop
+                document.getElementById("dropArea").addEventListener("dragover", function (event) {
+                    event.preventDefault();
+                    dropArea.classList.add("dragging");
+                });
+
+                document.getElementById("dropArea").addEventListener("dragleave", function (event) {
+                    dropArea.classList.remove("dragging");
+                });
+
+                document.getElementById("dropArea").addEventListener("drop", function (event) {
+                    event.preventDefault();
+                    dropArea.classList.remove("dragging");
+
+                    const droppedFiles = event.dataTransfer.files;
+                    if (droppedFiles.length > 0) {
+                        fileInput.files = droppedFiles; // Assign dropped files to input
+                        textarea.disabled = true; // Disable textarea if files are dropped
+                    }
+                });
+            });
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
             });
 
-            // Handle text and file input interaction
-            const textarea = document.getElementById('exampleFormControlTextarea1');
+            document.addEventListener("DOMContentLoaded", function () {
+                const guardrailsSwitch = document.getElementById("guardrailsSwitch");
+                const hiddenGuardrails = document.getElementById("hiddenGuardrails");
 
-            textarea.addEventListener('input', function () {
-                if (textarea.value.trim().length > 0) {
-                    fileInput.disabled = true;
-                    fileInput.parentElement.classList.add('disabled');
-                } else {
-                    fileInput.disabled = false;
-                    fileInput.parentElement.classList.remove('disabled');
-                }
+                // Sync hidden input value with checkbox state
+                guardrailsSwitch.addEventListener("change", function () {
+                    hiddenGuardrails.value = guardrailsSwitch.checked ? "1" : "0";
+                });
+
+                // Initialize the hidden input value based on the checkbox state
+                hiddenGuardrails.value = guardrailsSwitch.checked ? "1" : "0";
             });
-
-            fileInput.addEventListener('change', function () {
-                if (fileInput.files.length > 0) {
-                    textarea.disabled = true;
-                } else {
-                    textarea.disabled = false;
-                }
-            });
-
-            // Handle file drop
-            document.getElementById('dropArea').addEventListener('dragover', function (event) {
-                event.preventDefault();
-                dropArea.classList.add('dragging');
-            });
-
-            document.getElementById('dropArea').addEventListener('dragleave', function (event) {
-                dropArea.classList.remove('dragging');
-            });
-
-            document.getElementById('dropArea').addEventListener('drop', function (event) {
-                event.preventDefault();
-                dropArea.classList.remove('dragging');
-
-                const droppedFiles = event.dataTransfer.files;
-                if (droppedFiles.length > 0) {
-                    fileInput.files = droppedFiles; // Assign dropped files to input
-                    textarea.disabled = true;       // Disable textarea if files are dropped
-                }
-            });
-        });
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl)
-        })
-
-        document.addEventListener('DOMContentLoaded', function () {
-            const guardrailsSwitch = document.getElementById('guardrailsSwitch');
-            const hiddenGuardrails = document.getElementById('hiddenGuardrails');
-
-        // Sync hidden input value with checkbox state
-            guardrailsSwitch.addEventListener('change', function () {
-                hiddenGuardrails.value = guardrailsSwitch.checked ? '1' : '0';
-            });
-
-        // Initialize the hidden input value based on the checkbox state
-            hiddenGuardrails.value = guardrailsSwitch.checked ? '1' : '0';
-        });
-    </script>
-</body>
+        </script>
+    </body>
 </html>

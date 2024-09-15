@@ -43,7 +43,7 @@ def guardrail_capitalized_words(text):
     for word in text_without_asterisks.split():
         word = word.strip()
         if word:
-            if word[0].isupper() and word[1:].islower():
+            if word[0].isupper():
                 if f'*{word}*' not in text:
                     text = text.replace(word, '*' + word + '*')
 

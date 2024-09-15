@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +7,7 @@
     <!-- Stylesheets -->
     <link rel="stylesheet" href="../static/Index.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flat-ui/2.3.0/css/flat-ui.min.css" rel="stylesheet"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&display=swap');
@@ -16,11 +16,10 @@
 {% load static %}
 <body style="background-color: rgb(18, 22, 24);">
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: rgba(33, 37, 41, 1);">
-        <div class="container-fluid">
+    <nav class="navbar navbar-expand-lg" style="margin-bottom: 0px;">
+        <div class="container-fluid" style="padding-top: 12px;">
             <a class="navbar-brand text-start w-150" href="#" style="color: white; font-size: 24px;">  <img src="{% static 'images/arrow-up.png' %}" alt="Arrow Up" style="margin-right: 4px; margin-bottom: 6px;"> Re-Dact </a>
-            <a class="navbar-brand text-end w-150" href="#" style="color: white; font-size: 18px;"> Support </a>
-
+            <a class="navbar-brand text-end w-150" href="#" style="color: white; font-size: 24px;"> Support </a>
         </div>
     </nav>
 
@@ -45,154 +44,161 @@
         </div>
     </div>
 
-    <div class="container">
-        <!-- Header -->
-        <header class="text-center my-4">
-            <h1 class="redact-header">A seamless redaction tool that offers complete control with ease.</h1>
-            <p class="header-desc">With customizable redaction levels and support for text, images, and videos, see how our tool can enhance your data security.</p>
+    <div class="text-center">
+        <header>
+            <!-- Header -->
+                <h1>An AI-powered redaction tool that offers complete control with ease</h1>
+                <p>With customizable redaction levels and support for text, images, and videos, see how our tool can enhance your data security.</p>
         </header>
     </div>
 
-    <div class="container">
-        <!-- Main Content -->
-        <main class="main-content bg-dark">
-            <div class="card bg-dark text-white p-4 mx-auto" style="max-width: 1200px;">
-                <form id="submissionForm" method="post" enctype="multipart/form-data" action="/">
-                    {% csrf_token %}
-                    <input type="hidden" name="guardrails" id="hiddenGuardrails" value="0">
-                    <div class="row mb-4">
-                        <div class="col-md-5">
-                            <div class="mb-3 text-center">
-                                <label for="textarea" style="font-weight: bold;">Paste Text Here</label>
-                                <textarea class="form-control text-white" name="wordsTextarea" rows="6" style="background-color: #333; height: 400px;" id="textarea"></textarea>
+    <div class="main-container">
+        <div class="container">
+            <!-- Main Content -->
+                <div class="card dark-card text-white p-4 mx-auto" style="max-width: 1200px;">
+                    <form id="submissionForm" method="post" enctype="multipart/form-data" action="/">
+                        {% csrf_token %}
+                        <input type="hidden" name="guardrails" id="hiddenGuardrails" value="0">
+                        <div class="row mb-4">
+                            <div class="col-md-5">
+                                <div class="mb-3 text-center">
+                                    <label for="textarea" style="font-weight: bold;">Paste Text Here</label>
+                                    <textarea class="form-control text-white darkgradient-1" name="wordsTextarea" rows="6" style="height: 400px;" id="textarea"></textarea>
+                                </div>
                             </div>
-                        </div>
-                        
-                        <div class="col-md-2 d-flex align-items-center justify-content-center">
-                            <a class="navbar-brand text-center" style="color: white; font-size: 24px;">OR</a>
-                        </div>
-                        
-                        <div class="col-md-5">
-                            <div class="mb-3 text-center">
-                                <label for="droparea" style="font-weight: bold;">Drop File Here</label>
-                                <br>
-                                <div class="droparea" id="dropArea" style="background-color: #333; height: 400px;">
-                                    <i class="fa-solid fa-folder-plus" id="folderIcon" style="font-size: 3rem; color: #fff;"></i>
-                                    <div class="preview-container" id="previewContainer"></div>
-                                    <input type="file" name="files" id="fileInput" multiple accept=".png, .jpg, .jpeg, .pdf, .txt" style="display: none;">
-                                    <label for="fileInput" class="btn btn-outline-light">Select a file or drag and drop here</label>
+                            
+                            <div class="col-md-2 d-flex align-items-center justify-content-center">
+                                <a class="navbar-brand text-center" style="color: white; font-size: 24px;">OR</a>
+                            </div>
+                            
+                            <div class="col-md-5">
+                                <div class="mb-3 text-center">
+                                    <label for="droparea" style="font-weight: bold;">Drop File Here</label>
+                                    <br>
+                                    <div class="droparea darkgradient-2" id="dropArea" style="height: 400px;">
+                                        <i class="fa-solid fa-folder-plus" id="folderIcon" style="font-size: 3rem; color: #fff;"></i>
+                                        <div class="preview-container" id="previewContainer"></div>
+                                        <input type="file" name="files" id="fileInput" multiple accept=".png, .jpg, .jpeg, .pdf, .txt" style="display: none;">
+                                        <label for="fileInput" class="btn btn-outline-light">Select a file or drag and drop here</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="row">
-                        <div class="col-md-12 text-center mb-4">
-                            <div class="slider-container">
-                                <label for="rs-range-line" class="form-label" style="color: white;">Choose level of redaction</label>
-                                <br>
-                                <div class="range-slider">
-                                    <input type="range" class="rs-range" name="rangeInput" id="rs-range-line" min="0" max="2" value="0">
+                        <div class="row">
+                            <div class="col-md-12 text-center mb-4">
+                                <div class="slider-container">
+                                    <label for="rs-range-line" class="form-label" style="color: white;">Choose level of redaction</label>
+                                    <br>
+                                    <div class="range-slider">
+                                        <input type="range" class="rs-range" name="rangeInput" id="rs-range-line" min="0" max="2" value="0">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="d-flex justify-content-between">
-                                <div style="padding-top: 10px;">
-                                    <label class="toggle-switch">
+                            <div class="col-md-12 d-flex justify-content-between align-items-center" style="padding-top: 10px;">
+                                <!-- Left Toggle: Add synthetic data -->
+                                <div class="d-flex align-items-center">
+                                    <label class="toggle-switch me-2">
                                         <input type="checkbox" name="syntheticData">
                                         <span class="slider"></span>
                                     </label>
-                                    <br><br>
-                                    <span style="color: white; font-weight: bold;">Add synthetic data</span>
+                                    <span style="color: white; font-weight: bold; margin-left: 10px;">Add synthetic data</span>
                                 </div>
+                            
+                                <!-- Center Buttons: Submit File and Advanced Settings -->
                                 <div>
-                                    <label class="toggle-switch">
+                                    <button type="submit" class="btn btn-outline-light btn-lg me-3">SUBMIT FILE</button>
+                                    <button class="btn btn-outline-light btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#advancedOptionsModal">
+                                        Advanced Settings
+                                    </button>
+                                </div>
+                            
+                                <!-- Right Toggle: See how we did it! -->
+                                <div class="d-flex align-items-center">
+                                    <span style="color: white; font-weight: bold; margin-right: 10px;">See how we did it!</span>
+                                    <label class="toggle-switch ms-2">
                                         <input type="checkbox" name="showProcess" id="toggleCard">
                                         <span class="slider round"></span>
                                     </label>
-                                    <br><br>
-                                    <span style="color: white; font-weight: bold;">See how we did it!</span>
                                 </div>
                             </div>
+                            
                         </div>
-                        <div class="col-md-12 text-center" style="padding-top: 10px;">
-                            <button type="submit" class="btn btn-outline-light btn-lg">SUBMIT FILE</button>
+                    </form>
+                </div>
+            
+                <!-- Output Section -->
+                <br>
+                {% if redacted_text or redacted_file_url %}
+                <div class="card dark-card text-white p-4 mx-auto d-flex justify-content-center align-items-center" style="max-width: 1200px;">
+                    <div class="col-12 text-center" style="padding: 20px;">
+                        <div class="mb-3">
+                            <h1 class="redact-header">View the Output</h1>
+                            <br>
+                            <textarea class="form-control text-white darkgradient-3 w-100" rows="3" placeholder="Output text will appear here" readonly style="background-color: #333; height: 200px;" id="output">{{ redacted_text }}</textarea>
                         </div>
                     </div>
-                </form>
-            </div>
-            <br><br><br>
-            <!-- Output Section -->
-            <div class="row mt-4 bg-dark">
-                <div class="col-7" style="padding: 50px;">
-                    <div class="mb-3">
-                        <label for="output" style="font-weight: bold; color: white; padding-bottom: 10px;">Output</label>
-                        <textarea class="form-control text-white" rows="3" placeholder="Output text will appear here" readonly style="background-color:  #333; height: 200px;" id="output">{{ redacted_text }}</textarea>
+                    {% if redacted_file_url %}
+                    <div class="col-5">
+                        <div class="mb-3 file-output">
+                            <a href="{{ redacted_file_url }}" download>Download Redacted File</a>
+                        </div>
                     </div>
-                </div>
-                {% if redacted_file_url %}
-                <div class="col-5">
-                    <div class="mb-3 file-output">
-                        <a href="{{ redacted_file_url }}" download>Download Redacted File</a>
+                    {% elif error %}
+                    <div class="col-4">
+                        <div class="mb-3 file-output">
+                            <p>{{ error }}</p>
+                        </div>
                     </div>
-                </div>
-                {% elif error %}
-                <div class="col-4">
-                    <div class="mb-3 file-output">
-                        <p>{{ error }}</p>
-                    </div>
+                    {% endif %}
                 </div>
                 {% endif %}
-            </div>
+        </div>
 
-            <div class="row mt-4">
-                <div class="col-12 text-center">
-                    <button class="btn btn-outline-light ms-auto" type="button" data-bs-toggle="modal" data-bs-target="#advancedOptionsModal">
-                        <span>Advanced Settings</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Toggle Switches -->
-            <!-- <div class="row mt-4">
-                <div class="col-12">
-                    <div class="d-flex justify-content-between">
-                        <div style="padding-top: 10px;">
-                            <label class="toggle-switch">
-                                <input type="checkbox" name="syntheticData">
-                                <span class="slider"></span>
-                            </label>
-                            <br><br>
-                            <span style="color: white; font-weight: bold;">Add synthetic data</span>
-                        </div>
-                        <div>
-                            <label class="toggle-switch">
-                                <input type="checkbox" name="showProcess" id="toggleCard">
-                                <span class="slider round"></span>
-                            </label>
-                            <br><br>
-                            <span style="color: white; font-weight: bold;">See how we did it!</span>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-
-            <!-- Card Section for Process Overview -->
-            <div class="row mt-4">
-                <div class="col-12">
-                    <div id="cardSection" class="card-section" style="display: none;">
-                        <div class="card-header">Process Overview</div>
-                        <div class="card-content">
-                            {% for speech in agents_speech %}
-                                {{ speech | safe }}
-                            {% endfor %}
-                        </div>
+        <!-- Card Section for Process Overview -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div id="cardSection" class="card-section" style="display: none;">
+                    <div class="card-header">See how we did it:</div>
+                    <div class="card-content">
+                        {% for speech in agents_speech %}
+                            {{ speech | safe }}
+                        {% endfor %}
                     </div>
                 </div>
             </div>
-        </main>
+        </div>
     </div>
+
+    <div class="text-container">
+        <div class="oval-card">
+            <div class="header-row">
+                <h1 class="redact-header" style="letter-spacing: 1px;">Our commitment to Ethical AI</h1>
+                <i class="fa-solid fa-wand-magic-sparkles fa-2x" style="color: black;"></i>
+            </div>
+            <p class="header-desc" style="max-width: 800px; font-size: 1.1rem; line-height: 1.6;">
+                We proudly follow Microsoft's six major Responsible AI principles, ensuring that our redaction tool is built and operated with fairness, reliability, privacy, inclusiveness, transparency, and accountability at its core. These principles guide our development to provide a safe, ethical, and trustworthy experience for all users.
+            </p>
+            <p class="header-desc" style="max-width: 800px; font-size: 1.1rem; line-height: 1.6;">
+                By integrating responsible AI practices into every aspect of development, we prioritize ethical decision-making at every stage. By using Ollama, Microsoft Autogen, and Azure AI, we ensure that our redaction tool not only delivers high accuracy and efficiency but also adheres to stringent data privacy and security standards. This commitment is backed by industry-leading AI frameworks, helping us minimize bias, maintain transparency, and ensure accountability in every redaction process.
+            </p>
+        </div>
+
+        <br><br>
+
+        <div class="oval-card">
+            <div class="header-row">
+                <h1 class="redact-header" style="letter-spacing: 1px;">About Us</h1>
+                <i class="fa-solid fa-pen-nib fa-2x" style="color: black;"></i>
+            </div>
+            <p class="header-desc" style="max-width: 800px; font-size: 1.1rem; line-height: 1.6;">
+                At Redact, we are dedicated to providing cutting-edge solutions for secure and seamless data redaction. Our mission is to simplify the process of safeguarding sensitive information, ensuring confidentiality while maintaining transparency where it matters. Whether you're handling personal data or confidential documents, our intuitive redaction tool, equipped with a gradation slider for precise control, allows users to customize the level of redaction for optimal results. With a focus on innovation and user experience, we strive to empower individuals and organizations to protect their data with confidence.
+            </p>
+        </div>
+    </div>
+         
+
+    <br><br>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

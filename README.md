@@ -13,7 +13,7 @@ ollama run llama3.1
 
 ## 2. Run the Install Script
 
-To avoid conflicts with other projects, this script creates a virtual environment for this project.
+To avoid conflicts with other projects, this script creates a virtual environment for this project and installs all dependencies.
 
 ### On Windows:
 ```sh

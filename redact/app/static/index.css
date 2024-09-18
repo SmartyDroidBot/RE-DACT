@@ -69,14 +69,6 @@ textarea::placeholder {
     padding: 10px;
 }
 
-.darkgradient-3 {
-    background: linear-gradient(to right, #02031c, #062a35);
-    border: 1px solid black;
-    color: white;
-    resize: none;
-    padding: 10px;
-}
-
 .form-label {
     font-size: 18px;
     font-weight: bold;
@@ -140,13 +132,20 @@ textarea::placeholder {
     margin-top: -20px;
 }
 
+.header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
 .oval-card {
     background-color: #f8f1e6;
     border-radius: 25px;
     padding: 20px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
     margin: 0 auto;
-    max-width: 900px;
+    max-width: 1200px;
     transition: transform 0.3s ease-in-out;
 
 }

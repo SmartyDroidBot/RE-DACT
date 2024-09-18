@@ -23,7 +23,7 @@ def guardrail_proper_nouns(text):
 # Guardrail that redacts proper nouns and returns a list of redacted words
 def guardrail_proper_nouns_list(text):
     from nltk.tag import pos_tag
-    text_without_asterisks = re.sub(r'\*.*?\*', '', text)  
+    text_without_asterisks = re.sub(r'\*.*?\*', '', text)
 
     redacted_words = []
     for word in text_without_asterisks.split():

@@ -6,20 +6,6 @@ body {
 }
 
 
-/* Navbar */
-.navbar {
-    background: #010409;
-}
-
-.navbar-brand {    
-    font-weight: bolder;
-    font-size: 2rem; /* Updated font size */
-    text-align: center;
-    width: 100%;
-}
-
-/* Header */
-
 
 header{
     background: #648880;
@@ -38,12 +24,6 @@ header p {
     color: white;
 }
 
-.header-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
 
 textarea::placeholder {
     color: white;
@@ -53,24 +33,24 @@ textarea::placeholder {
 /* Main Content */
 .dark-card {
     background: linear-gradient(to right, #02011b, #062b36);
-    padding-top: 50px;
     padding-bottom: 50px;
     color: white;
 }
 
 .main-container {
     background: #010409;
-    padding-top: 50px;
     padding-bottom: 50px;
     color: white;
 }
 
 .main-content {
-    background-color: white;
-    border-radius: 10px;
     padding: 2rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin-top: 2rem;
+}
+
+.card-main-content{
+    padding: 2rem;
+    border-radius: 10px;
 }
 
 .darkgradient-1 {
@@ -167,15 +147,18 @@ textarea::placeholder {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
     margin: 0 auto;
     max-width: 900px;
+    transition: transform 0.3s ease-in-out;
+
+}
+
+.oval-card:hover{
+    transform: scale(1.05);
 }
 
 .text-container {
-    background: #648880;
-    background: linear-gradient(to right, #f6f1d3, #648880, #293f50);
     padding-top: 50px;
     padding-bottom: 50px;
     color: white;
-    background-color: rgba(33, 37, 41, 1);
 }
 
 .text-container h1 {

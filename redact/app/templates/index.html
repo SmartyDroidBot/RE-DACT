@@ -125,6 +125,7 @@
             <br>
             {% if redacted_text or redacted_file_url or redacted_image_url %}
             <div class="card dark-card text-white p-4 mx-auto d-flex justify-content-center align-items-center" style="max-width: 1200px;">
+                {% if redacted_text %}
                 <div class="col-12 text-center" style="padding: 20px;">
                     <div class="mb-3">
                         <h1 class="redact-header">View the Output</h1>
@@ -132,7 +133,7 @@
                         <textarea class="form-control text-white darkgradient-2 w-100" rows="3" placeholder="Output text will appear here" readonly style="background-color: #333; height: 200px;" id="output">{{ redacted_text }}</textarea>
                     </div>
                 </div>
-                {% if redacted_file_url %}
+                {% elif redacted_file_url %}
                 <div class="col-5">
                     <div class="mb-3 file-output">
                         <a href="{{ redacted_file_url }}" download>Download Redacted File</a>

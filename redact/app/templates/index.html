@@ -123,7 +123,7 @@
         
             <!-- Output Section -->
             <br>
-            {% if redacted_text or redacted_file_url %}
+            {% if redacted_text or redacted_file_url or redacted_image_url %}
             <div class="card dark-card text-white p-4 mx-auto d-flex justify-content-center align-items-center" style="max-width: 1200px;">
                 <div class="col-12 text-center" style="padding: 20px;">
                     <div class="mb-3">
@@ -136,6 +136,14 @@
                 <div class="col-5">
                     <div class="mb-3 file-output">
                         <a href="{{ redacted_file_url }}" download>Download Redacted File</a>
+                    </div>
+                </div>
+                {% elif redacted_image_url %}
+                <div class="col-5">
+                    <div class="mb-3 image-output">
+                        <img src="{{ redacted_image_url }}" alt="Redacted Image" class="img-fluid"/>
+                        <br><br>
+                        <a href="{{ redacted_image_url }}" download>Download Redacted Image</a>
                     </div>
                 </div>
                 {% elif error %}

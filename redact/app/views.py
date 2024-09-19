@@ -87,7 +87,9 @@ def index(request):
                     service = ImageRedactionService(degree, guardrail_toggle)
                     redacted_image_url, agents_speech = service.redact_image(image_url)
 
-                    return render(request, 'index.html', {'redacted_file_url': redacted_image_url, 'agents_speech': agents_speech})
+                    redacted_image_url = redacted_image_url.replace(settings.MEDIA_ROOT, settings.MEDIA_URL)
+                    print(redacted_image_url)
+                    return render(request, 'index.html', {'redacted_image_url': redacted_image_url, 'agents_speech': agents_speech})
 
         elif form_data.get('wordsTextarea'):
             # Redacts text from textarea

@@ -60,6 +60,8 @@ cover/
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
+redact/media/outputs/*
+redact/media/uploads/*
 
 # Flask stuff:
 instance/
@@ -77,6 +79,10 @@ target/
 
 # Jupyter Notebook
 .ipynb_checkpoints
+Notebooks/test files/*
+Notebooks/test files
+Notebooks/video.ipynb
+Notebooks/*.mp4
 
 # IPython
 profile_default/
@@ -160,3 +166,4 @@ cython_debug/
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
+redact/redaction_log.txt

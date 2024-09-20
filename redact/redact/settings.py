@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 
 import os
+import json
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -125,5 +126,13 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+Ollama_API_URL = 'http://localhost:11434/v1'
+Ollama_API_KEY = 'ollama'
 
+with open(os.path.join(BASE_DIR, 'app', 'services', 'service_keys.json')) as f:
+    json_data = json.load(f)
+    AZURE_KEY = json_data['AZURE_KEY']
+    AZURE_ENDPOINT = json_data['AZURE_ENDPOINT']
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

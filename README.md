@@ -1,57 +1,35 @@
 # Project Setup Guide
 
-## 1. Create a Virtual Environment
+## 1. Download and Install Ollama
 
-To avoid conflicts with other projects, it's recommended to create a virtual environment for this project.
+First, download and install Ollama from https://ollama.com/download.
+Once installed, open your command line and run the following command to pull the latest LLaMA model and start Ollama:
+
+```sh
+ollama pull llama3.1
+ollama run llama3.1
+```
+
+
+## 2. Run the Install Script
+
+To avoid conflicts with other projects, this script creates a virtual environment for this project and installs all dependencies.
 
 ### On Windows:
 ```sh
-py -m venv venv
+./install.bat
 ```
 
 ### On macOS/Linux:
 ```sh
-python3 -m venv venv
+./install.sh
 ```
 
-## 2. Activate the Virtual Environment
+## 3. Run the app
 
-### On Windows:
-```sh
-.\venv\Scripts\activate
-```
-
-### On macOS/Linux:
-```sh
-source venv/bin/activate
-```
-
-You should now see the `(venv)` prefix in your terminal, indicating that the virtual environment is active.
-
-## 3. Install Dependencies
-
-With the virtual environment activated, install the required Python packages using `requirements.txt`:
+To run the server, use the following command:
 
 ```sh
-pip install -r requirements.txt
+python manage.py runserver <port>
 ```
 
-## 4. Install and Run Ollama
-
-### Step 1: Install Ollama
-
-To install Ollama, use the following command:
-
-```sh
-pip install ollama
-```
-
-### Step 2: Run Ollama
-
-After installation, you can start Ollama by running:
-
-```sh
-ollama
-```
-
-For detailed setup instructions, visit the [Ollama website](https://www.ollama.com).

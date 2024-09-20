@@ -1,183 +1,401 @@
-{% load static %}
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>REDACT</title>
-        <link rel="stylesheet" href="{% static 'index.css' %}">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-        <style>
-            @import url('https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&display=swap');
-        </style>
-    </head>
-    <body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Re-Dact</title>
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../static/Index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flat-ui/2.3.0/css/flat-ui.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&display=swap');
+    </style>
+</head>
+{% load static %}
+<body style="background: radial-gradient(rgb(19, 30, 37) 24.5%, rgb(19, 30, 37) 66%); background-repeat: no-repeat;">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light" style="background: radial-gradient( rgb(19, 30, 37) 24.5%, rgb(19, 30, 37) 66%); margin-bottom: 0px; margin-top: 12px;">
         <div class="container-fluid">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-                <div class="container-fluid">
-                    <img class="navbar-brand" src="{% static 'images/re-dact.jpg' %}" style="width: 10%;"></img>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">About</a>
-                            </li>
-                        </ul>
-                        <form class="d-flex">
-                            <button class="btn btn-outline-primary">Contact Us</button>
-                        </form>
-                    </div>
+            <a class="navbar-brand text-start" href="#" style="color: white; font-size: 24px;">  <img src="{% static 'images/arrow-up.png' %}" alt="Arrow Up" style="margin-right: 4px;"> Re-Dact </a>
+            <div class="navbar-brand mx-auto" style="color: white; font-size: 24px;">
+                An AI-powered redaction tool that offers complete control with ease
+            </div>
+            <a class="navbar-brand text-end w-150" href="#" style="color: white; font-size: 24px;"> Support </a>
+        </div>
+    </nav>
+
+    <!-- Modal -->
+    <div class="modal fade" id="advancedOptionsModal" tabindex="-1" aria-labelledby="advancedOptionsModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="advancedOptionsModalLabel">Advanced Options</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-            </nav>
-            <main class="main-content" style="margin-top: 12%;">
-                <div class="row file-row">
-                    <form id="submissionForm" method="post" enctype="multipart/form-data" action="/">
+                <div class="modal-body">
+                    <form class="form-check form-switch" action="/" method="POST">
                         {% csrf_token %}
-                        <div class="row">
-                            <!-- Left column (File upload area) -->
-                            <div class="col-12 col-md-6 mb-3">
-                                <section class="droparea" id="dropArea">
-                                    <i class="fa-solid fa-folder-plus" id="folderIcon"></i>
+                        <input type="hidden" name="guardrails" value="0">
+                        <input class="form-check-input" type="checkbox" id="guardrailsSwitch" name="guardrails" value="1" checked>
+                        <label class="form-check-label" for="guardrailsSwitch">Turn on guardrails</label>
+                        <i class="info-icon" data-bs-toggle="tooltip" data-bs-placement="right" title="Applicable to 2nd degree of image and 3rd degree of text.">i</i>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-container main-content" style="background: linear-gradient(178.6deg, rgb(20, 36, 50) 11.8%, rgb(124, 143, 161) 83.8%);">
+        <div class="container card-main-content">
+            <!-- Main Content -->
+            <div class="card dark-card text-white p-4 mx-auto">
+                <form id="submissionForm" method="post" enctype="multipart/form-data" action="/">
+                    {% csrf_token %}
+                    <input type="hidden" name="guardrails" id="hiddenGuardrails" value="0">
+                    <div class="row mb-4">
+                        <div class="col-md-5">
+                            <div class="mb-3 text-center">
+                                <label for="textarea" style="font-weight: bold;">Paste Text Here</label>
+                                <textarea class="form-control text-white darkgradient-1" name="wordsTextarea" rows="6" style="height: 400px;" id="textarea"></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-2 d-flex align-items-center justify-content-center">
+                            <a class="navbar-brand text-center" style="color: white; font-size: 24px;">OR</a>
+                        </div>
+                        
+                        <div class="col-md-5">
+                            <div class="mb-3 text-center">
+                                <label for="droparea" style="font-weight: bold;">Drop File Here</label>
+                                <br>
+                                <div class="droparea darkgradient-2" id="dropArea" style="height: 400px;">
+                                    <i class="fa-solid fa-folder-plus" id="folderIcon" style="font-size: 3rem; color: #fff;"></i>
                                     <div class="preview-container" id="previewContainer"></div>
                                     <input type="file" name="files" id="fileInput" multiple accept=".png, .jpg, .jpeg, .pdf, .txt" style="display: none;">
-                                    <label for="fileInput" class="btn btn-outline-primary" style="margin-bottom: 10px;">Choose files</label>
-                                </section>
-                            </div>
-                            <!-- Right column (Slider, Textarea, and Submit button) -->
-                            <div class="col-12 col-md-6 mb-3">
-                                <div class="form-group">
-                                    <label for="customRange1" class="form-label">Redaction Gradient</label>
-                                    <input type="range" class="form-range" name="rangeInput" id="customRange1" min="0" max="1" value="0">
-                                </div>
-                                <div class="form-group mt-3">
-                                    <textarea class="form-control" name="wordsTextarea" id="exampleFormControlTextarea1" rows="3" placeholder="Words you'd like to keep:"></textarea>
-                                </div>
-                                <!-- Submit button -->
-                                <div class="form-group mt-4">
-                                    <button type="submit" class="btn btn-outline-primary">Submit</button>
+                                    <label for="fileInput" class="btn btn-outline-light">Select a file or drag and drop here</label>
                                 </div>
                             </div>
                         </div>
-                    </form>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12 text-center mb-4">
+                            <div class="slider-container">
+                                <h5 class="form-label" style="color: white; font-weight: bolder; padding: 0px;">Choose level of redaction</h5>
+                                <br>
+                                <div class="range-slider" style="padding-bottom: 10px">
+                                    <input type="range" class="rs-range" name="rangeInput" id="rs-range-line" min="0" max="2" value="0">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 d-flex justify-content-between align-items-center" style="padding-top: 10px;">
+                            <!-- Left Toggle: Add synthetic data -->
+                            <div class="d-flex align-items-center">
+                                <label class="toggle-switch me-2">
+                                    <input type="checkbox" name="syntheticData">
+                                    <span class="slider"></span>
+                                </label>
+                                <span style="color: white; font-weight: bold; margin-left: 10px;">Add synthetic data</span>
+                            </div>
+                        
+                            <!-- Center Buttons: Submit File and Advanced Settings -->
+                            <div>
+                                <button type="submit" class="btn btn-outline-light btn-lg me-3">SUBMIT FILE</button>
+                                <button class="btn btn-outline-light btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#advancedOptionsModal">
+                                    Advanced Settings
+                                </button>
+                            </div>
+                        
+                            <!-- Right Toggle: See how we did it! -->
+                            <div class="d-flex align-items-center">
+                                <span style="color: white; font-weight: bold; margin-right: 10px;">See how we did it!</span>
+                                <label class="toggle-switch ms-2">
+                                    <input type="checkbox" name="showProcess" id="toggleCard">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>                        
+                    </div>
+                </form>
+            </div>
+        
+            <!-- Output Section -->
+            <br>
+            {% if redacted_text or redacted_file_url or redacted_image_url %}
+            <div class="card dark-card text-white p-4 mx-auto d-flex justify-content-center align-items-center" style="max-width: 1200px;">
+                {% if redacted_text %}
+                <div class="col-12 text-center" style="padding: 20px;">
+                    <div class="mb-3">
+                        <h1 class="redact-header">View the Output</h1>
+                        <br>
+                        <textarea class="form-control text-white darkgradient-2 w-100" rows="3" placeholder="Output text will appear here" readonly style="background-color: #333; height: 200px;" id="output">{{ redacted_text }}</textarea>
+                    </div>
                 </div>
-                <div class="row mb-4">
-                    <h1 class="media">Supported Media</h1>
-                    <div class="col-12 col-md-4 mb-3">
-                        <i class="fa-solid fa-file-lines icon-large"></i>
-                        <h4 style="font-family: Epilogue;">Text</h4>
-                    </div>
-                    <div class="col-12 col-md-4 mb-3">
-                        <i class="fa-solid fa-file-image icon-large"></i>
-                        <h4 style="font-family: Epilogue;">Images</h4>
-                    </div>
-                    <div class="col-12 col-md-4 mb-3">
-                        <i class="fa-solid fa-file-video icon-large"></i>
-                        <h4 style="font-family: Epilogue;">Vidoes</h4>
+                {% elif redacted_file_url %}
+                <div class="col-5">
+                    <div class="mb-3 file-output">
+                        <a href="{{ redacted_file_url }}" download>Download Redacted File</a>
                     </div>
                 </div>
-            </main>
+                {% elif redacted_image_url %}
+                <div class="col-5">
+                    <div class="mb-3 image-output">
+                        <img src="{{ redacted_image_url }}" alt="Redacted Image" class="img-fluid"/>
+                        <br><br>
+                        <a href="{{ redacted_image_url }}" download>Download Redacted Image</a>
+                    </div>
+                </div>
+                {% elif error %}
+                <div class="col-4">
+                    <div class="mb-3 file-output">
+                        <p>{{ error }}</p>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
+
+            <!-- Card Section for Process Overview -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div id="cardSection" class="card-section" style="display: none;">
+                        <div class="card-header">See how we did it:</div>
+                        <div class="card-content">
+                            {% for speech in agents_speech %}
+                                {{ speech | safe }}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-        <script>
-const fileInput = document.getElementById('fileInput');
-const previewContainer = document.getElementById('previewContainer');
-const folderIcon = document.getElementById('folderIcon');
-let existingFiles = []; // Store existing files
 
-fileInput.addEventListener('change', handleFiles);
+        <div class="text-container">
+                    <div class="oval-card">
+                        <div class="header-row">
+                            <h1 class="redact-header" style="letter-spacing: 1px;">Our commitment to Ethical AI</h1>
+                            <i class="fa-solid fa-wand-magic-sparkles fa-2x" style="color: black;"></i>
+                        </div>
+                        <p class="header-desc" style="max-width: 1200px; font-size: 1.1rem; line-height: 1.6;">
+                            We proudly follow Microsoft's six major Responsible AI principles, ensuring that our redaction tool is built and operated with fairness, reliability, privacy, inclusiveness, transparency, and accountability at its core. These principles guide our development to provide a safe, ethical, and trustworthy experience for all users.
+                        </p>
+                        <p class="header-desc" style="max-width: 1200px; font-size: 1.1rem; line-height: 1.6;">
+                            By integrating responsible AI practices into every aspect of development, we prioritize ethical decision-making at every stage. By using Ollama, Microsoft Autogen, and Azure AI, we ensure that our redaction tool not only delivers high accuracy and efficiency but also adheres to stringent data privacy and security standards. This commitment is backed by industry-leading AI frameworks, helping us minimize bias, maintain transparency, and ensure accountability in every redaction process.
+                        </p>
+                    </div>
+            
+                    <br><br>
+            
+                    <div class="oval-card">
+                        <div class="header-row">
+                            <h1 class="redact-header" style="letter-spacing: 1px;">About Us</h1>
+                            <i class="fa-solid fa-pen-nib fa-2x" style="color: black;"></i>
+                        </div>
+                        <p class="header-desc" style="max-width: 1200px; font-size: 1.1rem; line-height: 1.6;">
+                            At Redact, we are dedicated to providing cutting-edge solutions for secure and seamless data redaction. Our mission is to simplify the process of safeguarding sensitive information, ensuring confidentiality while maintaining transparency where it matters. Whether you're handling personal data or confidential documents, our intuitive redaction tool, equipped with a gradation slider for precise control, allows users to customize the level of redaction for optimal results. With a focus on innovation and user experience, we strive to empower individuals and organizations to protect their data with confidence.
+                        </p>
+                    </div>
+                </div>
+    </div>
+         
 
-document.querySelector('.droparea').addEventListener('dragover', (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    document.querySelector('.droparea').classList.add('drag-over');
-});
+    <br><br>
 
-document.querySelector('.droparea').addEventListener('dragleave', (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    document.querySelector('.droparea').classList.remove('drag-over');
-});
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
 
-document.querySelector('.droparea').addEventListener('drop', (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    document.querySelector('.droparea').classList.remove('drag-over');
-    fileInput.files = event.dataTransfer.files;
-    handleFiles();
-});
+        document.addEventListener('DOMContentLoaded', function () {
+            const fileInput = document.getElementById('fileInput');
+            const previewContainer = document.getElementById('previewContainer');
+            const folderIcon = document.getElementById('folderIcon');
+            let existingFiles = []; // Store existing files
 
-function handleFiles() {
-    const newFiles = Array.from(fileInput.files);
+            fileInput.addEventListener('change', handleFiles);
 
-    // Combine new files with existing ones and remove duplicates by name
-    const allFiles = [...existingFiles, ...newFiles];
-    const uniqueFiles = Array.from(new Set(allFiles.map(f => f.name))).map(name => {
-        return allFiles.find(f => f.name === name);
-    });
+            document.querySelector('.droparea').addEventListener('dragover', (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                document.querySelector('.droparea').classList.add('drag-over');
+            });
 
-    existingFiles = uniqueFiles; // Update the existingFiles array
+            document.querySelector('.droparea').addEventListener('dragleave', (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                document.querySelector('.droparea').classList.remove('drag-over');
+            });
 
-    if (existingFiles.length > 0) {
-        folderIcon.style.display = 'none'; // Hide the folder icon if files exist
-    } else {
-        folderIcon.style.display = 'block'; // Show the folder icon if no files
-    }
+            document.querySelector('.droparea').addEventListener('drop', (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                document.querySelector('.droparea').classList.remove('drag-over');
+                fileInput.files = event.dataTransfer.files;
+                handleFiles();
+            });
 
-    renderPreviews();
-}
+            function handleFiles() {
+                const newFiles = Array.from(fileInput.files);
 
-function renderPreviews() {
-    previewContainer.innerHTML = ''; // Clear the container to avoid duplicates
+                // Combine new files with existing ones and remove duplicates by name
+                const allFiles = [...existingFiles, ...newFiles];
+                const uniqueFiles = Array.from(new Set(allFiles.map(f => f.name))).map(name => {
+                    return allFiles.find(f => f.name === name);
+                });
 
-    existingFiles.forEach(file => {
-        const reader = new FileReader();
-        const previewItem = document.createElement('div');
-        previewItem.classList.add('preview-item');
+                existingFiles = uniqueFiles; // Update the existingFiles array
 
-        const cancelButton = document.createElement('button');
-        cancelButton.textContent = 'x';
-        cancelButton.addEventListener('click', () => removeFile(file, previewItem));
+                if (existingFiles.length > 0) {
+                    folderIcon.style.display = 'none'; // Hide the folder icon if files exist
+                } else {
+                    folderIcon.style.display = 'block'; // Show the folder icon if no files
+                }
 
-        if (file.type.startsWith('image/')) {
-            reader.onload = function(event) {
-                const img = document.createElement('img');
-                img.src = event.target.result;
-                previewItem.appendChild(img);
-                previewItem.appendChild(cancelButton);
-                previewContainer.appendChild(previewItem);
-            };
-            reader.readAsDataURL(file);
-        } else if (file.type === 'application/pdf') {
-            const div = document.createElement('div');
-            div.textContent = `PDF: ${file.name}`;
-            previewItem.appendChild(div);
-            previewItem.appendChild(cancelButton);
-            previewContainer.appendChild(previewItem);
-        } else if (file.type === 'text/plain') {
-            const div = document.createElement('div');
-            div.textContent = `TXT: ${file.name}`;
-            previewItem.appendChild(div);
-            previewItem.appendChild(cancelButton);
-            previewContainer.appendChild(previewItem);
-        }
-    });
-}
+                renderPreviews();
+            }
 
-function removeFile(fileToRemove, previewItem) {
-    existingFiles = existingFiles.filter(file => file !== fileToRemove);
-    previewItem.remove();
+            function renderPreviews() {
+                previewContainer.innerHTML = ''; // Clear the container to avoid duplicates
 
-    // Show the folder icon if no files remain
-    if (existingFiles.length === 0) {
-        folderIcon.style.display = 'block';
-    }
-}
-        </script>
-    </body>
+                existingFiles.forEach(file => {
+                    const reader = new FileReader();
+                    const previewItem = document.createElement('div');
+                    previewItem.classList.add('preview-item');
+
+                    const cancelButton = document.createElement('button');
+                    cancelButton.textContent = 'x';
+                    cancelButton.addEventListener('click', () => removeFile(file, previewItem));
+
+                    if (file.type.startsWith('image/')) {
+                        reader.onload = function(event) {
+                            const img = document.createElement('img');
+                            img.src = event.target.result;
+                            previewItem.appendChild(img);
+                            previewItem.appendChild(cancelButton);
+                            previewContainer.appendChild(previewItem);
+                        };
+                        reader.readAsDataURL(file);
+                    } else if (file.type === 'application/pdf') {
+                        const div = document.createElement('div');
+                        div.textContent = `PDF: ${file.name}`;
+                        previewItem.appendChild(div);
+                        previewItem.appendChild(cancelButton);
+                        previewContainer.appendChild(previewItem);
+                    } else if (file.type === 'text/plain') {
+                        const div = document.createElement('div');
+                        div.textContent = `TXT: ${file.name}`;
+                        previewItem.appendChild(div);
+                        previewItem.appendChild(cancelButton);
+                        previewContainer.appendChild(previewItem);
+                    }
+                });
+            }
+
+            function removeFile(fileToRemove, previewItem) {
+                existingFiles = existingFiles.filter(file => file !== fileToRemove);
+                previewItem.remove();
+
+                // Show the folder icon if no files remain
+                if (existingFiles.length === 0) {
+                    folderIcon.style.display = 'block';
+                }
+            }
+
+            // Toggle Card Section Visibility
+            const toggle = document.getElementById("toggleCard");
+            const cardSection = document.getElementById("cardSection");
+
+            toggle.addEventListener("change", function() {
+                if (toggle.checked) {
+                    cardSection.style.display = "block";
+                } else {
+                    cardSection.style.display = "none";
+                }
+            });
+
+            // Handle text and file input interaction
+            const textarea = document.getElementById('exampleFormControlTextarea1');
+
+            textarea.addEventListener('input', function () {
+                if (textarea.value.trim().length > 0) {
+                    fileInput.disabled = true;
+                    fileInput.parentElement.classList.add('disabled');
+                } else {
+                    fileInput.disabled = false;
+                    fileInput.parentElement.classList.remove('disabled');
+                }
+            });
+
+            fileInput.addEventListener('change', function () {
+                if (fileInput.files.length > 0) {
+                    textarea.disabled = true;
+                } else {
+                    textarea.disabled = false;
+                }
+            });
+
+            // Handle file drop
+            document.getElementById('dropArea').addEventListener('dragover', function (event) {
+                event.preventDefault();
+                dropArea.classList.add('dragging');
+            });
+
+            document.getElementById('dropArea').addEventListener('dragleave', function (event) {
+                dropArea.classList.remove('dragging');
+            });
+
+            document.getElementById('dropArea').addEventListener('drop', function (event) {
+                event.preventDefault();
+                dropArea.classList.remove('dragging');
+
+                const droppedFiles = event.dataTransfer.files;
+                if (droppedFiles.length > 0) {
+                    fileInput.files = droppedFiles; // Assign dropped files to input
+                    textarea.disabled = true;       // Disable textarea if files are dropped
+                }
+            });
+        });
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const guardrailsSwitch = document.getElementById('guardrailsSwitch');
+            const hiddenGuardrails = document.getElementById('hiddenGuardrails');
+
+        // Sync hidden input value with checkbox state
+            guardrailsSwitch.addEventListener('change', function () {
+                hiddenGuardrails.value = guardrailsSwitch.checked ? '1' : '0';
+            });
+
+        // Initialize the hidden input value based on the checkbox state
+            hiddenGuardrails.value = guardrailsSwitch.checked ? '1' : '0';
+        });
+        document.addEventListener('mousemove', function (event) {
+            const x = event.clientX / window.innerWidth * 100;
+            const y = event.clientY / window.innerHeight * 100;
+            const gradientAngle = x + y; // calculate a dynamic angle based on mouse position
+
+            const backgroundElement = document.querySelector('.main-content');
+            backgroundElement.style.background = `linear-gradient(${gradientAngle}deg, rgb(20, 36, 50) 11.8%, rgb(124, 143, 161) 83.8%)`;
+
+            const darkCardElements = document.querySelectorAll('.dark-card');
+            darkCardElements.forEach((darkCardElement) => {
+            darkCardElement.style.background = `linear-gradient(${gradientAngle}deg, rgb(02, 01, 27) 11.8%, rgb(06, 43, 36) 83.8%)`;
+            });
+
+            const inputBoxes = document.querySelectorAll('.darkgradient-1');
+            inputBoxes.forEach((inputBox) => {
+                inputBox.style.background = `linear-gradient(${gradientAngle}deg, rgb(02, 01, 27) 11.8%, rgb(03, 12, 26) 83.8%)`;
+            });
+
+            const inputBoxes2 = document.querySelectorAll('.darkgradient-2');
+            inputBoxes2.forEach((inputBox) => {
+                inputBox.style.background = `linear-gradient(${gradientAngle}deg, rgb(04, 19, 43) 11.8%, rgb(06, 42, 35) 83.8%)`;
+            });
+        });
+    </script>
+</body>
 </html>

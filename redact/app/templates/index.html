@@ -73,7 +73,7 @@
                                 <div class="droparea darkgradient-2" id="dropArea" style="height: 400px;">
                                     <i class="fa-solid fa-folder-plus" id="folderIcon" style="font-size: 3rem; color: #fff;"></i>
                                     <div class="preview-container" id="previewContainer"></div>
-                                    <input type="file" name="files" id="fileInput" multiple accept=".png, .jpg, .jpeg, .pdf, .txt" style="display: none;">
+                                    <input type="file" name="files" id="fileInput" multiple accept=".png, .jpg, .mp4, .jpeg, .txt" style="display: none;">
                                     <label for="fileInput" class="btn btn-outline-light">Select a file or drag and drop here</label>
                                 </div>
                             </div>
@@ -123,7 +123,11 @@
         
             <!-- Output Section -->
             <br>
+<<<<<<< Updated upstream
             {% if redacted_text or redacted_file_url %}
+=======
+            {% if redacted_text or redacted_file_url or redacted_image_url or redacted_video_url %}
+>>>>>>> Stashed changes
             <div class="card dark-card text-white p-4 mx-auto d-flex justify-content-center align-items-center" style="max-width: 1200px;">
                 <div class="col-12 text-center" style="padding: 20px;">
                     <div class="mb-3">
@@ -138,6 +142,28 @@
                         <a href="{{ redacted_file_url }}" download>Download Redacted File</a>
                     </div>
                 </div>
+<<<<<<< Updated upstream
+=======
+                {% elif redacted_image_url %}
+                <div class="col-5">
+                    <div class="mb-3 image-output">
+                        <img src="{{ redacted_image_url }}" alt="Redacted Image" class="img-fluid"/>
+                        <br><br>
+                        <a href="{{ redacted_image_url }}" download>Download Redacted Image</a>
+                    </div>
+                </div>
+                {% elif redacted_video_url %}
+                <div class="col-5">
+                    <div class="mb-3 video-output">
+                        <video controls class="videoPreview" width="640" height="360">
+                            <source src="{{ redacted_video_url }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <br><br>
+                        <a href="{{ redacted_video_url }}" download>Download Redacted Video</a>
+                    </div>
+                </div>
+>>>>>>> Stashed changes
                 {% elif error %}
                 <div class="col-4">
                     <div class="mb-3 file-output">

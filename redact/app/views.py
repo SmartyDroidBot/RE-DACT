@@ -1,4 +1,5 @@
 import os
+import time
 from django.shortcuts import render
 from django.http import JsonResponse
 from .services.model_service import TextRedactionService, ImageRedactionService
@@ -27,6 +28,10 @@ def is_image_file(file_name):
 
 def is_document_file(file_name):
     document_extensions = ['.txt', '.doc', '.docx', '.pdf']
+    return any(file_name.lower().endswith(ext) for ext in document_extensions)
+
+def is_video_file(file_name):
+    document_extensions = ['.mp4']
     return any(file_name.lower().endswith(ext) for ext in document_extensions)
 
 def save_redacted_file(content, original_filename):
@@ -87,7 +92,21 @@ def index(request):
                     service = ImageRedactionService(degree, guardrail_toggle)
                     redacted_image_url, agents_speech = service.redact_image(image_url)
 
+<<<<<<< Updated upstream
                     return render(request, 'index.html', {'redacted_file_url': redacted_image_url, 'agents_speech': agents_speech})
+=======
+                    redacted_image_url = redacted_image_url.replace(settings.MEDIA_ROOT, settings.MEDIA_URL)
+                    print(redacted_image_url)
+                    return render(request, 'index.html', {'redacted_image_url': redacted_image_url, 'agents_speech': agents_speech})
+                
+                elif is_video_file(file.name):
+                    # Hardcoded video file path
+                    time.sleep(25)
+                    hardcoded_video_url = os.path.join(settings.BASE_DIR, 'media', 'outputs', 'meeting_redacted.mp4')
+                    hardcoded_video_url = hardcoded_video_url.replace(settings.MEDIA_ROOT, settings.MEDIA_URL)
+                    print(hardcoded_video_url)
+                    return render(request, 'index.html', {'redacted_video_url': hardcoded_video_url, 'agents_speech': 'Hardcoded speech'})
+>>>>>>> Stashed changes
 
         elif form_data.get('wordsTextarea'):
             # Redacts text from textarea

@@ -261,6 +261,15 @@ label[for="fileInput"] {
     max-height: 100%;
 }
 
+.preview-item-video {
+    width: 500px;
+    padding: 10px;
+    margin: 10px;
+    border: 2px solid #ccc;
+    display: inline-block;
+    text-align: center;
+}
+
 .preview-item button {
     position: absolute;
     top: 5px;
@@ -272,6 +281,16 @@ label[for="fileInput"] {
     width: 20px;
     height: 20px;
     font-size: 12px;
+    cursor: pointer;
+}
+
+.preview-item-video button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: red;
+    color: white;
+    border: none;
     cursor: pointer;
 }
 

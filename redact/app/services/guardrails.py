@@ -59,7 +59,8 @@ def guardrail_phonesEmailsDates(text):
     patterns = {
         "phone": re.compile(r"(?<!\*)\b(\+?\d{1,3}[-.\s]?)?(\(?\d{3}\)?[-.\s]?)?\d{3}[-.\s]?\d{4}(?=\s|$|[^\w])(?!\*)"),
         "email": re.compile(r"(?<!\*)\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b(?!\*)"),
-        "obfuscated_email": re.compile(r"(?<!\*)[A-Za-z0-9._%+-]+\s?at\s?[A-Za-z0-9.-]+\s?dot\s?[A-Za-z]{2,}(?!\*)")
+        "obfuscated_email": re.compile(r"(?<!\*)[A-Za-z0-9._%+-]+\s?at\s?[A-Za-z0-9.-]+\s?dot\s?[A-Za-z]{2,}(?!\*)"),
+        "ssn_pattern": re.compile(r"\b\d{3}-\d{2}-\d{4}\b")
     }
 
     for pattern in patterns.values():

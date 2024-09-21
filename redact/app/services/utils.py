@@ -6,8 +6,8 @@ from PIL import Image, ImageDraw
 
 # Azure OCR function for images
 def azure_image_ocr(image):
-    endpoint = settings.AZURE_ENDPOINT
-    key = settings.AZURE_KEY
+    endpoint = settings.AZURE_DI_ENDPOINT
+    key = settings.AZURE_DI_KEY
 
     document_analysis_client = DocumentAnalysisClient(
         endpoint=endpoint, credential=AzureKeyCredential(key)

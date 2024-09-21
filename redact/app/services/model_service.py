@@ -2,7 +2,7 @@ import ast, os
 from PIL import Image, ImageDraw
 from .agents import config_list
 from .agents import TextRedactionAgents, ImageRedactionAgents, user_proxy
-from .guardrails import guardrail_proper_nouns, guardrail_proper_nouns_list, guardrail_emails
+from .guardrails import guardrail_proper_nouns, guardrail_emails
 from .utils import azure_image_ocr, export_redacted_image
 from django.conf import settings
 
@@ -20,51 +20,44 @@ class TextRedactionService:
         self.degree2_list = TextRedactionAgents(degree).degree2_list
 
     def redact_text(self, text):
-        redacted_list_from_agent = self.assistant(text, aggregation_strategy="first")
-        redacted_text_from_agent = text
+        word_list = text.split()
         redacted_list = []
-        for entity in redacted_list_from_agent:
+        redacted_list_from_agent = []
+        raw_redacted_list_from_agent = self.assistant(text, aggregation_strategy="first")
+        for entity in raw_redacted_list_from_agent:
             if self.degree == 0:
                 if entity['entity_group'] in self.degree0_list:
-                    redacted_list += entity['word'].strip().split()
+                    redacted_list_from_agent += entity['word'].strip().split()
             elif self.degree == 1:
                 if entity['entity_group'] in self.degree0_list + self.degree1_list:
-                    redacted_list += entity['word'].strip().split()
+                    redacted_list_from_agent += entity['word'].strip().split()
             elif self.degree == 2:
                 if entity['entity_group'] in self.degree0_list + self.degree1_list + self.degree2_list:
-                    redacted_list += entity['word'].strip().split()
-        redacted_list = list(set(redacted_list))
-        for word in redacted_list:
-            redacted_text_from_agent = redacted_text_from_agent.replace(word, '*' + word + '*')
+                    redacted_list_from_agent += entity['word'].strip().split()
+        redacted_list_from_agent = list(set(redacted_list_from_agent))
                 
         # Return chat history
         agent_speech = []
         agent_speech.append('<h4>' + 'assistant' + '</h4>')
-        agent_speech.append('<p>' + str(redacted_text_from_agent) + '</p>')
+        agent_speech.append('<p>Redacting words: ' + str(redacted_list_from_agent) + '</p>')
         
         # Guardrails
         if self.guardrail_toggle:        
-            redacted_text_no_proper_nouns = guardrail_proper_nouns(redacted_text_from_agent)
-<<<<<<< HEAD
-            redacted_text_no_phonesEmailsDates = guardrail_emails(redacted_text_no_proper_nouns)
-=======
-            # redacted_text_no_capitalized_words = guardrail_capitalized_words(redacted_text_no_proper_nouns)
-            redacted_text_no_phonesEmailsDates = guardrail_phonesEmailsDates(redacted_text_no_proper_nouns)
->>>>>>> 371f3bfc889ee062fc24b579dfca17e442247e58
-            redacted_text = redacted_text_no_phonesEmailsDates
+            redacted_list_no_proper_nouns = guardrail_proper_nouns(word_list)
+            redacted_list_no_emails = guardrail_emails(word_list)
+            redacted_list = list(set(redacted_list_from_agent + redacted_list_no_proper_nouns + redacted_list_no_emails))
 
             agent_speech.append('<h4>' + 'guardrail: redacting proper nouns' + '</h4>')
-            agent_speech.append('<p>' + redacted_text_no_proper_nouns + '</p>')
-<<<<<<< HEAD
+            agent_speech.append('<p>' + str(redacted_list_no_proper_nouns) + '</p>')
             agent_speech.append('<h4>' + 'guardrail: redacting emails' + '</h4>')
-=======
-            # agent_speech.append('<h4>' + 'guardrail: redacting capitalized words' + '</h4>')
-            # agent_speech.append('<p>' + redacted_text_no_capitalized_words + '</p>')
-            agent_speech.append('<h4>' + 'guardrail: redacting phones, emails, and dates' + '</h4>')
->>>>>>> 371f3bfc889ee062fc24b579dfca17e442247e58
-            agent_speech.append('<p>' + redacted_text_no_phonesEmailsDates + '</p>')
+            agent_speech.append('<p>' + str(redacted_list_no_emails) + '</p>')
         else:
-            redacted_text = redacted_text_from_agent     
+            redacted_list = redacted_list_from_agent  
+
+        # Redact text
+        redacted_text = text
+        for redacted_word in redacted_list:
+            redacted_text = redacted_text.replace(redacted_word, '*' + redacted_word + '*')   
 
         return redacted_text, agent_speech
 
@@ -84,86 +77,46 @@ class ImageRedactionService:
     
     def redact_image(self, image):
         result = azure_image_ocr(image)
-
-<<<<<<< HEAD
-        redacted_list_from_agent = self.assistant(result.content, aggregation_strategy="first")
         redacted_list = []
-        for entity in redacted_list_from_agent:
+        raw_redacted_list_from_agent = self.assistant(result.content, aggregation_strategy="first")
+        redacted_list_from_agent = []
+        for entity in raw_redacted_list_from_agent:
             if self.degree == 0:
                 if entity['entity_group'] in self.degree0_list:
-                        redacted_list += entity['word'].strip().split()
+                        redacted_list_from_agent += entity['word'].strip().split()
             elif self.degree == 1:
                 if entity['entity_group'] in self.degree0_list + self.degree1_list:
-                        redacted_list += entity['word'].strip().split()
+                        redacted_list_from_agent += entity['word'].strip().split()
             elif self.degree == 2:
                 if entity['entity_group'] in self.degree0_list + self.degree1_list + self.degree2_list:
-                        redacted_list += entity['word'].strip().split()
-        redacted_list = list(set(redacted_list))
-=======
-        global conversation_state
-        conversation_state = 1
-        speakers = []
-
-        def image_redact_selection_func(speaker: autogen.AssistantAgent, groupchat: autogen.GroupChat):
-            global conversation_state
-            if speaker == self.user_proxy and conversation_state == 1:
-                conversation_state += 1
-                speakers.append(self.image_assistant.name)
-                return self.image_assistant
-            elif speaker == self.image_assistant and conversation_state == 2:
-                conversation_state += 1
-                speakers.append(self.evaluation.name)
-                return self.evaluation
-            elif speaker == self.evaluation and conversation_state == 3:
-                conversation_state += 1
-                speakers.append(self.image_assistant.name)
-                return self.image_assistant
-
-        # Update chat outline with user-provided text
-        self.chat_outline['message'] = result.content
-
-        # Define the GroupChat and GroupChatManager
-        image_redaction_chat = autogen.GroupChat(
-            agents=[self.user_proxy, self.image_assistant, self.evaluation],
-            speaker_selection_method=image_redact_selection_func,
-            messages=[],
-            max_round=4
-        )
-
-        image_redaction_manager = autogen.GroupChatManager(
-            groupchat=image_redaction_chat, llm_config=config_list
-        )
-
-        # Initiate the chat
-        image_redaction_chats = self.user_proxy.initiate_chat(
-            image_redaction_manager,
-            message=self.chat_outline['message']
-        )
->>>>>>> 371f3bfc889ee062fc24b579dfca17e442247e58
+                        redacted_list_from_agent += entity['word'].strip().split()
+        redacted_list = list(set(redacted_list_from_agent))
 
         # Return chat history
         agents_speech = []
         agents_speech.append('<h4>' + 'assistant' + '</h4>')
-        agents_speech.append('<p>' + str(redacted_list) + '</p>')
+        agents_speech.append('<p>' + str(redacted_list_from_agent) + '</p>')
         
         # Guardrails are called only for last degree
         if self.guardrail_toggle:
-            redacted_text_no_proper_nouns = guardrail_proper_nouns_list(result.content)
-            redacted_list = list(set(redacted_list + redacted_text_no_proper_nouns))
+            redacted_list_no_proper_nouns = guardrail_proper_nouns(result.content.split())
+            redacted_list = list(set(redacted_list_from_agent + redacted_list_no_proper_nouns))
 
             agents_speech.append('<h4>' + 'guardrail: redacting proper nouns' + '</h4>')
-            agents_speech.append('<p>' + str(redacted_text_no_proper_nouns) + '</p>')
+            agents_speech.append('<p>' + str(redacted_list_no_proper_nouns) + '</p>')
+        else:
+            redacted_list = redacted_list_from_agent
 
         # Extract redacted words and their coordinates
         redacted_cords = []
         for page in result.pages:
                 for word in page.words:
-                        for redacted_word in redacted_list:
-                            if redacted_word in word.content:
-                                cords = []
-                                for polygon in word.polygon:
-                                    cords.append((polygon.x, polygon.y))
-                                redacted_cords.append(cords)
+                    for redacted_word in redacted_list:
+                        if redacted_word in word.content:
+                            cords = []
+                            for polygon in word.polygon:
+                                cords.append((polygon.x, polygon.y))
+                            redacted_cords.append(cords)
 
         # Export redacted image
         output_path = export_redacted_image(image, redacted_cords)

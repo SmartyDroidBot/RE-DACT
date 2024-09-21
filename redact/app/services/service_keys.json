@@ -1,4 +1,4 @@
 {
-    "AZURE_KEY": "",
-    "AZURE_ENDPOINT": ""
+    "AZURE_DI_KEY": "",
+    "AZURE_DI_ENDPOINT": ""
 }

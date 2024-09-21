@@ -300,6 +300,17 @@
                         previewItem.appendChild(div);
                         previewItem.appendChild(cancelButton);
                         previewContainer.appendChild(previewItem);
+                    } else if (file.type.startsWith('video/')) {
+                            reader.onload = function(event) {
+                            const video = document.createElement('video');
+                            video.controls = true;
+                            video.src = event.target.result;
+                            video.width = 320; // Set width if needed
+                            previewItem.appendChild(video);
+                            previewItem.appendChild(cancelButton);
+                            previewContainer.appendChild(previewItem);
+                        };
+                        reader.readAsDataURL(file);
                     }
                 });
             }

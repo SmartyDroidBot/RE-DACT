@@ -145,7 +145,7 @@ textarea::placeholder {
     padding: 20px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
     margin: 0 auto;
-    max-width: 1200px;
+    max-width: 1270px;
     transition: transform 0.3s ease-in-out;
 
 }
@@ -240,13 +240,14 @@ label[for="fileInput"] {
     max-width: 100%;
     max-height: 100%;
     overflow-y: auto;
+    padding: 20px;
 }
 
 .preview-item {
     position: relative;
     margin: 5px;
-    width: 80px;
-    height: 80px;
+    width: 200px;
+    height: 200px;
     border: 1px solid #ddd;
     border-radius: 5px;
     overflow: hidden;
@@ -255,10 +256,18 @@ label[for="fileInput"] {
     justify-content: center;
 }
 
-.preview-item img {
+.preview-item img, .preview-item video {
     max-width: 100%;
     max-height: 100%;
-    object-fit: contain;
+}
+
+.preview-item-video {
+    width: 500px;
+    padding: 10px;
+    margin: 10px;
+    border: 2px solid #ccc;
+    display: inline-block;
+    text-align: center;
 }
 
 .preview-item button {
@@ -274,6 +283,17 @@ label[for="fileInput"] {
     font-size: 12px;
     cursor: pointer;
 }
+
+.preview-item-video button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: red;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
 /* Toggle Switch */
 .toggle-switch {
     position: relative;

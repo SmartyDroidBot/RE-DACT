@@ -45,12 +45,23 @@ class TextRedactionService:
         # Guardrails
         if self.guardrail_toggle:        
             redacted_text_no_proper_nouns = guardrail_proper_nouns(redacted_text_from_agent)
+<<<<<<< HEAD
             redacted_text_no_phonesEmailsDates = guardrail_emails(redacted_text_no_proper_nouns)
+=======
+            # redacted_text_no_capitalized_words = guardrail_capitalized_words(redacted_text_no_proper_nouns)
+            redacted_text_no_phonesEmailsDates = guardrail_phonesEmailsDates(redacted_text_no_proper_nouns)
+>>>>>>> 371f3bfc889ee062fc24b579dfca17e442247e58
             redacted_text = redacted_text_no_phonesEmailsDates
 
             agent_speech.append('<h4>' + 'guardrail: redacting proper nouns' + '</h4>')
             agent_speech.append('<p>' + redacted_text_no_proper_nouns + '</p>')
+<<<<<<< HEAD
             agent_speech.append('<h4>' + 'guardrail: redacting emails' + '</h4>')
+=======
+            # agent_speech.append('<h4>' + 'guardrail: redacting capitalized words' + '</h4>')
+            # agent_speech.append('<p>' + redacted_text_no_capitalized_words + '</p>')
+            agent_speech.append('<h4>' + 'guardrail: redacting phones, emails, and dates' + '</h4>')
+>>>>>>> 371f3bfc889ee062fc24b579dfca17e442247e58
             agent_speech.append('<p>' + redacted_text_no_phonesEmailsDates + '</p>')
         else:
             redacted_text = redacted_text_from_agent     
@@ -74,6 +85,7 @@ class ImageRedactionService:
     def redact_image(self, image):
         result = azure_image_ocr(image)
 
+<<<<<<< HEAD
         redacted_list_from_agent = self.assistant(result.content, aggregation_strategy="first")
         redacted_list = []
         for entity in redacted_list_from_agent:
@@ -87,6 +99,47 @@ class ImageRedactionService:
                 if entity['entity_group'] in self.degree0_list + self.degree1_list + self.degree2_list:
                         redacted_list += entity['word'].strip().split()
         redacted_list = list(set(redacted_list))
+=======
+        global conversation_state
+        conversation_state = 1
+        speakers = []
+
+        def image_redact_selection_func(speaker: autogen.AssistantAgent, groupchat: autogen.GroupChat):
+            global conversation_state
+            if speaker == self.user_proxy and conversation_state == 1:
+                conversation_state += 1
+                speakers.append(self.image_assistant.name)
+                return self.image_assistant
+            elif speaker == self.image_assistant and conversation_state == 2:
+                conversation_state += 1
+                speakers.append(self.evaluation.name)
+                return self.evaluation
+            elif speaker == self.evaluation and conversation_state == 3:
+                conversation_state += 1
+                speakers.append(self.image_assistant.name)
+                return self.image_assistant
+
+        # Update chat outline with user-provided text
+        self.chat_outline['message'] = result.content
+
+        # Define the GroupChat and GroupChatManager
+        image_redaction_chat = autogen.GroupChat(
+            agents=[self.user_proxy, self.image_assistant, self.evaluation],
+            speaker_selection_method=image_redact_selection_func,
+            messages=[],
+            max_round=4
+        )
+
+        image_redaction_manager = autogen.GroupChatManager(
+            groupchat=image_redaction_chat, llm_config=config_list
+        )
+
+        # Initiate the chat
+        image_redaction_chats = self.user_proxy.initiate_chat(
+            image_redaction_manager,
+            message=self.chat_outline['message']
+        )
+>>>>>>> 371f3bfc889ee062fc24b579dfca17e442247e58
 
         # Return chat history
         agents_speech = []

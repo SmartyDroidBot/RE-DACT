@@ -1,4 +1,4 @@
-import ast, os
+import ast, os, string
 from PIL import Image, ImageDraw
 from .agents import config_list
 from .agents import TextRedactionAgents, ImageRedactionAgents, user_proxy
@@ -48,16 +48,17 @@ class TextRedactionService:
             redacted_list = list(set(redacted_list_from_agent + redacted_list_no_proper_nouns + redacted_list_no_emails))
 
             agent_speech.append('<h4>' + 'guardrail: redacting proper nouns' + '</h4>')
-            agent_speech.append('<p>' + str(redacted_list_no_proper_nouns) + '</p>')
+            agent_speech.append('<p>Redacting words: ' + str(redacted_list_no_proper_nouns) + '</p>')
             agent_speech.append('<h4>' + 'guardrail: redacting emails' + '</h4>')
-            agent_speech.append('<p>' + str(redacted_list_no_emails) + '</p>')
+            agent_speech.append('<p>Redacting words: ' + str(redacted_list_no_emails) + '</p>')
         else:
             redacted_list = redacted_list_from_agent  
+        redacted_list = sorted(redacted_list, key=len, reverse=True)
 
         # Redact text
         redacted_text = text
         for redacted_word in redacted_list:
-            redacted_text = redacted_text.replace(redacted_word, '*' + redacted_word + '*')   
+            redacted_text = redacted_text.replace(redacted_word.strip(), '*' + '█' * len(redacted_word.strip()) + '*')
 
         return redacted_text, agent_speech
 
@@ -106,6 +107,7 @@ class ImageRedactionService:
             agents_speech.append('<p>' + str(redacted_list_no_proper_nouns) + '</p>')
         else:
             redacted_list = redacted_list_from_agent
+        redacted_list = sorted(redacted_list, key=len, reverse=True)
 
         # Extract redacted words and their coordinates
         redacted_cords = []

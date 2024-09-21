@@ -73,7 +73,7 @@
                                 <div class="droparea darkgradient-2" id="dropArea" style="height: 400px;">
                                     <i class="fa-solid fa-folder-plus" id="folderIcon" style="font-size: 3rem; color: #fff;"></i>
                                     <div class="preview-container" id="previewContainer"></div>
-                                    <input type="file" name="files" id="fileInput" multiple accept=".png, .jpg, .jpeg, .pdf, .txt" style="display: none;">
+                                    <input type="file" name="files" id="fileInput" multiple accept=".png, .jpg, .mp4, .jpeg, .txt" style="display: none;">
                                     <label for="fileInput" class="btn btn-outline-light">Select a file or drag and drop here</label>
                                 </div>
                             </div>
@@ -123,8 +123,9 @@
         
             <!-- Output Section -->
             <br>
-            {% if redacted_text or redacted_file_url or redacted_image_url %}
+            {% if redacted_text or redacted_file_url or redacted_image_url or redacted_video_url %}
             <div class="card dark-card text-white p-4 mx-auto d-flex justify-content-center align-items-center" style="max-width: 1200px;">
+                {% if redacted_text %}
                 <div class="col-12 text-center" style="padding: 20px;">
                     <div class="mb-3">
                         <h1 class="redact-header">View the Output</h1>
@@ -132,18 +133,30 @@
                         <textarea class="form-control text-white darkgradient-2 w-100" rows="3" placeholder="Output text will appear here" readonly style="background-color: #333; height: 200px;" id="output">{{ redacted_text }}</textarea>
                     </div>
                 </div>
+                {% endif %}
                 {% if redacted_file_url %}
-                <div class="col-5">
+                <div class="col-5 text-center">
                     <div class="mb-3 file-output">
                         <a href="{{ redacted_file_url }}" download>Download Redacted File</a>
                     </div>
                 </div>
                 {% elif redacted_image_url %}
-                <div class="col-5">
+                <div class="col-5 text-center">
                     <div class="mb-3 image-output">
                         <img src="{{ redacted_image_url }}" alt="Redacted Image" class="img-fluid"/>
                         <br><br>
                         <a href="{{ redacted_image_url }}" download>Download Redacted Image</a>
+                    </div>
+                </div>
+                {% elif redacted_video_url %}
+                <div class="col-12 text-center">
+                    <div class="mb-3">
+                        <video controls class="videoPreview" width="640" height="360">
+                            <source src="{{ redacted_video_url }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <br><br>
+                        <a href="{{ redacted_video_url }}" download>Download Redacted Video</a>
                     </div>
                 </div>
                 {% elif error %}
@@ -160,7 +173,7 @@
             <div class="row mt-4">
                 <div class="col-12">
                     <div id="cardSection" class="card-section" style="display: none;">
-                        <div class="card-header">See how we did it:</div>
+                        <div class="card-header" style="color: black;">See how we did it:</div>
                         <div class="card-content">
                             {% for speech in agents_speech %}
                                 {{ speech | safe }}
@@ -287,6 +300,17 @@
                         previewItem.appendChild(div);
                         previewItem.appendChild(cancelButton);
                         previewContainer.appendChild(previewItem);
+                    } else if (file.type.startsWith('video/')) {
+                            reader.onload = function(event) {
+                            const video = document.createElement('video');
+                            video.controls = true;
+                            video.src = event.target.result;
+                            video.width = 320; // Set width if needed
+                            previewItem.appendChild(video);
+                            previewItem.appendChild(cancelButton);
+                            previewContainer.appendChild(previewItem);
+                        };
+                        reader.readAsDataURL(file);
                     }
                 });
             }

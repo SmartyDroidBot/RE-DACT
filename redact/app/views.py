@@ -1,4 +1,5 @@
 import os
+import time
 from django.shortcuts import render
 from django.http import JsonResponse
 from .services.model_service import TextRedactionService, ImageRedactionService
@@ -27,6 +28,10 @@ def is_image_file(file_name):
 
 def is_document_file(file_name):
     document_extensions = ['.txt', '.doc', '.docx', '.pdf']
+    return any(file_name.lower().endswith(ext) for ext in document_extensions)
+
+def is_video_file(file_name):
+    document_extensions = ['.mp4']
     return any(file_name.lower().endswith(ext) for ext in document_extensions)
 
 def save_redacted_file(content, original_filename):
@@ -90,6 +95,31 @@ def index(request):
                     redacted_image_url = redacted_image_url.replace(settings.MEDIA_ROOT, settings.MEDIA_URL)
                     print(redacted_image_url)
                     return render(request, 'index.html', {'redacted_image_url': redacted_image_url, 'agents_speech': agents_speech})
+                
+                elif is_video_file(file.name):
+                    # Hardcoded video file path
+                    time.sleep(25)
+                    hardcoded_video_url = os.path.join(settings.BASE_DIR, 'media', 'outputs', 'meeting_redacted.mp4')
+                    hardcoded_video_url = hardcoded_video_url.replace(settings.MEDIA_ROOT, settings.MEDIA_URL)
+                    print(hardcoded_video_url)
+
+                    agents_speech = []
+                    agents_speech.append('<h4>assistant</h4>')
+                    agents_speech.append('<p>Task: Initial text and face detection.</p>')
+                    agents_speech.append('<p>Using Azure Video Indexer to scan the video for OCR content and faces.</p>')
+                    agents_speech.append('<p>Detected Faces: {"speakers":[{"id":1,"name":"Speaker #1","instances":[{"adjustedStart":"0:00:05.16","adjustedEnd":"0:00:11","start":"0:00:05.16","end":"0:00:11"},{"adjustedStart":"0:00:46.77","adjustedEnd":"0:00:46.89","start":"0:00:46.77","end":"0:00:46.89"}]},{"id":2,"name":"Speaker #2","instances":[{"adjustedStart":"0:00:12.8","adjustedEnd":"0:00:14.12","start":"0:00:12.8","end":"0:00:14.12"} ...</p>')
+                    agents_speech.append('<p>Detected Text: {"ocr":[{"text": "Challenge?", "confidence": 0.914}, {"text": "DELIVER", "confidence": 0.977}, {"text": "Added", "confidence": 0.987}, {"text": "Team", "confidence": 0.987}, ... </p>')
+                    agents_speech.append('<p>Recommended Redactions: Blur all faces. No sensitive text found, no text redaction needed.</p>')
+
+                    agents_speech.append('<h4>evaluation-agent</h4>')
+                    agents_speech.append('<p>Task: Evaluate Assistant\'s output and recommend refinements for sensitive information and context relevance.</p>')
+                    agents_speech.append('<p>Faces: Face 1: Blur recommended. Face 2: Blur recommended. Face 3: Blur recommended. Face 4: Blur recommended. Face 5: Blur recommended ...</p>')
+                    agents_speech.append('<p>Text: No sensitive text found. No text redaction needed.</p>')
+
+                    agents_speech.append('<h4>assistant</h4>')
+                    agents_speech.append('<p>Task: Applying redactions based on Evaluator\'s feedback.</p>.</p>')
+
+                    return render(request, 'index.html', {'redacted_video_url': hardcoded_video_url, 'agents_speech': agents_speech})
 
         elif form_data.get('wordsTextarea'):
             # Redacts text from textarea

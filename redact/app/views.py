@@ -2,7 +2,6 @@ import os
 from django.shortcuts import render
 from django.http import JsonResponse
 from .services.model_service import TextRedactionService, ImageRedactionService
-from .services.guardrails import guardrail_capitalized_words,guardrail_proper_nouns,guardrail_proper_nouns_list
 from django.conf import settings
 from django.utils.text import slugify
 from django.core.files.storage import default_storage
@@ -80,10 +79,6 @@ def index(request):
                     image_url = os.path.join(settings.BASE_DIR, 'media', 'uploads', save_image_file(file))
                     print(image_url)
 
-                    # Temporary degree check
-                    if degree >= 1:
-                        degree = 1
-
                     service = ImageRedactionService(degree, guardrail_toggle)
                     redacted_image_url, agents_speech = service.redact_image(image_url)
 
@@ -93,8 +88,6 @@ def index(request):
 
         elif form_data.get('wordsTextarea'):
             # Redacts text from textarea
-            if degree >= 3:
-                degree = 2
             user_text = form_data['wordsTextarea']
             service = TextRedactionService(degree, guardrail_toggle)
             redacted_text, agents_speech = service.redact_text(user_text)

@@ -81,43 +81,52 @@
                     </div>
 
                     <div class="row">
+                        <!-- First Row: Redaction Level Slider -->
                         <div class="col-md-12 text-center mb-4">
                             <div class="slider-container">
-                                <h5 class="form-label" style="color: white; font-weight: bolder; padding: 0px;">Choose level of redaction</h5>
-                                <br>
-                                <div class="range-slider" style="padding-bottom: 10px">
+                                <h5 class="form-label" style="color: white; font-weight: bolder;">Choose level of redaction</h5>
+                                <div class="range-slider mt-2 mb-4" style="width: 900px;">
                                     <input type="range" class="rs-range" name="rangeInput" id="rs-range-line" min="0" max="2" value="0">
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12 d-flex justify-content-between align-items-center" style="padding-top: 10px;">
+                    
+                        <!-- Second Row: Toggles and Advanced Options Button -->
+                        <div class="col-md-12 d-flex justify-content-center align-items-center mb-4">
                             <!-- Left Toggle: Add synthetic data -->
-                            <div class="d-flex align-items-center">
-                                <label class="toggle-switch me-2">
+                            <div class="d-flex align-items-center me-5" style="padding-right: 15px;">
+                                <span style="color: white; font-weight: bold;">Add Synthetic Data</span>
+                                <label class="toggle-switch ms-2">
                                     <input type="checkbox" name="syntheticData">
                                     <span class="slider"></span>
                                 </label>
-                                <span style="color: white; font-weight: bold; margin-left: 10px;">Add synthetic data</span>
                             </div>
                         
-                            <!-- Center Buttons: Submit File and Advanced Settings -->
-                            <div>
-                                <button type="submit" class="btn btn-outline-light btn-lg me-3">SUBMIT FILE</button>
-                                <button class="btn btn-outline-light btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#advancedOptionsModal">
-                                    Advanced Settings
-                                </button>
-                            </div>
-                        
-                            <!-- Right Toggle: See how we did it! -->
-                            <div class="d-flex align-items-center">
-                                <span style="color: white; font-weight: bold; margin-right: 10px;">See how we did it!</span>
+                            <!-- Right Toggle: Processing Overview -->
+                            <div class="d-flex align-items-center me-5" style="padding-right: 15px;">
+                                <span style="color: white; font-weight: bold;">Processing Overview</span>
                                 <label class="toggle-switch ms-2">
                                     <input type="checkbox" name="showProcess" id="toggleCard">
                                     <span class="slider round"></span>
                                 </label>
                             </div>
-                        </div>                        
+                        
+                            <!-- Center: Advanced Options Button -->
+                            <div class="text-center" style="margin-left: 10px;">
+                                <button class="btn btn-outline-light btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#advancedOptionsModal">
+                                    Advanced Options
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Third Row: Redact Button -->
+                        <div class="col-md-12 text-center mt-4">
+                            <button type="submit" class="btn btn-success btn-lg" style="font-size: 1.5rem; padding: 10px 25px; width: 175px;">
+                                REDACT
+                            </button>
+                        </div>
                     </div>
+                    
                 </form>
             </div>
         
@@ -128,7 +137,7 @@
                 {% if redacted_text %}
                 <div class="col-12 text-center" style="padding: 20px;">
                     <div class="mb-3">
-                        <h1 class="redact-header">View the Output</h1>
+                        <h1 class="redact-header">Output</h1>
                         <br>
                         <textarea class="form-control text-white darkgradient-2 w-100" rows="3" placeholder="Output text will appear here" readonly style="background-color: #333; height: 200px;" id="output">{{ redacted_text }}</textarea>
                     </div>
@@ -173,7 +182,8 @@
             <div class="row mt-4">
                 <div class="col-12">
                     <div id="cardSection" class="card-section" style="display: none;">
-                        <div class="card-header" style="color: black;">See how we did it:</div>
+                        <div class="card-header" style="color: black;"><h4>See how we did it:</h4></div>
+                        <br>
                         <div class="card-content">
                             {% for speech in agents_speech %}
                                 {{ speech | safe }}

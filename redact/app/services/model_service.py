@@ -48,7 +48,7 @@ class TextRedactionService:
             agents=[self.user_proxy, self.text_assistant, self.evaluation],
             speaker_selection_method=text_redact_selection_func,
             messages=[],
-            max_round=4
+            max_round=2
         )
 
         text_redaction_manager = autogen.GroupChatManager(
@@ -73,14 +73,14 @@ class TextRedactionService:
         # Guardrails are called only for last degree
         if self.guardrail_toggle:        
             redacted_text_no_proper_nouns = guardrail_proper_nouns(redacted_text_from_agent)
-            redacted_text_no_capitalized_words = guardrail_capitalized_words(redacted_text_no_proper_nouns)
-            redacted_text_no_phonesEmailsDates = guardrail_phonesEmailsDates(redacted_text_no_capitalized_words)
+            # redacted_text_no_capitalized_words = guardrail_capitalized_words(redacted_text_no_proper_nouns)
+            redacted_text_no_phonesEmailsDates = guardrail_phonesEmailsDates(redacted_text_no_proper_nouns)
             redacted_text = redacted_text_no_phonesEmailsDates
 
             agent_speech.append('<h4>' + 'guardrail: redacting proper nouns' + '</h4>')
             agent_speech.append('<p>' + redacted_text_no_proper_nouns + '</p>')
-            agent_speech.append('<h4>' + 'guardrail: redacting capitalized words' + '</h4>')
-            agent_speech.append('<p>' + redacted_text_no_capitalized_words + '</p>')
+            # agent_speech.append('<h4>' + 'guardrail: redacting capitalized words' + '</h4>')
+            # agent_speech.append('<p>' + redacted_text_no_capitalized_words + '</p>')
             agent_speech.append('<h4>' + 'guardrail: redacting phones, emails, and dates' + '</h4>')
             agent_speech.append('<p>' + redacted_text_no_phonesEmailsDates + '</p>')
         else:
@@ -132,7 +132,7 @@ class ImageRedactionService:
             agents=[self.user_proxy, self.image_assistant, self.evaluation],
             speaker_selection_method=image_redact_selection_func,
             messages=[],
-            max_round=4 
+            max_round=4
         )
 
         image_redaction_manager = autogen.GroupChatManager(

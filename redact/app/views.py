@@ -98,7 +98,7 @@ def index(request):
                 
                 elif is_video_file(file.name):
                     # Hardcoded video file path
-                    time.sleep(25)
+                    time.sleep(15)
                     hardcoded_video_url = os.path.join(settings.BASE_DIR, 'media', 'outputs', 'meeting_redacted.mp4')
                     hardcoded_video_url = hardcoded_video_url.replace(settings.MEDIA_ROOT, settings.MEDIA_URL)
                     print(hardcoded_video_url)

@@ -19,6 +19,38 @@ def guardrail_proper_nouns(word_list):
 
     return list(set(redacted_list))
 
+# Guardrail that redacts numbers
+def guardrail_numbers(word_list):
+    patterns = {
+        "numbers": re.compile(r"\b\d+[\d.,-]*\b"),
+    }
+
+    redacted_list = []
+    for pattern in patterns.values():
+        matches = pattern.findall(' '.join(word_list))
+        for match in matches:
+            match_text = ''.join(match).strip()
+            if match_text:
+                redacted_list.append(match_text)
+    
+    return redacted_list
+
+# Guardrail that redacts URLs
+def guardrail_urls(word_list):
+    patterns = {
+        "urls": re.compile(r'(?:https?://)?(?:www\.)?([\w.-]+\.\w+)'),
+    }
+
+    redacted_list = []
+    for pattern in patterns.values():
+        matches = pattern.findall(' '.join(word_list))
+        for match in matches:
+            match_text = ''.join(match).strip()
+            if match_text:
+                redacted_list.append(match_text)
+    
+    return redacted_list
+
 # Guardrail that redacts emails
 def guardrail_emails(word_list):
     patterns = {

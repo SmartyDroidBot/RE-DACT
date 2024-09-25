@@ -38,9 +38,21 @@
                     <form class="form-check form-switch" action="/" method="POST">
                         {% csrf_token %}
                         <input type="hidden" name="guardrails" value="0">
-                        <input class="form-check-input" type="checkbox" id="guardrailsSwitch" name="guardrails" value="1" checked>
+                        <input class="form-check-input" type="checkbox" id="guardrailsSwitch" name="guardrails" value="1" checked style="margin-top: 10px;">
                         <label class="form-check-label" for="guardrailsSwitch">Turn on guardrails</label>
                         <i class="info-icon" data-bs-toggle="tooltip" data-bs-placement="right" title="Applicable to 2nd degree of image and 3rd degree of text.">i</i>
+                        
+                        <!-- New field for words to be removed -->
+                        <div class="mb-3 mt-4" style="margin-left: -40px;">
+                            <label for="wordsToRemove" class="form-label">Words to Remove</label>
+                            <input type="text" class="form-control" id="wordsToRemove" name="wordsToRemove" placeholder="Enter words (Seperated by commas)">
+                        </div>
+
+                        <!-- New field for regex pattern -->
+                        <div class="mb-3" style="margin-left: -40px;">
+                            <label for="regexPattern" class="form-label">Regex Pattern</label>
+                            <input type="text" class="form-control" id="regexPattern" name="regexPattern" placeholder="Enter regex pattern">
+                        </div>
                     </form>
                 </div>
             </div>
@@ -54,6 +66,8 @@
                 <form id="submissionForm" method="post" enctype="multipart/form-data" action="/">
                     {% csrf_token %}
                     <input type="hidden" name="guardrails" id="hiddenGuardrails" value="0">
+                    <input type="hidden" id="hiddenWordsToRemove" name="wordsToRemove">
+                    <input type="hidden" id="hiddenRegexPattern" name="regexPattern">
                     <div class="row mb-4">
                         <div class="col-md-5">
                             <div class="mb-3 text-center">
@@ -73,7 +87,7 @@
                                 <div class="droparea darkgradient-2" id="dropArea" style="height: 400px;">
                                     <i class="fa-solid fa-folder-plus" id="folderIcon" style="font-size: 3rem; color: #fff;"></i>
                                     <div class="preview-container" id="previewContainer"></div>
-                                    <input type="file" name="files" id="fileInput" multiple accept=".png, .jpg, .mp4, .jpeg, .txt" style="display: none;">
+                                    <input type="file" name="files" id="fileInput" multiple accept=".png, .jpg, .mp4, .jpeg, .txt, .pdf" style="display: none;">
                                     <label for="fileInput" class="btn btn-outline-light">Select a file or drag and drop here</label>
                                 </div>
                             </div>
@@ -129,7 +143,11 @@
                     
                 </form>
             </div>
-        
+            
+            <div id="loader" class="loader-overlay">
+                <div class="loader"></div>
+            </div>
+
             <!-- Output Section -->
             <br>
             {% if redacted_text or redacted_file_url or redacted_image_url or redacted_video_url %}
@@ -229,7 +247,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script>
 
-        document.addEventListener('DOMContentLoaded', function () {
+            document.addEventListener('DOMContentLoaded', function () {
             const fileInput = document.getElementById('fileInput');
             const previewContainer = document.getElementById('previewContainer');
             const folderIcon = document.getElementById('folderIcon');
@@ -255,6 +273,17 @@
                 document.querySelector('.droparea').classList.remove('drag-over');
                 fileInput.files = event.dataTransfer.files;
                 handleFiles();
+            });
+
+            document.getElementById('submissionForm').addEventListener('submit', function(event) {
+                  // Show the loader
+                document.getElementById('loader').style.display = 'flex';
+                
+                // Copy values from additional options fields to hidden fields
+                document.getElementById('hiddenWordsToRemove').value = document.getElementById('wordsToRemove').value;
+                document.getElementById('hiddenRegexPattern').value = document.getElementById('regexPattern').value;
+
+                
             });
 
             function handleFiles() {

@@ -2,7 +2,7 @@ import os
 import time
 from django.shortcuts import render
 from django.http import JsonResponse
-from .services.model_service import TextRedactionService, ImageRedactionService
+from .services.model_service import TextRedactionService, ImageRedactionService, PDFRedactionService
 from django.conf import settings
 from django.utils.text import slugify
 from django.core.files.storage import default_storage
@@ -25,8 +25,12 @@ def is_image_file(file_name):
     image_extensions = ['.png', '.jpg', '.jpeg']
     return any(file_name.lower().endswith(ext) for ext in image_extensions)
 
+def is_pdf_file(file_name):
+    image_extensions = ['.pdf']
+    return any(file_name.lower().endswith(ext) for ext in image_extensions)
+
 def is_document_file(file_name):
-    document_extensions = ['.txt', '.doc', '.docx', '.pdf']
+    document_extensions = ['.txt']
     return any(file_name.lower().endswith(ext) for ext in document_extensions)
 
 def is_video_file(file_name):
@@ -90,6 +94,16 @@ def index(request):
                     redacted_image_url = redacted_image_url.replace(settings.MEDIA_ROOT, settings.MEDIA_URL)
                     print(redacted_image_url)
                     return render(request, 'index.html', {'redacted_image_url': redacted_image_url, 'agents_speech': agents_speech})
+                
+                elif is_pdf_file(file.name):
+                    # Redacts PDFs
+                    pdf_url = os.path.join(settings.BASE_DIR, 'media', 'uploads', save_image_file(file))
+                    print(pdf_url)
+
+                    service = PDFRedactionService(degree, guardrail_toggle)
+                    redacted_file_url, agents_speech = service.redact_pdf(pdf_url)
+
+                    return render(request, 'index.html', {'redacted_file_url': redacted_file_url, 'agents_speech': agents_speech})
                 
                 elif is_video_file(file.name):
                     # Hardcoded video file path

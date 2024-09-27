@@ -3,6 +3,7 @@ from PIL import Image, ImageDraw
 from .agents import config_list
 from .agents import TextRedactionAgents, ImageRedactionAgents, PDFRedactionAgents, user_proxy
 from .guardrails import guardrail_proper_nouns, guardrail_numbers, guardrail_urls, guardrail_emails
+from .db_service import uploadOutputDB
 from .utils import azure_image_ocr, azure_pdf_ocr, match_regexPattern, export_redacted_image, export_redacted_pdf
 from django.conf import settings
 
@@ -23,6 +24,8 @@ class TextRedactionService:
         word_list = text.split()
         redacted_list = []
         redacted_list_from_agent = [] + [j for i in wordsToRemove for j in i.split()]
+        output_db_list = [] # Storing outputs for improving models
+
         raw_redacted_list_from_agent = self.assistant(text, aggregation_strategy="first")
         for entity in raw_redacted_list_from_agent:
             if self.degree == 0:
@@ -34,7 +37,14 @@ class TextRedactionService:
             elif self.degree == 2:
                 if entity['entity_group'] in self.degree0_list + self.degree1_list + self.degree2_list:
                     redacted_list_from_agent += entity['word'].strip().split()
+            # Appending to Output DB List
+            output_db_list.append({
+                'word': entity['word'],
+                'label': entity['entity_group']
+            })
+
         redacted_list_from_agent = list(set(redacted_list_from_agent))
+        uploadOutputDB(output_db_list)
 
         # Match regex pattern given by user
         regex_matches = match_regexPattern(text, regexPattern)
@@ -69,7 +79,7 @@ class TextRedactionService:
         redacted_text = text
         for redacted_word in redacted_list:
             # Removing single characters from redacted words but not numbers
-            if len(redacted_word.strip()) == 1 and not redacted_word.strip().isnumeric():
+            if len(redacted_word.strip()) <= 1 and not redacted_word.strip().isnumeric():
                 continue
             else:
                 redacted_text = redacted_text.replace(redacted_word.strip(), '*' + '█' * len(redacted_word.strip()) + '*')
@@ -94,6 +104,8 @@ class ImageRedactionService:
         result = azure_image_ocr(image)
         word_list = result.content.split()
         redacted_list = []
+        output_db_list = [] # Storing outputs for improving models
+
         raw_redacted_list_from_agent = self.assistant(result.content, aggregation_strategy="first")
         redacted_list_from_agent = [] + [j for i in wordsToRemove for j in i.split()]
         for entity in raw_redacted_list_from_agent:
@@ -106,7 +118,14 @@ class ImageRedactionService:
             elif self.degree == 2:
                 if entity['entity_group'] in self.degree0_list + self.degree1_list + self.degree2_list:
                         redacted_list_from_agent += entity['word'].strip().split()
+            # Appending to Output DB List
+            output_db_list.append({
+                'word': entity['word'],
+                'label': entity['entity_group']
+            })
+
         redacted_list_from_agent = list(set(redacted_list_from_agent))
+        uploadOutputDB(output_db_list)
 
         # Match regex pattern given by user
         regex_matches = match_regexPattern(result.content, regexPattern)
@@ -143,7 +162,7 @@ class ImageRedactionService:
             for word in page.words:
                 for redacted_word in redacted_list:
                     # Removing single characters from redacted words but not numbers
-                    if len(redacted_word.strip()) == 1 and not redacted_word.strip().isnumeric():
+                    if len(redacted_word.strip()) <= 1 and not redacted_word.strip().isnumeric():
                         continue
                     elif redacted_word in word.content or redacted_word.strip() in word.content.strip():
                         cords = []
@@ -174,6 +193,7 @@ class PDFRedactionService:
         result = azure_pdf_ocr(pdf)
         word_list = result.content.split()
         redacted_list = []
+        output_db_list = [] # Stores outputs for improvingm models
         redacted_list_from_agent = [] + [j for i in wordsToRemove for j in i.split()]
 
         for page in result.pages:
@@ -188,6 +208,14 @@ class PDFRedactionService:
                 elif self.degree == 2:
                     if entity['entity_group'] in self.degree0_list + self.degree1_list + self.degree2_list:
                         redacted_list_from_agent += entity['word'].strip().split()
+                # Appending to Output DB List
+                output_db_list.append({
+                    'word': entity['word'],
+                    'label': entity['entity_group']
+                })
+
+        redacted_list_from_agent = list(set(redacted_list_from_agent))
+        uploadOutputDB(output_db_list)
 
         redacted_list_from_agent = list(set(redacted_list_from_agent))
 
@@ -229,7 +257,7 @@ class PDFRedactionService:
             for word in page.words:
                 for redacted_word in redacted_list:
                     # Removing single characters from redacted words but not numbers
-                    if len(redacted_word.strip()) == 1 and not redacted_word.strip().isnumeric():
+                    if len(redacted_word.strip()) <= 1 and not redacted_word.strip().isnumeric():
                         continue
                     elif redacted_word in word.content or redacted_word.strip() in word.content.strip():
                         cords = []

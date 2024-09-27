@@ -3,7 +3,7 @@ from PIL import Image, ImageDraw
 from .agents import config_list
 from .agents import TextRedactionAgents, ImageRedactionAgents, PDFRedactionAgents, user_proxy
 from .guardrails import guardrail_proper_nouns, guardrail_numbers, guardrail_urls, guardrail_emails
-from .utils import azure_image_ocr, azure_pdf_ocr, export_redacted_image, export_redacted_pdf
+from .utils import azure_image_ocr, azure_pdf_ocr, match_regexPattern, export_redacted_image, export_redacted_pdf
 from django.conf import settings
 
 class TextRedactionService:
@@ -19,10 +19,10 @@ class TextRedactionService:
         self.degree1_list = TextRedactionAgents(degree).degree1_list
         self.degree2_list = TextRedactionAgents(degree).degree2_list
 
-    def redact_text(self, text):
+    def redact_text(self, text, regexPattern, wordsToRemove=[]):
         word_list = text.split()
         redacted_list = []
-        redacted_list_from_agent = []
+        redacted_list_from_agent = [] + [j for i in wordsToRemove for j in i.split()]
         raw_redacted_list_from_agent = self.assistant(text, aggregation_strategy="first")
         for entity in raw_redacted_list_from_agent:
             if self.degree == 0:
@@ -35,6 +35,10 @@ class TextRedactionService:
                 if entity['entity_group'] in self.degree0_list + self.degree1_list + self.degree2_list:
                     redacted_list_from_agent += entity['word'].strip().split()
         redacted_list_from_agent = list(set(redacted_list_from_agent))
+
+        # Match regex pattern given by user
+        regex_matches = match_regexPattern(text, regexPattern)
+        redacted_list_from_agent = list(set(redacted_list_from_agent + regex_matches))
                 
         # Return chat history
         agents_speech = []
@@ -64,8 +68,8 @@ class TextRedactionService:
         # Redact text
         redacted_text = text
         for redacted_word in redacted_list:
-            # Removing single characters from redacted words
-            if len(redacted_word.strip()) == 1:
+            # Removing single characters from redacted words but not numbers
+            if len(redacted_word.strip()) == 1 and not redacted_word.strip().isnumeric():
                 continue
             else:
                 redacted_text = redacted_text.replace(redacted_word.strip(), '*' + '█' * len(redacted_word.strip()) + '*')
@@ -86,12 +90,12 @@ class ImageRedactionService:
         self.degree1_list = ImageRedactionAgents(degree).degree1_list
         self.degree2_list = ImageRedactionAgents(degree).degree2_list
     
-    def redact_image(self, image):
+    def redact_image(self, image, regexPattern, wordsToRemove=[]):
         result = azure_image_ocr(image)
         word_list = result.content.split()
         redacted_list = []
         raw_redacted_list_from_agent = self.assistant(result.content, aggregation_strategy="first")
-        redacted_list_from_agent = []
+        redacted_list_from_agent = [] + [j for i in wordsToRemove for j in i.split()]
         for entity in raw_redacted_list_from_agent:
             if self.degree == 0:
                 if entity['entity_group'] in self.degree0_list:
@@ -103,6 +107,10 @@ class ImageRedactionService:
                 if entity['entity_group'] in self.degree0_list + self.degree1_list + self.degree2_list:
                         redacted_list_from_agent += entity['word'].strip().split()
         redacted_list_from_agent = list(set(redacted_list_from_agent))
+
+        # Match regex pattern given by user
+        regex_matches = match_regexPattern(result.content, regexPattern)
+        redacted_list_from_agent = list(set(redacted_list_from_agent + regex_matches))
 
         # Return chat history
         agents_speech = []
@@ -134,7 +142,8 @@ class ImageRedactionService:
         for page in result.pages:
             for word in page.words:
                 for redacted_word in redacted_list:
-                    if len(redacted_word.strip()) == 1:
+                    # Removing single characters from redacted words but not numbers
+                    if len(redacted_word.strip()) == 1 and not redacted_word.strip().isnumeric():
                         continue
                     elif redacted_word in word.content or redacted_word.strip() in word.content.strip():
                         cords = []
@@ -161,11 +170,11 @@ class PDFRedactionService:
         self.degree1_list = PDFRedactionAgents(degree).degree1_list
         self.degree2_list = PDFRedactionAgents(degree).degree2_list
     
-    def redact_pdf(self, pdf):
+    def redact_pdf(self, pdf, regexPattern, wordsToRemove=[]):
         result = azure_pdf_ocr(pdf)
         word_list = result.content.split()
         redacted_list = []
-        redacted_list_from_agent = []
+        redacted_list_from_agent = [] + [j for i in wordsToRemove for j in i.split()]
 
         for page in result.pages:
             raw_redacted_list_from_agent_page = self.assistant(" ".join([line.content for line in page.lines]), aggregation_strategy="first")
@@ -181,6 +190,10 @@ class PDFRedactionService:
                         redacted_list_from_agent += entity['word'].strip().split()
 
         redacted_list_from_agent = list(set(redacted_list_from_agent))
+
+        # Match regex pattern given by user
+        regex_matches = match_regexPattern(result.content, regexPattern)
+        redacted_list_from_agent = list(set(redacted_list_from_agent + regex_matches))
 
         # Return chat history
         agents_speech = []
@@ -215,7 +228,8 @@ class PDFRedactionService:
             redacted_cords_page = []
             for word in page.words:
                 for redacted_word in redacted_list:
-                    if len(redacted_word.strip()) == 1:
+                    # Removing single characters from redacted words but not numbers
+                    if len(redacted_word.strip()) == 1 and not redacted_word.strip().isnumeric():
                         continue
                     elif redacted_word in word.content or redacted_word.strip() in word.content.strip():
                         cords = []

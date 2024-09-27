@@ -1,4 +1,5 @@
 import os
+import regex as re
 from azure.core.credentials import AzureKeyCredential
 from azure.ai.formrecognizer import DocumentAnalysisClient
 from django.conf import settings
@@ -41,6 +42,11 @@ def azure_pdf_ocr(pdf):
         result = poller.result()
     
     return result
+
+# Function to extract Regex matches from text
+def match_regexPattern(text, regexPattern):
+    matches = re.findall(regexPattern, text)
+    return matches
 
 # Export redacted image
 def export_redacted_image(image_path, redacted_cords):

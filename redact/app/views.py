@@ -56,7 +56,9 @@ def index(request):
             'files': request.FILES.getlist('files'),
             'rangeInput': request.POST.get('rangeInput'),
             'wordsTextarea': request.POST.get('wordsTextarea'),
-            'guardrails': request.POST.get('guardrails')
+            'guardrails': request.POST.get('guardrails'),
+            'wordsToRemove': request.POST.get('wordsToRemove'),
+            'regexPattern': request.POST.get('regexPattern')
         }
 
         print("Form Data Received:")
@@ -66,6 +68,8 @@ def index(request):
         degree = int(form_data.get('rangeInput'))
         if degree >= 2:
             degree = 2
+        wordsToRemove = form_data.get('wordsToRemove').split(',')
+        regexPattern = form_data.get('regexPattern')
 
         if form_data.get('files'):
             for file in form_data['files']:
@@ -77,7 +81,7 @@ def index(request):
                         degree = 2
 
                     service = TextRedactionService(degree, guardrail_toggle)
-                    redacted_text, agents_speech = service.redact_text(file_text)
+                    redacted_text, agents_speech = service.redact_text(file_text, regexPattern, wordsToRemove)
 
                     redacted_text = re.sub(r'\*(.*?)\*', lambda match: '█' * len(match.group(1)), redacted_text)
                     redacted_file_url = save_redacted_file(redacted_text, file.name)
@@ -89,7 +93,7 @@ def index(request):
                     print(image_url)
 
                     service = ImageRedactionService(degree, guardrail_toggle)
-                    redacted_image_url, agents_speech = service.redact_image(image_url)
+                    redacted_image_url, agents_speech = service.redact_image(image_url, regexPattern, wordsToRemove)
 
                     redacted_image_url = redacted_image_url.replace(settings.MEDIA_ROOT, settings.MEDIA_URL)
                     print(redacted_image_url)
@@ -101,7 +105,7 @@ def index(request):
                     print(pdf_url)
 
                     service = PDFRedactionService(degree, guardrail_toggle)
-                    redacted_file_url, agents_speech = service.redact_pdf(pdf_url)
+                    redacted_file_url, agents_speech = service.redact_pdf(pdf_url, regexPattern, wordsToRemove)
 
                     return render(request, 'index.html', {'redacted_file_url': redacted_file_url, 'agents_speech': agents_speech})
                 
@@ -134,7 +138,7 @@ def index(request):
             # Redacts text from textarea
             user_text = form_data['wordsTextarea']
             service = TextRedactionService(degree, guardrail_toggle)
-            redacted_text, agents_speech = service.redact_text(user_text)
+            redacted_text, agents_speech = service.redact_text(user_text, regexPattern, wordsToRemove)
 
             redacted_text = re.sub(r'\*(.*?)\*', lambda match: '█' * len(match.group(1)), redacted_text)
             return render(request, 'index.html', {'redacted_text': redacted_text, 'agents_speech': agents_speech})

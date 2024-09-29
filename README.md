@@ -1,4 +1,8 @@
-# Project Setup Guide
+# Project Description
+
+RE-DACT is a powerful tool that automates the redaction of sensitive information from text and documents. Utilizing the LLaMA model, it intelligently detects and redacts personal data, such as names, addresses, and dates, ensuring document security and privacy. With RE-DACT, organizations can streamline compliance with data protection standards and handle sensitive documents with confidence.
+
+# Project Setup Guide 
 
 ## 1. Download and Install Ollama
 

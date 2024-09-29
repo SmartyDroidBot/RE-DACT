@@ -1,6 +1,7 @@
-import autogen
+import os
 from django.conf import settings
-from transformers import pipeline
+from transformers import pipeline, AutoTokenizer, AutoModelForTokenClassification
+from django.conf import settings
 
 config_list = {
     'model': 'llama3.1',
@@ -8,9 +9,17 @@ config_list = {
     'api_key': getattr(settings, 'OLLAMA_API_KEY', 'ollama'),
 }
 
+# Set up models locally
+if not os.path.exists('models'):
+    os.makedirs('models')
+    tokenizer = AutoTokenizer.from_pretrained("lakshyakh93/deberta_finetuned_pii")
+    tokenizer.save_pretrained(settings.MODEL_PATH)
+    model = AutoModelForTokenClassification.from_pretrained("lakshyakh93/deberta_finetuned_pii")
+    model.save_pretrained(settings.MODEL_PATH)
+
 class TextRedactionAgents:
     def __init__(self, degree=0):
-        self.assistant = pipeline("token-classification", "lakshyakh93/deberta_finetuned_pii", device=-1)
+        self.assistant = pipeline("token-classification", tokenizer=settings.MODEL_PATH, model=settings.MODEL_PATH , device=-1)
 
         self.degree0_list = [
             "SSN", "PASSWORD", "CREDITCARDNUMBER", "CREDITCARDCVV", "ACCOUNTNUMBER", "IBAN",
@@ -74,10 +83,4 @@ class PDFRedactionAgents:
             "SECONDARYADDRESS", "CURRENCY", "AMOUNT", "SEXTYPE", "ORDINALDIRECTION", 
             "DISPLAYNAME", "NUMBER", "NEARBYGPSCOORDINATE", "CURRENCYCODE", "CURRENCYSYMBOL"
         ]
-    
 
-user_proxy = autogen.UserProxyAgent(
-    'user_proxy', 
-    human_input_mode='NEVER',
-    code_execution_config=False
-)

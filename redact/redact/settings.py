@@ -136,3 +136,5 @@ with open(os.path.join(BASE_DIR, 'app', 'services', 'service_keys.json')) as f:
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+MODEL_PATH = os.path.join(BASE_DIR, 'models')

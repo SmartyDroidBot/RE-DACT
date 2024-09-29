@@ -1,7 +1,5 @@
-import ast, os, string
-from PIL import Image, ImageDraw
 from .agents import config_list
-from .agents import TextRedactionAgents, ImageRedactionAgents, PDFRedactionAgents, user_proxy
+from .agents import TextRedactionAgents, ImageRedactionAgents, PDFRedactionAgents
 from .guardrails import guardrail_proper_nouns, guardrail_numbers, guardrail_urls, guardrail_emails
 from .db_service import uploadOutputDB
 from .utils import azure_image_ocr, azure_pdf_ocr, match_regexPattern, export_redacted_image, export_redacted_pdf

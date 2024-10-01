@@ -138,3 +138,4 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MODEL_PATH = os.path.join(BASE_DIR, 'models')
+MODEL_TRAINING_LOGS = os.path.join(MODEL_PATH, 'training_logs.json')

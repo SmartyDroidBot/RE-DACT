@@ -1,4 +1,3 @@
-from .agents import config_list
 from .agents import TextRedactionAgents, ImageRedactionAgents, PDFRedactionAgents
 from .guardrails import guardrail_proper_nouns, guardrail_numbers, guardrail_urls, guardrail_emails
 from .db_service import uploadOutputDB
@@ -38,7 +37,11 @@ class TextRedactionService:
             # Appending to Output DB List
             output_db_list.append({
                 'word': entity['word'],
-                'label': entity['entity_group']
+                'label': 'B-' + entity['entity_group'] # Adding B- prefix to entity_group
+            })
+            output_db_list.append({
+                'word': entity['word'],
+                'label': 'I-' + entity['entity_group'] # Adding I- prefix to entity_group
             })
 
         redacted_list_from_agent = list(set(redacted_list_from_agent))
@@ -119,8 +122,13 @@ class ImageRedactionService:
             # Appending to Output DB List
             output_db_list.append({
                 'word': entity['word'],
-                'label': entity['entity_group']
+                'label': 'B-' + entity['entity_group'] # Adding B- prefix to entity_group
             })
+            output_db_list.append({
+                'word': entity['word'],
+                'label': 'I-' + entity['entity_group'] # Adding I- prefix to entity_group
+            })
+
 
         redacted_list_from_agent = list(set(redacted_list_from_agent))
         uploadOutputDB(output_db_list)
@@ -208,8 +216,12 @@ class PDFRedactionService:
                         redacted_list_from_agent += entity['word'].strip().split()
                 # Appending to Output DB List
                 output_db_list.append({
+                'word': entity['word'],
+                'label': 'B-' + entity['entity_group'] # Adding B- prefix to entity_group
+                })
+                output_db_list.append({
                     'word': entity['word'],
-                    'label': entity['entity_group']
+                    'label': 'I-' + entity['entity_group'] # Adding I- prefix to entity_group
                 })
 
         redacted_list_from_agent = list(set(redacted_list_from_agent))

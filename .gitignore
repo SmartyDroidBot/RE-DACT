@@ -169,3 +169,4 @@ cython_debug/
 redact/redaction_log.txt
 redact/app/services/service_keys.json
 redact/models
+redact/wandb

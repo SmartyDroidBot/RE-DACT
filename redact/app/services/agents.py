@@ -3,12 +3,6 @@ from django.conf import settings
 from transformers import pipeline, AutoTokenizer, AutoModelForTokenClassification
 from django.conf import settings
 
-config_list = {
-    'model': 'llama3.1',
-    'base_url': getattr(settings, 'OLLAMA_API_URL', 'http://localhost:11434/v1'),
-    'api_key': getattr(settings, 'OLLAMA_API_KEY', 'ollama'),
-}
-
 # Set up models locally
 if not os.path.exists('models'):
     os.makedirs('models')

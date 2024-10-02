@@ -55,12 +55,17 @@ def export_redacted_image(image_path, redacted_cords):
 
     # For each set of coordinates, draw the black boxes
     for coord_set in redacted_cords:
-        x_coords = [point[0] for point in coord_set]
-        y_coords = [point[1] for point in coord_set]
-        x_min, x_max = min(x_coords), max(x_coords)
-        y_min, y_max = min(y_coords), max(y_coords)
+        try: # For words
+            x_coords = [point[0] for point in coord_set]
+            y_coords = [point[1] for point in coord_set]
+            x_min, x_max = min(x_coords), max(x_coords)
+            y_min, y_max = min(y_coords), max(y_coords)
+        
+        except: # For faces
+            x_min, y_min, x_max, y_max = coord_set
 
-        draw.rectangle([x_min, y_min, x_max, y_max], fill='black')
+        finally:
+            draw.rectangle([x_min, y_min, x_max, y_max], fill='black')
 
     if not os.path.exists(os.path.join(settings.MEDIA_ROOT, 'outputs')):
         os.makedirs(os.path.join(settings.MEDIA_ROOT, 'outputs'))

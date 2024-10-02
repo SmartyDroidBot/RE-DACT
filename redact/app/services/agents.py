@@ -1,21 +1,21 @@
-import os
+import os, shutil, urllib
 from django.conf import settings
 from transformers import pipeline, AutoTokenizer, AutoModelForTokenClassification
+from ultralytics import YOLO
 from django.conf import settings
 
-config_list = {
-    'model': 'llama3.1',
-    'base_url': getattr(settings, 'OLLAMA_API_URL', 'http://localhost:11434/v1'),
-    'api_key': getattr(settings, 'OLLAMA_API_KEY', 'ollama'),
-}
-
 # Set up models locally
-if not os.path.exists('models'):
+if not os.path.exists(settings.MODEL_PATH):
     os.makedirs('models')
     tokenizer = AutoTokenizer.from_pretrained("lakshyakh93/deberta_finetuned_pii")
     tokenizer.save_pretrained(settings.MODEL_PATH)
     model = AutoModelForTokenClassification.from_pretrained("lakshyakh93/deberta_finetuned_pii")
     model.save_pretrained(settings.MODEL_PATH)
+
+if not os.path.exists(settings.YOLO_MODEL_PATH):
+    os.makedirs('yolo')
+    download_path = 'https://drive.google.com/file/d/1ZD_CEsbo3p3_dd8eAtRfRxHDV44M0djK/view'
+    urllib.request.urlretrieve(download_path, settings.YOLO_MODEL_PATH)
 
 class TextRedactionAgents:
     def __init__(self, degree=0):
@@ -42,7 +42,8 @@ class TextRedactionAgents:
 
 class ImageRedactionAgents:
     def __init__(self, degree=0):
-        self.assistant = pipeline("token-classification", "lakshyakh93/deberta_finetuned_pii", device=-1)
+        self.assistant = pipeline("token-classification", tokenizer=settings.MODEL_PATH, model=settings.MODEL_PATH , device=-1)
+        self.yolo_model = YOLO(settings.YOLO_MODEL_PATH)
 
         self.degree0_list = [
             "SSN", "PASSWORD", "CREDITCARDNUMBER", "CREDITCARDCVV", "ACCOUNTNUMBER", "IBAN",
@@ -64,7 +65,7 @@ class ImageRedactionAgents:
 
 class PDFRedactionAgents:
     def __init__(self, degree=0):
-        self.assistant = pipeline("token-classification", "lakshyakh93/deberta_finetuned_pii", device=-1)
+        self.assistant = pipeline("token-classification", tokenizer=settings.MODEL_PATH, model=settings.MODEL_PATH , device=-1)
 
         self.degree0_list = [
             "SSN", "PASSWORD", "CREDITCARDNUMBER", "CREDITCARDCVV", "ACCOUNTNUMBER", "IBAN",

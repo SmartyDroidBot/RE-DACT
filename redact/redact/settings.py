@@ -138,3 +138,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MODEL_PATH = os.path.join(BASE_DIR, 'models')
+MODEL_TRAINING_LOGS = os.path.join(MODEL_PATH, 'training_logs.json')
+
+YOLO_MODEL_ROOT = os.path.join(BASE_DIR, 'yolo')
+YOLO_MODEL_PATH = os.path.join(BASE_DIR, 'yolo', 'yolov8n_100e.pt')

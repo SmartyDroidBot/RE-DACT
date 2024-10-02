@@ -1,8 +1,9 @@
 import os
 import time
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from .services.model_service import TextRedactionService, ImageRedactionService, PDFRedactionService
+from .services.model_training import train_model
 from django.conf import settings
 from django.utils.text import slugify
 from django.core.files.storage import default_storage
@@ -146,7 +147,13 @@ def index(request):
         else:
             return JsonResponse({'error': 'No text provided for redaction'}, status=400)
 
+    if request.GET.get('training_complete'):
+        return render(request, 'index.html', {'training_complete': True, 'train_runtime': request.GET.get('runtime'), 'train_loss': request.GET.get('loss')})
     return render(request, 'index.html', {'redacted_text': None})
 
 def studio(request):
     return render(request,"studio.html")
+
+def begin_training(request):
+    metrics = train_model()
+    return redirect(f"/?training_complete=true&runtime={metrics['train_runtime']}&loss={metrics['train_loss']}")

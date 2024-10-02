@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Re-Dact</title>
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../static/studio.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flat-ui/2.3.0/css/flat-ui.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&display=swap');
+    </style>
+</head>
+{% load static %}
+<body style="background: radial-gradient(rgb(19, 30, 37) 24.5%, rgb(19, 30, 37) 66%); background-repeat: no-repeat;">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light" style="background: radial-gradient( rgb(19, 30, 37) 24.5%, rgb(19, 30, 37) 66%); margin-bottom: 0px; margin-top: 12px;">
+        <div class="container-fluid">
+            <div class="navbar-brand mx-auto" style="color: white; font-size: 24px; text-align: center;">
+                <a class="navbar-brand" href="/" style="color: white; font-size: 24px;">  <img src="{% static 'images/arrow-up.png' %}" alt="Arrow Up" style="margin-left: 140px;"> Re-Dact </a>
+            </div>
+            <a class="navbar-brand text-end w-150" href="#" style="color: white; font-size: 24px;"> Support </a>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div class="burger-menu" onclick="toggleSidebar()">
+        <i class="fa-solid fa-bars"></i>
+    </div>
+    <div class="sidebar" id="sidebar">
+        <h3 style="margin-top: 50px;">Compute</h3>
+        <div class="submenu">
+            <a href="#" class="menu-item"><i class="fa-solid fa-file-alt"></i> Text</a>
+            <a href="#" class="menu-item"><i class="fa-solid fa-image"></i> Images</a>
+            <a href="#" class="menu-item"><i class="fa-solid fa-file-pdf"></i> PDFs</a>
+            <a href="#" class="menu-item"><i class="fa-solid fa-video"></i> Videos</a>
+        </div>
+    
+        <h3>Improvement</h3>
+        <div class="submenu">
+            <a href="#" class="menu-item"><i class="fa-solid fa-tags"></i> Data Labelling</a>
+            <a href="#" class="menu-item"><i class="fa-solid fa-list-alt"></i> Previous Classifications</a>
+            <a href="#" class="menu-item"><i class="fa-solid fa-brain"></i> Model Training</a>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            var sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('show');
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

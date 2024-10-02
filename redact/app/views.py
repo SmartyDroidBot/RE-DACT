@@ -147,3 +147,6 @@ def index(request):
             return JsonResponse({'error': 'No text provided for redaction'}, status=400)
 
     return render(request, 'index.html', {'redacted_text': None})
+
+def studio(request):
+    return render(request,"studio.html")

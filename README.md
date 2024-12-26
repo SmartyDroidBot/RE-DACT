@@ -104,8 +104,8 @@ Please check `TRANSPARENCY_FAQS.md` for more information on responsible AI use.
 ├── .gitignore
 ├── LICENSE.md
 ├── README.md
-├── requirements.txt
-└── TRANSPARENCY_FAQS.md
+├── TRANSPARENCY_FAQS.md
+└── requirements.txt
 ```
 
 ## Main Files and Their Purposes

@@ -102,8 +102,10 @@ Please check `TRANSPARENCY_FAQS.md` for more information on responsible AI use.
 │   ├── manage.py
 ├── .gitattributes
 ├── .gitignore
+├── LICENSE.md
 ├── README.md
 ├── requirements.txt
+└── TRANSPARENCY_FAQS.md
 ```
 
 ## Main Files and Their Purposes

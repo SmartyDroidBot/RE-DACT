@@ -12,15 +12,17 @@ REDACT offers the following key features:
 - **Redacting PDFs**: Runs Optical Character Recognition (OCR) to extract all text, followed by the aforementioned redaction approach. All 116 categories are supported.
 - **Redacting Images**: Runs OCR again to extract text, followed by the same redaction approach. All 116 categories are supported. Also runs a computer vision model to detect faces in the image, and redacts them.
 - **Redacting Videos**: Runs Azure Video Indexer to upload the submitted video to an Azure service, redacts all faces, and returns a URL for the same. 
-- **Fine-tuning the system to your need**: After sufficient redactions, previous classifications can be used to fine-tune the model to suit your needs.
+- **Varying Degrees of Redaction**: Different degrees of redaction are supported for text, PDFs, and images, based on the user's needs.
+- **Fine-tuning the system to your need**: After sufficient redactions, previous classifications can be used to fine-tune the model to suit user's needs.
 - **An easy-to-use Frontend**: The application's simple and beautiful frontend allows quick access to redaction, as well as other tools to enhance its quality.
 
 ## Technical Approach
 
-- **Text**: The agent for all text-based redaction is based on a [custom fine-tuned DeBERTa LLM](https://huggingface.co/lakshyakh93/deberta_finetuned_pii), on token classification for extracting PII.
+- **Text**: The agent for all text-based redaction is based on a [custom fine-tuned DeBERTa LLM](https://huggingface.co/lakshyakh93/deberta_finetuned_pii), on token classification into 116 categories, for extracting PII.
 - **PDFs**: Uses Azure Document Intelligence Read API (OCR), that returns text and bounding boxes. The extracted text is then run through the agent, and redaction marks are drawn on the files.
 - **Images**: Similar to PDFs, uses Azure Document Intelligence followed by DeBERTa LLM to redact text. Faces are redacted in images using YOLO (You-Only-Look-Once) v8.
 - **Videos**: Uses Azure Video Indexer API to redact faces found in videos.
+- **Degrees of Redaction**: Three degrees of redaction are provided wherever the agent is used, that is, for text, PDFs, and images. This works by separating the 116 supported categories into three groups.
 - **Model Training**:The agent can be further fine-tuned, using previously classified data, that is logged via Django Models.
 - **Content Safety**: Implemented through Azure Content Safety that blocks text, PDFs, and images with hate, self-harm, sexual content, and violence.
 - **Guardrails**: Includes simple guardrails for always redacting proper nouns (through NLTK), numbers, URLs, and emails. 
@@ -36,7 +38,7 @@ REDACT offers the following key features:
 
 ## Frameworks & Cloud Technologies Used
 
-- **HuggingFace**: Runs and trains the DeBERTa LLM for classifying PII.
+- **HuggingFace**: Runs and trains the agent for classifying PII.
 - **Azure Document Intelligence**: Runs OCR on PDFs and images.
 - **Azure Video Indexer**: Redacts faces in videos.
 - **Azure Content Safety**: Implements content safety on text, PDFs, and images.

@@ -20,7 +20,7 @@ REDACT offers the following key features:
 
 - **Text**: The agent for all text-based redaction is based on a [custom fine-tuned DeBERTa LLM](https://huggingface.co/lakshyakh93/deberta_finetuned_pii), on token classification into 116 categories, for extracting PII.
 - **PDFs**: Uses Azure Document Intelligence Read API (OCR), that returns text and bounding boxes. The extracted text is then run through the agent, and redaction marks are drawn on the files.
-- **Images**: Similar to PDFs, uses Azure Document Intelligence followed by DeBERTa LLM to redact text. Faces are redacted in images using YOLO (You-Only-Look-Once) v8.
+- **Images**: Similar to PDFs, uses Azure Document Intelligence followed by the agent to redact text. Faces are redacted in images using YOLO (You-Only-Look-Once) v8.
 - **Videos**: Uses Azure Video Indexer API to redact faces found in videos.
 - **Degrees of Redaction**: Three degrees of redaction are provided wherever the agent is used, that is, for text, PDFs, and images. This works by separating the 116 supported categories into three groups.
 - **Model Training**:The agent can be further fine-tuned, using previously classified data, that is logged via Django Models.

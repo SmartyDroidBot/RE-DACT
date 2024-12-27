@@ -1,4 +1,16 @@
 {
     "AZURE_DI_KEY": "",
-    "AZURE_DI_ENDPOINT": ""
+    "AZURE_DI_ENDPOINT": "",
+    "AZURE_CS_KEY": "",
+    "AZURE_CS_ENDPOINT": "",
+    "AZURE_STORAGE_URL": "",
+    "AZURE_STORAGE_NAME": "",
+    "AZURE_STORAGE_CONTAINER": "",
+    "AZURE_VI_NAME": "",
+    "AZURE_VI_ID": "",
+    "AZURE_VI_RESOURCE_GROUP": "",
+    "AZURE_VI_RESOURCE_MANAGER": "",
+    "AZURE_VI_LOCATION": "",
+    "AZURE_VI_SUBSCRIPTION": "",
+    "AZURE_VI_API_ENDPOINT": ""
 }

@@ -2,7 +2,7 @@
 
 ## What is REDACT?
 
-REDACT is an application that allows for universal redaction across multiple file types. It does so using an agent based on a [custom fine-tuned DeBERTa LLM](https://huggingface.co/lakshyakh93/deberta_finetuned_pii) on token classification, which detects Personally Identifiable Information (PII) in text. The agent is supported via multiple Azure services that allow for the redaction of PDFs and images. An additional YOLO model detects faces in images and can redact them, while videos are redacted via Azure Video Indexer.
+REDACT is an application that allows for universal redaction across multiple file types. It does so using an agent based on a [custom fine-tuned DeBERTa LLM](https://huggingface.co/lakshyakh93/deberta_finetuned_pii) on token classification, which detects Personally Identifiable Information (PII) in text. The agent is supported via multiple Azure services that allow for the redaction of PDFs, images, and audio. An additional YOLO model detects faces in images and can redact them, while videos are redacted via Azure Video Indexer.
 
 ## What can REDACT do?
 
@@ -33,6 +33,7 @@ REDACT relies on multiple existing frameworks and is subject to the common limit
 
 - **Data Biases**: The data used to train the agent may carry biases. The agent may not classify PII correctly, due to its potentially biased or unfair training process.
 - **OCR Limitations**: Optical Character Recognition (OCR) is the process of extracting text from images. REDACT is subject to the limitations of Azure Document Intelligence Read API, which implements OCR, such as poor performance on handwritten documents.
+- **Speech-to-Text Limitations**: REDACT is subject to the limitations of Azure Speech Service, that may not be able to process audio accurately.
 - **Video Redaction Limitations**: REDACT is subject to the limitations of Azure Video Indexer, which implements redaction for faces detected in videos. For example, the service may not be able to detect faces accurately.
 - **Content Harms**: REDACT is subject to the limitations of Azure Content Safety, which enforces content safety for all inputs excluding videos.
 - **Offline Capabilities**: REDACT can run offline for text-based redaction. However, for PDF and image redaction that require OCR, the application can run offline through [Azure AI containers](https://learn.microsoft.com/en-us/azure/ai-services/cognitive-services-container-support). To the best of our knowledge, Azure Video Indexer does not support offline usage.

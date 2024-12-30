@@ -137,7 +137,6 @@ with open(os.path.join(BASE_DIR, 'app', 'services', 'service_keys.json')) as f:
     AZURE_CS_ENDPOINT = json_data['AZURE_CS_ENDPOINT']
     AZURE_SI_KEY = json_data['AZURE_SI_KEY']
     AZURE_SI_ENDPOINT = json_data['AZURE_SI_ENDPOINT']
-    AZURE_SI_REGION = json_data['AZURE_SI_REGION']
     AZURE_STORAGE_URL = json_data['AZURE_STORAGE_URL']
     AZURE_STORAGE_NAME = json_data['AZURE_STORAGE_NAME']
     AZURE_STORAGE_CONTAINER = json_data['AZURE_STORAGE_CONTAINER']

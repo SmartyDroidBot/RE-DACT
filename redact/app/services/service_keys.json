@@ -12,7 +12,6 @@
     "_comment": "Azure Speech Service:",
     "AZURE_SI_KEY": "",
     "AZURE_SI_ENDPOINT": "",
-    "AZURE_SI_REGION": "",
 
     "_comment": "Azure Storage Account:",
     "AZURE_STORAGE_URL": "",

@@ -18,11 +18,10 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light" style="background: radial-gradient( rgb(19, 30, 37) 24.5%, rgb(19, 30, 37) 66%); margin-bottom: 0px; margin-top: 12px;">
         <div class="container-fluid">
-            <a class="navbar-brand text-start" href="#" style="color: white; font-size: 24px;">  <img src="{% static 'images/arrow-up.png' %}" alt="Arrow Up" style="margin-right: 4px;"> Re-Dact </a>
-            <div class="navbar-brand mx-auto" style="color: white; font-size: 24px;">
-                An AI-powered redaction tool that offers complete control with ease
+            <a class="navbar-brand text-start" href="#" style="color: white; font-size: 24px;">  <img src="{% static 'images/arrow-up.png' %}" alt="Arrow Up" style="margin-right: 4px; margin-bottom: 5px;"> Re-Dact </a>
+            <div class="navbar-brand" style="color: white; font-size: 24px;">
+                An AI-powered redaction service.
             </div>
-            <a class="navbar-brand text-end w-150" href="/studio/" style="color: white; font-size: 24px;"> Studio </a>
         </div>
     </nav>
 
@@ -44,7 +43,7 @@
 
                         <div class="mb-3 mt-4 d-flex justify-content-center" style="padding-bottom: 8px; margin-bottom: 8px;">
                             <input type="hidden" name="storeData" value="0">
-                            <input class="form-check-input" type="checkbox" id="storeDataSwitch" name="storeData" value="1" checked style="transform: scale(1.5); width: 40px; height: 20px;" disabled>
+                            <input class="form-check-input" type="checkbox" id="storeDataSwitch" name="storeData" value="1" checked style="transform: scale(1.5); width: 40px; height: 20px; background-color: #28a745;" disabled>
                         </div>  
 
                         <div class="mb-3 mt-4" style="margin-left: -40px;">
@@ -53,7 +52,7 @@
 
                         <div class="mb-3 mt-4 d-flex justify-content-center" style="padding-bottom: 8px; margin-bottom: 8px;">
                             <input type="hidden" name="guardrails" value="0">
-                            <input class="form-check-input" type="checkbox" id="guardrailsSwitch" name="guardrails" value="1" checked style="transform: scale(1.5); width: 40px; height: 20px;">
+                            <input class="form-check-input" type="checkbox" id="guardrailsSwitch" name="guardrails" value="1" checked style="transform: scale(1.5); width: 40px; height: 20px; background-color: #28a745;" disabled>
                         </div>
 
                         <div class="mb-3 mt-4" style="margin-left: -40px;">
@@ -66,10 +65,10 @@
                             <input type="text" class="form-control" id="regexPattern" name="regexPattern" placeholder="Enter regex pattern">
                         </div>
 
-                        <!--Temporary Training Button Placement-->
+                        <!-- Training Button -->
                         <div class="mb-3 text-center" style="margin-left: -40px;">
                             <label for="trainModel" class="form-label">Train Model <i class="info-icon" data-bs-toggle="tooltip" data-bs-placement="right" title="Trains the LLM on your inputs. No data is uploaded.">i</i></label>
-                            <button type="button" class="btn btn-primary btn-lg" style="width: 200px;" onclick="window.location.href='/training';">Begin Training</button>
+                            <button type="button" class="btn btn-primary btn-lg" style="width: 200px; background-color: #28a745;" onclick="window.location.href='/training';">Begin Training</button>
                         </div>                      
                     </form>
                 </div>
@@ -106,8 +105,8 @@
                                 <div class="droparea darkgradient-2 d-flex align-items-center justify-content-center" id="dropArea" style="height: 400px; position: relative;">
                                     <i class="fa-solid fa-folder-plus" id="folderIcon" style="font-size: 3rem; color: #fff;"></i>
                                     <div class="preview-container" id="previewContainer" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></div>
-                                    <input type="file" name="files" id="fileInput" multiple accept=".png, .jpg, .mp4, .jpeg, .txt, .pdf" style="display: none;">
-                                    <label for="fileInput" class="btn btn-outline-light mt-2">Select a file or drag and drop here</label>
+                                    <input type="file" name="files" id="fileInput" multiple accept=".txt, .pdf, .png, .jpg, .jpeg, .wav, .mp3, .mp4" style="display: none;">
+                                    <label for="fileInput" class="btn btn-outline-light mt-2">Supports text files, PDFs, and videos.</label>
                                 </div>
                             </div>
                         </div>                        
@@ -125,17 +124,7 @@
                         </div>
                     
                         <!-- Second Row: Toggles and Advanced Options Button -->
-                        <div class="col-md-12 d-flex justify-content-center align-items-center mb-4">
-                            <!-- Left Toggle: Add synthetic data -->
-                            <div class="d-flex align-items-center me-5" style="padding-right: 15px;">
-                                <span style="color: white; font-weight: bold;">Add Synthetic Data</span>
-                                <label class="toggle-switch ms-2">
-                                    <input type="checkbox" name="syntheticData">
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-                        
-                            <!-- Right Toggle: Processing Overview -->
+                        <div class="col-md-12 d-flex justify-content-center align-items-center mb-4">                        
                             <div class="d-flex align-items-center me-5" style="padding-right: 15px;">
                                 <span style="color: white; font-weight: bold;">Processing Overview</span>
                                 <label class="toggle-switch ms-2">
@@ -144,7 +133,6 @@
                                 </label>
                             </div>
                         
-                            <!-- Center: Advanced Options Button -->
                             <div class="text-center" style="margin-left: 10px;">
                                 <button class="btn btn-outline-light btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#advancedOptionsModal">
                                     Advanced Options
@@ -162,6 +150,21 @@
                     
                 </form>
 
+                <!-- Display flags from backend -->
+                {% if flag %}
+                <br>
+                <div class="text-center" style="margin-left: 10px;">
+                    <h5 class="form-label" style="color: white; font-weight: bolder;">{{ flag }}</h5>
+                </div> 
+                {% endif %}
+
+                {% if error %}
+                <br>
+                <div class="text-center" style="margin-left: 10px;">
+                    <h5 class="form-label" style="color: white; font-weight: bolder;">{{ error }}</h5>
+                </div> 
+                {% endif %}
+
                 {% if training_complete %}
                 <div class="mb-3 text-center" style="margin-top: 20px;">
                     <span>Model Trained Successfully</span>
@@ -176,8 +179,8 @@
             </div>
 
             <!-- Output Section -->
-            <br>
-            {% if redacted_text or redacted_file_url or redacted_image_url or redacted_video_url %}
+            {% if redacted_text or redacted_file_url or redacted_image_url or redacted_audio_url or redacted_video_url %}
+            <br><br>
             <div class="card dark-card text-white p-4 mx-auto d-flex justify-content-center align-items-center" style="max-width: 1200px;">
                 {% if redacted_text %}
                 <div class="col-12 text-center" style="padding: 20px;">
@@ -200,6 +203,17 @@
                         <img src="{{ redacted_image_url }}" alt="Redacted Image" class="img-fluid"/>
                         <br><br>
                         <a href="{{ redacted_image_url }}" download>Download Redacted Image</a>
+                    </div>
+                </div>
+                {% elif redacted_audio_url %}
+                <div class="col-12 text-center">
+                    <div class="mb-3">
+                        <audio controls class="audioPreview">
+                            <source src="{{ redacted_audio_url }}" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                        <br><br>
+                        <a href="{{ redacted_audio_url }}" download>Download Redacted Audio</a>
                     </div>
                 </div>
                 {% elif redacted_video_url %}
@@ -240,7 +254,7 @@
         </div>
 
         <div class="text-container">
-            <div class="oval-card">
+            <div class="oval-card" style="background-color: #f8f8f8;">
                 <div class="header-row">
                     <h1 class="redact-header" style="letter-spacing: 1px;">Our commitment to Ethical AI</h1>
                     <i class="fa-solid fa-wand-magic-sparkles fa-2x" style="color: black;"></i>
@@ -255,7 +269,7 @@
     
             <br><br>
     
-            <div class="oval-card">
+            <div class="oval-card" style="background-color: #f8f8f8;">
                 <div class="header-row">
                     <h1 class="redact-header" style="letter-spacing: 1px;">About Us</h1>
                     <i class="fa-solid fa-pen-nib fa-2x" style="color: black;"></i>
@@ -267,8 +281,14 @@
         </div>
     </div>
          
-
     <br><br>
+
+    <!-- Footer -->
+    <footer style="background: radial-gradient( rgb(19, 30, 37) 24.5%, rgb(19, 30, 37) 66%); margin-bottom: 12px;">
+        <div class="container-fluid">
+            <p class="navbar-brand text-center" style="color: white; font-size: 16px;">&copy; 2024 Re-Dact. All rights reserved.</p>
+        </div>
+    </footer>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
@@ -364,6 +384,16 @@
                         previewItem.appendChild(div);
                         previewItem.appendChild(cancelButton);
                         previewContainer.appendChild(previewItem);
+                    } else if (file.type.startsWith('audio/')) {
+                        reader.onload = function(event) {
+                            const audio = document.createElement('audio');
+                            audio.controls = true;
+                            audio.src = event.target.result;
+                            previewItem.appendChild(audio);
+                            previewItem.appendChild(cancelButton);
+                            previewContainer.appendChild(previewItem);
+                        };
+                        reader.readAsDataURL(file);
                     } else if (file.type === 'text/plain') {
                         const div = document.createElement('div');
                         div.textContent = `TXT: ${file.name}`;

@@ -133,6 +133,21 @@ with open(os.path.join(BASE_DIR, 'app', 'services', 'service_keys.json')) as f:
     json_data = json.load(f)
     AZURE_DI_KEY = json_data['AZURE_DI_KEY']
     AZURE_DI_ENDPOINT = json_data['AZURE_DI_ENDPOINT']
+    AZURE_CS_KEY = json_data['AZURE_CS_KEY']
+    AZURE_CS_ENDPOINT = json_data['AZURE_CS_ENDPOINT']
+    AZURE_SI_KEY = json_data['AZURE_SI_KEY']
+    AZURE_SI_ENDPOINT = json_data['AZURE_SI_ENDPOINT']
+    AZURE_SI_REGION = json_data['AZURE_SI_REGION']
+    AZURE_STORAGE_URL = json_data['AZURE_STORAGE_URL']
+    AZURE_STORAGE_NAME = json_data['AZURE_STORAGE_NAME']
+    AZURE_STORAGE_CONTAINER = json_data['AZURE_STORAGE_CONTAINER']
+    AZURE_VI_NAME = json_data['AZURE_VI_NAME']
+    AZURE_VI_ID = json_data['AZURE_VI_ID']
+    AZURE_VI_RESOURCE_GROUP = json_data['AZURE_VI_RESOURCE_GROUP']
+    AZURE_VI_RESOURCE_MANAGER = json_data['AZURE_VI_RESOURCE_MANAGER']
+    AZURE_VI_LOCATION = json_data['AZURE_VI_LOCATION']
+    AZURE_VI_SUBSCRIPTION = json_data['AZURE_VI_SUBSCRIPTION']
+    AZURE_VI_API_ENDPOINT = json_data['AZURE_VI_API_ENDPOINT']
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

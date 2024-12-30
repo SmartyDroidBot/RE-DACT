@@ -145,11 +145,11 @@ textarea::placeholder {
 }
 
 .oval-card {
-    background-color: white;
     border-radius: 25px;
     padding: 20px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
     margin: 0 auto;
+    background-color: #f8f8f8;
     max-width: 1270px;
     transition: transform 0.3s ease-in-out;
 

@@ -1,11 +1,25 @@
 {
+    "_comment": "This file contains the keys for all Azure services.",
+
+    "_comment": "Azure Document Intelligence:",
     "AZURE_DI_KEY": "",
     "AZURE_DI_ENDPOINT": "",
+
+    "_comment": "Azure Content Safety:",
     "AZURE_CS_KEY": "",
     "AZURE_CS_ENDPOINT": "",
+
+    "_comment": "Azure Speech Service:",
+    "AZURE_SI_KEY": "",
+    "AZURE_SI_ENDPOINT": "",
+    "AZURE_SI_REGION": "",
+
+    "_comment": "Azure Storage Account:",
     "AZURE_STORAGE_URL": "",
     "AZURE_STORAGE_NAME": "",
     "AZURE_STORAGE_CONTAINER": "",
+
+    "_comment": "Azure Video Indexer:",
     "AZURE_VI_NAME": "",
     "AZURE_VI_ID": "",
     "AZURE_VI_RESOURCE_GROUP": "",

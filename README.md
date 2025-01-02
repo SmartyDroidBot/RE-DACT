@@ -1,4 +1,4 @@
-# REDACT: An AI-powered Universal Redaction Service
+# Re-Dact: An AI-powered Universal Redaction Service
 
 ## Description
 

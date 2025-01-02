@@ -28,7 +28,6 @@ REDACT offers the following key features:
   - `db_service.py`: Handles database operations for storing classifications, that can be used to fine-tune the agent later.
   - `guardrails.py`: Implements guardrails for redaction services.
   - `model_service.py`: Manages the redaction services and workflows for text, PDFs, images, and videos.
-  - `model_training.py`: Handles fine-tuning the model.
   - `service_keys.json`: Stores service keys for all Azure services.
   - `utils.py`: Contains utility functions used across the application.
 

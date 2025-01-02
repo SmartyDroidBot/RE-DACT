@@ -1,35 +1,41 @@
-# Project Setup Guide
+# REDACT: An AI-powered Universal Redaction Service
 
-## 1. Download and Install Ollama
+## Description
 
-First, download and install Ollama from https://ollama.com/download.
-Once installed, open your command line and run the following command to pull the latest LLaMA model and start Ollama:
+REDACT is a novel application for the automatic, AI-powered, universal redaction of sensitive information across text, PDFs, images, and video file types, complemented by a robust fine-tuning process, guardrails, and content safety mechanisms.
 
-```sh
-ollama pull llama3.1
-ollama run llama3.1
-```
+## Key Features
+
+REDACT offers the following key features:
+
+- **Redacting text**: Redact text and `.txt` files, with offline usage supported, across 116 categories of Personally Identifiable Information (PII). Example categories include account & banking information, Personal information like names and contact information.
+- **Redacting PDFs**: Runs Optical Character Recognition (OCR) to extract all text, followed by the aforementioned redaction approach. All 116 categories are supported.
+- **Redacting Images**: Runs OCR again to extract text, followed by the same redaction approach. All 116 categories are supported. 
+- **Redacting Videos**: Runs Azure Video Indexer to upload the submitted video to an Azure service, redacts all faces, and returns a URL for the same. 
+- **Varying Degrees of Redaction**: Different degrees of redaction are supported for text, PDFs, and images, based on the user's needs.
+
+## Running the App
+
+- **Azure Service Key Configuration**: Service keys for Azure Document Intelligence, Speech Service, Video Indexer, and Content Safety must be entered in `redact/app/services/service_keys.json`. Document Intelligence, Speech Service, and Content Safety only require an endpoint and a key. Video Indexer requires the name, ID, a subscription ID, and the endpoint. It also requires an Azure Storage Account.
+- **Install all requirements in `requirements.txt`**
+- **Run the Django app**: Run the application via `python redact/app/manage.py runserver`. 
 
 
-## 2. Run the Install Script
+## Key Files
 
-To avoid conflicts with other projects, this script creates a virtual environment for this project and installs all dependencies.
+- **redact/app/services/**: Contains redaction related modules.
+  - `agents.py`: Manages the agent, the DeBERTa LLM used in the application.
+  - `db_service.py`: Handles database operations for storing classifications, that can be used to fine-tune the agent later.
+  - `guardrails.py`: Implements guardrails for redaction services.
+  - `model_service.py`: Manages the redaction services and workflows for text, PDFs, images, and videos.
+  - `model_training.py`: Handles fine-tuning the model.
+  - `service_keys.json`: Stores service keys for all Azure services.
+  - `utils.py`: Contains utility functions used across the application.
 
-### On Windows:
-```sh
-./install.bat
-```
+- **redact/models/**: Contains the agent's configuration and weights.
 
-### On macOS/Linux:
-```sh
-./install.sh
-```
+- **redact/manage.py/**: Used to run the Django application.
 
-## 3. Run the app
+## License
 
-To run the server, use the following command:
-
-```sh
-python manage.py runserver <port>
-```
-
+This work is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-nc-sa/4.0/).

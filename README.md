@@ -4,6 +4,9 @@
 
 REDACT is a novel application for the automatic, AI-powered, universal redaction of sensitive information across text, PDFs, images, and video file types, complemented by a robust fine-tuning process, guardrails, and content safety mechanisms.
 
+## Acknowledgments
+I would like to extend my heartfelt gratitude to my incredible teammates who made REDACT possible: [Shashwat Saini](https://github.com/shashwatsaini) and [Rishika Talasila](https://github.com/WillHerondale715) for their exceptional work on the AI and fine-tuned LLM backbone, [Uddhav Narayan Bhat](https://github.com/uddhavNbhat) and [Saurav Pandey](https://github.com/OkayStark) for designing seamless interfaces and web development, and [Dhruti Purushottam](https://github.com/Dhru3) for her brilliant design work and for crafting the captivating [video](https://youtu.be/tGCGMJ7nebA). This project is a testament to their dedication and talent!
+
 ## Key Features
 
 REDACT offers the following key features:
@@ -18,7 +21,8 @@ REDACT offers the following key features:
 
 - **Azure Service Key Configuration**: Service keys for Azure Document Intelligence, Speech Service, Video Indexer, and Content Safety must be entered in `redact/app/services/service_keys.json`. Document Intelligence, Speech Service, and Content Safety only require an endpoint and a key. Video Indexer requires the name, ID, a subscription ID, and the endpoint. It also requires an Azure Storage Account.
 - **Install all requirements in `requirements.txt`**
-- **Run the Django app**: Run the application via `python redact/app/manage.py runserver`. 
+- **Run the Django app**: Run the application via `python redact/app/manage.py runserver`.
+- **Check out the video demo**: [here](https://youtu.be/tGCGMJ7nebA)
 
 
 ## Key Files

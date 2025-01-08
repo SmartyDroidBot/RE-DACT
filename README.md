@@ -5,7 +5,7 @@
 REDACT is a novel application for the automatic, AI-powered, universal redaction of sensitive information across text, PDFs, images, and video file types, complemented by a robust fine-tuning process, guardrails, and content safety mechanisms.
 
 ## Acknowledgments
-I would like to extend my heartfelt gratitude to my incredible teammates who made REDACT possible: [Shashwat Saini](https://github.com/shashwatsaini) and [Rishika Talasila](https://github.com/WillHerondale715) for their exceptional work on the AI and fine-tuned LLM backbone, [Uddhav Narayan Bhat](https://github.com/uddhavNbhat) and [Saurav Pandey](https://github.com/OkayStark) for designing seamless interfaces and web development, and [Dhruti Purushottam](https://github.com/Dhru3) for her brilliant design work and for crafting the captivating [video](https://youtu.be/tGCGMJ7nebA). This project is a testament to their dedication and talent!
+I would like to extend my heartfelt gratitude to my incredible teammates who made REDACT possible: [Shashwat Saini](https://github.com/shashwatsaini) and [Rishika Talasila](https://github.com/WillHerondale715) for their exceptional work on the AI and fine-tuned LLM backbone, [Uddhav Narayan Bhat](https://github.com/uddhavNbhat) and [Saurav Pandey](https://github.com/OkayStark) for designing seamless interfaces and web development, and [Dhruti Purushottam](https://github.com/Dhru3) for her brilliant design work and for crafting the captivating [video](https://youtu.be/tGCGMJ7nebA).
 
 ## Key Features
 

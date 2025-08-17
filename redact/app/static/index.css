@@ -1,11 +1,14 @@
 /* General Styles */
+
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     font-family: 'Epilogue', sans-serif;
     margin: 0;
     padding: 0;
 }
-
-
 
 header{
     background: #648880;
@@ -81,8 +84,8 @@ textarea::placeholder {
 .range-slider {
     position: relative;
     margin-top: 30vh; /* Adjust as needed */
-    width: 600px; /* Ensure width matches slider width */
-    margin: 0 auto; /* Center the slider container */
+    width: 900px; /* Width of the slider */
+    margin: 0 auto; /* Centering */
 }
 
 .rs-range {
@@ -94,6 +97,7 @@ textarea::placeholder {
 
 .rs-range:focus {
     outline: none;
+    transition: all 0.2s ease; /* Smooth transition */
 }
 
 .rs-range::-webkit-slider-runnable-track {
@@ -132,6 +136,7 @@ textarea::placeholder {
     margin-top: -20px;
 }
 
+
 .header-row {
     display: flex;
     justify-content: space-between;
@@ -140,12 +145,12 @@ textarea::placeholder {
 }
 
 .oval-card {
-    background-color: #f8f1e6;
+    background-color: white;
     border-radius: 25px;
     padding: 20px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
     margin: 0 auto;
-    max-width: 1200px;
+    max-width: 1270px;
     transition: transform 0.3s ease-in-out;
 
 }
@@ -178,13 +183,6 @@ textarea::placeholder {
     flex-direction: column;
     align-items: center;
     text-align: center;
-}
-
-.range-slider {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 10px; /* Adjust margin as needed */
 }
 
 .rs-range {
@@ -240,13 +238,14 @@ label[for="fileInput"] {
     max-width: 100%;
     max-height: 100%;
     overflow-y: auto;
+    padding: 20px;
 }
 
 .preview-item {
     position: relative;
     margin: 5px;
-    width: 80px;
-    height: 80px;
+    width: 200px;
+    height: 200px;
     border: 1px solid #ddd;
     border-radius: 5px;
     overflow: hidden;
@@ -255,10 +254,18 @@ label[for="fileInput"] {
     justify-content: center;
 }
 
-.preview-item img {
+.preview-item img, .preview-item video {
     max-width: 100%;
     max-height: 100%;
-    object-fit: contain;
+}
+
+.preview-item-video {
+    width: 500px;
+    padding: 10px;
+    margin: 10px;
+    border: 2px solid #ccc;
+    display: inline-block;
+    text-align: center;
 }
 
 .preview-item button {
@@ -274,6 +281,17 @@ label[for="fileInput"] {
     font-size: 12px;
     cursor: pointer;
 }
+
+.preview-item-video button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: red;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
 /* Toggle Switch */
 .toggle-switch {
     position: relative;
@@ -286,6 +304,10 @@ label[for="fileInput"] {
     opacity: 0;
     width: 0;
     height: 0;
+}
+
+.toggle-switch input:checked + .slider {
+    background-color: #28a745;
 }
 
 .slider {
@@ -313,7 +335,7 @@ label[for="fileInput"] {
 }
 
 input:checked + .slider {
-    background: #29ACC9;
+    background: #28a745;
 }
 
 input:checked + .slider:before {
@@ -405,4 +427,33 @@ input:checked + .slider:before {
 
 .modal-content {
     padding: 20px;
+}
+
+.loader-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    display: none; /* Hidden by default */
+}
+
+/* Loader animation */
+.loader {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #28a745; /* Green */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
